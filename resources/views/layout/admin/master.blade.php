@@ -53,5 +53,4 @@
 @include('layout.admin._js')
 </body>
 </html>
-D:\xampp\htdocs\ERP\node_modules\bootstrap\scss\_reboot.scss
-D:\xampp\htdocs\ERP\node_modules\bootstrap\scss\_reboot.scss
+
