@@ -58,27 +58,62 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fa fa-cogs"></i>
                         <p>
-                            Products
-                            <i class="fas fa-angle-left right"></i>
-
+                            Inventory
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add Products</p>
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="far fas fa-gas-pump"></i>
+                                <p>
+                                    Beverage
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('inventory.create','beverages')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>Add Beverages</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('inventory.index')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>All Beverages</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="far fas fa-gas-pump"></i>
+                                <p>
+                                    Snacks
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('snacks_category.index')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>Add Snacks</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('snacks_size.index')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>All Snacks</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Products</p>
-                            </a>
-                        </li>
+
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
