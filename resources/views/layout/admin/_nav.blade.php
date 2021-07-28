@@ -56,6 +56,15 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item ">
+                    <a href="{{route('inventory.index')}}" class="nav-link">
+                        <i class="nav-icon fa fa-cogs"></i>
+                        <p>
+                            Inventory List
+
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-cogs"></i>
@@ -64,6 +73,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item has-treeview">
@@ -81,12 +91,7 @@
                                         <p>Add Beverages</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{route('inventory.index')}}" class="nav-link">
-                                        <i class="fa fa-angle-double-right nav-icon"></i>
-                                        <p>All Beverages</p>
-                                    </a>
-                                </li>
+
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
@@ -104,12 +109,7 @@
                                         <p>Add Snacks</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{route('snacks_size.index')}}" class="nav-link">
-                                        <i class="fa fa-angle-double-right nav-icon"></i>
-                                        <p>All Snacks</p>
-                                    </a>
-                                </li>
+
                             </ul>
                         </li>
 
@@ -218,6 +218,13 @@
                                         <p>Size</p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('beverage_flavor.index')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>Flavor</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
@@ -239,6 +246,12 @@
                                     <a href="{{route('snacks_size.index')}}" class="nav-link">
                                         <i class="fa fa-angle-double-right nav-icon"></i>
                                         <p>Size</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('snacks_flavor.index')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>Flavor</p>
                                     </a>
                                 </li>
                             </ul>

@@ -16,10 +16,10 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'All Beverages';
+        $data['title'] = 'Inventory';
         $data['inventories']=Inventory::paginate(2);
         $data['serial']=managePaginationSerial($data['inventories']);
-        return view('admin.inventory.beverages.index',$data);
+        return view('admin.inventory.index',$data);
     }
 
     /**
@@ -38,7 +38,13 @@ class InventoryController extends Controller
         $data['title'] = 'Add new Snacks';
         return view('admin.inventory.Snacks.create',$data);}
     }
+private function fileupload($img){
 
+    $path = 'images/inventories';
+    $img->move($path, $img->getClientOriginalName());
+    $fullpath = $path . '/' . $img->getClientOriginalName();
+    return $fullpath;
+}
     /**
      * Store a newly created resource in storage.
      *
@@ -59,14 +65,16 @@ class InventoryController extends Controller
             'quantity'=>'required',
             'status'=>'required',
         ]);
-
+        if ($request->image) {
+    $photo=$this->fileupload($request->image);
+        }
         $inventory = new Inventory();
         $inventory->inventory_type= $request->inventory_type;
         $inventory-> category = $request->category;
         $inventory-> name = $request->name;
         $inventory-> details = $request->details;
         $inventory-> size = $request->size;
-        $inventory-> image = $request->image;
+        $inventory->image = isset($photo)?$photo:null;
         $inventory-> type = $request->type;
         $inventory-> flavor = $request->flavor;
         $inventory-> price_per_carton = $request->price_per_carton;
@@ -98,7 +106,7 @@ class InventoryController extends Controller
     public function edit($type,$id)
     {
 
-        if($type == 'Beverage'){
+        if($type == 'Beverages'){
             $data['title'] = 'Edit Product';
             $data['inventory']  = Inventory::findOrFail($id);
             $data['beveragecategories']=BeverageCategory::get();
@@ -126,14 +134,19 @@ class InventoryController extends Controller
             'price_per_carton'=>'required',
             'quantity'=>'required',
             'status'=>'required',
+            'image'=>'mimes:jpeg,jpg,png',
         ]);
+
+if ($request->image) {
+    $photo=$this->fileupload($request->image);
+}
         $inventory=Inventory::findOrFail($id);
         $inventory->inventory_type= $request->inventory_type;
         $inventory-> category = $request->category;
         $inventory-> name = $request->name;
         $inventory-> details = $request->details;
         $inventory-> size = $request->size;
-        $inventory-> image = $request->image;
+        $inventory->image = isset($photo)?$photo:null;
         $inventory-> type = $request->type;
         $inventory-> flavor = $request->flavor;
         $inventory-> price_per_carton = $request->price_per_carton;

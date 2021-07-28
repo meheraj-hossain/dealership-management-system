@@ -20,11 +20,12 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" action="{{route('inventory.update',$inventory->id)}}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{{route('beverage_flavor.update',$beverage_flavor->id)}}" method="post">
                     @csrf
                     @method('put')
+
                     <div class="card-body">
-                        @include('admin.inventory.Beverages._form')
+                        @include('admin.business_settings.beverage_flavor._form')
 
                     </div>
                     <!-- /.card-body -->

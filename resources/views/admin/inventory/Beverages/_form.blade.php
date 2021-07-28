@@ -1,9 +1,9 @@
-<input type="hidden" name="inventory_type" value="Beverage" >
+<input type="hidden" name="inventory_type" value="Beverages" >
 <div class="form-group">
     <label for="name">Category</label>
     <div class="form-group">
         <select class="form-control" name="category">
-            <option>Select Category</option>
+            <option value="">Select Category</option>
             @foreach($beveragecategories as $beveragecategory)
             <option @if(old('category',isset($inventory)?$inventory->category:null)==$beveragecategory->name) selected @endif value="{{$beveragecategory->name}}">{{$beveragecategory->name}}</option>
             @endforeach
@@ -47,7 +47,7 @@
 </div>
 <div class="form-group">
     <label for="image">Upload Image</label><br>
-    <input type="file" name="image" value="">
+    <input type="file" name="image" >
     @error('image')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror

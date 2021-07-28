@@ -24,7 +24,8 @@ Route::resource('beverage_category',BeverageCategoryController::class);
 Route::resource('beverage_size',BeverageSizeController::class);
 Route::resource('snacks_category',SnacksCategoryController::class);
 Route::resource('snacks_size',SnacksSizeController::class);
-
+Route::resource('beverage_flavor',BeverageFlavorController::class);
+Route::resource('snacks_flavor',SnacksFlavorController::class);
 Auth::routes();
 Route::get('inventory/{category}/create','InventoryController@create')->name('inventory.create');
 Route::post('inventory/store','InventoryController@store')->name('inventory.store');
