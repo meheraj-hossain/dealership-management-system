@@ -57,6 +57,15 @@
                     </ul>
                 </li>
                 <li class="nav-item ">
+                    <a href="{{route('shop_registration.index')}}" class="nav-link">
+                        <i class="nav-icon fa fa-cogs"></i>
+                        <p>
+                            Shop Registration
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
                     <a href="{{route('inventory.index')}}" class="nav-link">
                         <i class="nav-icon fa fa-cogs"></i>
                         <p>
@@ -104,7 +113,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('snacks_category.index')}}" class="nav-link">
+                                    <a href="{{route('inventory.create','snacks')}}" class="nav-link">
                                         <i class="fa fa-angle-double-right nav-icon"></i>
                                         <p>Add Snacks</p>
                                     </a>
@@ -257,7 +266,16 @@
                             </ul>
                         </li>
 
+                        <li class="nav-item has-treeview">
+                            <a href="{{route('area.index')}}" class="nav-link">
+                                <i class="far fas fa-gas-pump"></i>
+                                <p>
+                                    Area
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
 
+                        </li>
                     </ul>
                 </li>
 

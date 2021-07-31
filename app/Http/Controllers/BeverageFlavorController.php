@@ -40,7 +40,8 @@ class BeverageFlavorController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'status'=>'required'
         ]);
         $beverage_flavor = new BeverageFlavor();
         $beverage_flavor-> name = $request->name;

@@ -3,8 +3,9 @@
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">User</li>
-            <li class="breadcrumb-item active">Create</li>
+            <li class="breadcrumb-item active">Business Settings</li>
+            <li class="breadcrumb-item active">Beverage</li>
+            <li class="breadcrumb-item active">Edit</li>
         </ol>
     </div>
 @endsection
@@ -19,11 +20,12 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" action="{{route('beverage_category.store')}}" method="post">
+                <form role="form" action="{{route('area.update',$area->id)}}" method="post">
                     @csrf
+                    @method('put')
 
                     <div class="card-body">
-                        @include('admin.business_settings.beverage_category._form')
+                        @include('admin.business_settings.area._form')
 
                     </div>
                     <!-- /.card-body -->
@@ -38,5 +40,6 @@
         <!--/.col (left) -->
     </div>
 @endsection
+
 
 

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\BeverageCategory;
+use App\BeverageFlavor;
 use App\BeverageSize;
 use App\Inventory;
+use App\SnacksCategory;
+use App\SnacksFlavor;
+use App\SnacksSize;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -33,10 +37,14 @@ class InventoryController extends Controller
           $data['title'] = 'Add new Beverage';
           $data['beveragecategories']=BeverageCategory::get();
           $data['beveragesizes']=BeverageSize::get();
+          $data['beverageflavors']=BeverageFlavor::get();
           return view('admin.inventory.beverages.create',$data);
-      }else{
+      }elseif($category=='snacks'){
         $data['title'] = 'Add new Snacks';
-        return view('admin.inventory.Snacks.create',$data);}
+        $data['snackscategories']=SnacksCategory::get();
+        $data['snackssizes']=SnacksSize::get();
+        $data['snacksflavors']=SnacksFlavor::get();
+        return view('admin.inventory.snacks.create',$data);}
     }
 private function fileupload($img){
 
@@ -105,13 +113,18 @@ private function fileupload($img){
      */
     public function edit($type,$id)
     {
-
+        $data['title'] = 'Edit Product';
+        $data['inventory']  = Inventory::findOrFail($id);
         if($type == 'Beverages'){
-            $data['title'] = 'Edit Product';
-            $data['inventory']  = Inventory::findOrFail($id);
             $data['beveragecategories']=BeverageCategory::get();
             $data['beveragesizes']=BeverageSize::get();
+            $data['beverageflavors']=BeverageFlavor::get();
             return view('admin.inventory.beverages.edit',$data);
+        } else{
+            $data['snackscategories']=SnacksCategory::get();
+            $data['snackssizes']=SnacksSize::get();
+            $data['snacksflavors']=SnacksFlavor::get();
+            return view('admin.inventory.snacks.edit',$data);
         }
     }
 
@@ -136,16 +149,20 @@ private function fileupload($img){
             'status'=>'required',
             'image'=>'mimes:jpeg,jpg,png',
         ]);
+        if ($request->image) {
+            $photo=$this->fileupload($request->image);
 
-if ($request->image) {
-    $photo=$this->fileupload($request->image);
-}
+        }
+
         $inventory=Inventory::findOrFail($id);
         $inventory->inventory_type= $request->inventory_type;
         $inventory-> category = $request->category;
         $inventory-> name = $request->name;
         $inventory-> details = $request->details;
         $inventory-> size = $request->size;
+        if ( file_exists($inventory->image)){
+            unlink($inventory->image);
+        }
         $inventory->image = isset($photo)?$photo:null;
         $inventory-> type = $request->type;
         $inventory-> flavor = $request->flavor;
@@ -167,7 +184,11 @@ if ($request->image) {
      */
     public function destroy(Inventory $inventory, $id)
     {
+
         $inventory=Inventory::findOrFail($id);
+        if ($inventory->image && file_exists($inventory->image)){
+            unlink($inventory->image);
+        }
         $inventory->delete();
         session()->flash('message','Beverage category deleted successfully');
         return redirect()->route('inventory.index');

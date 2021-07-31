@@ -33,3 +33,5 @@ Route::get('inventory/index','InventoryController@index')->name('inventory.index
 Route::get('inventory/{type}/{id}/edit','InventoryController@edit')->name('inventory.edit');
 Route::put('inventory/{id}/update','InventoryController@update')->name('inventory.update');
 Route::delete('inventory/{id}/delete','InventoryController@destroy')->name('inventory.destroy');
+Route::resource('area',AreaController::class);
+Route::resource('shop_registration',ShopRegistrationController::class);

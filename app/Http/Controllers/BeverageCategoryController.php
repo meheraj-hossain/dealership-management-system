@@ -40,7 +40,8 @@ class BeverageCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'status'=>'required'
         ]);
         $beverage_category = new BeverageCategory();
         $beverage_category-> name = $request->name;
