@@ -40,7 +40,8 @@ class SnacksSizeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
+            'status'=>'required'
         ]);
         $snacks_size = new SnacksSize();
         $snacks_size-> name     = $request->name;

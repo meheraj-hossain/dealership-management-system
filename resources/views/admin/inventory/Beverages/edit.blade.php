@@ -20,7 +20,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" action="{{route('inventory.update',$inventory->id)}}" method="post">
+                <form role="form" action="{{route('inventory.update',$inventory->id)}}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="card-body">

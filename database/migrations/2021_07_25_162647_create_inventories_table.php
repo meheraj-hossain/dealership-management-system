@@ -15,12 +15,12 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('inventory_type',['Beverage','Snacks']);
+            $table->enum('inventory_type',['Beverages','Snacks']);
             $table->string('category');
             $table->string('name');
             $table->text('details');
             $table->string('size');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('type');
             $table->string('flavor');
             $table->decimal('price_per_carton');
