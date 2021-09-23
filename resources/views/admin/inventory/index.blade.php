@@ -53,6 +53,11 @@
                                     <a  href="{{route('inventory.edit',[$inventory->inventory_type,$inventory->id])}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Edit
                                     </a>
+                                    <a  href="{{route('stock.edit',$inventory->id)}}" class="btn btn-info btn-sm"  >
+                                        <i class="fa fa-edit"></i>Add stock
+                                    </a>
+
+
                                     <form class="" action="{{route('inventory.destroy',$inventory->id)}}" method="post" style="display:inline">
                                         @csrf
                                         @method('delete')

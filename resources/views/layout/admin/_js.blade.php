@@ -5,6 +5,10 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
+{{--<script type="text/javascript"--}}
+{{--        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">--}}
+{{--</script>--}}
+{{--<script type="text/javascript" language="javascript">--}}
 <!-- Bootstrap 4 -->
 <script src="{{asset('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
@@ -13,7 +17,7 @@
 <script src="{{asset('assets/admin/plugins/sparklines/sparkline.js')}}"></script>
 <!-- JQVMap -->
 <script src="{{asset('assets/admin/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('assets/admin/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
+{{--<script src="{{asset('assets/admin/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>--}}
 <!-- jQuery Knob Chart -->
 <script src="{{asset('assets/admin/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <!-- daterangepicker -->
@@ -29,5 +33,15 @@
 <script src="{{asset('assets/admin/dist/js/adminlte.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('assets/admin/dist/js/pages/dashboard.js')}}"></script>
+
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('assets/admin/dist/js/demo.js')}}"></script>
+<script src="{{asset('assets/admin/plugins/select2/js/select2.full.min.js')}}"></script>
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+    })
+
+</script>

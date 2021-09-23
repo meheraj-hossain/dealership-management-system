@@ -16,10 +16,10 @@ class CreateShopRegistrationsTable extends Migration
         Schema::create('shop_registrations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->decimal('uniqueId');
-            $table->decimal('ownerId');
+            $table->char('uniqueId');
+            $table->char('ownerId');
             $table->text('address');
-            $table->string('area')->nullable();
+            $table->string('area');
             $table->string('image')->nullable();
             $table->timestamps();
         });

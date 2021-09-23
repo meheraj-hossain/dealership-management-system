@@ -21,6 +21,34 @@
 </div>
 
 <div class="form-group">
+    <label for="name"> User Role</label>
+    <div class="form-group">
+        <select class="form-control select2" name="user_role">
+            <option>Select User Role</option>
+            <option>Admin</option>
+            <option>Area Manager</option>
+            <option>Shopkeeper</option>
+        </select>
+    </div>
+    @error('user_role')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="form-group">
+    <label for="name">Assign User</label>
+    <div class="form-group">
+        <select class="form-control select2" name="assign_user">
+            <option>Select</option>
+
+        </select>
+    </div>
+    @error('assign_user')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="form-group">
     <label for="status">Status</label>
     <br>
     <input type="radio" name="status" @if(old('status',isset($user)?$user->status:null)=='Active') checked @endif value="Active" id="active">

@@ -8,25 +8,34 @@
 
 <div class="form-group">
     <label for="name">Shop ID</label>
-    <input type="number" name="uniqueId" value="{{old('uniqueId',isset($shop)?$shop->uniqueId:null)}}" class="form-control" id="name" placeholder="Enter Shop ID" >
+    <input type="number" name="uniqueId" value="{{old('uniqueId',isset($shop)?$shop->uniqueId:null)}}" class="form-control" id="number" placeholder="Enter Shop ID" >
     @error('uniqueId')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
 
+
 <div class="form-group">
-    <label for="name">Owner Id</label>
-    <input type="number" name="ownerId" value="{{old('ownerId',isset($shop)?$shop->ownerId:null)}}" class="form-control" id="name" placeholder="Enter Owner ID" >
+    <label for="name"> Owner Id</label>
+    <div class="form-group">
+        <select class="form-control select2" name="ownerId">
+            <option>Select Owner ID</option>
+            @foreach($shopkeepers as $shopkeeper)
+                <option @if(old('ownerId',isset($shop)?$shop->ownerId:null)==$shopkeeper->id) selected @endif value="{{$shopkeeper->id}}">{{$shopkeeper->id}}</option>
+            @endforeach
+        </select>
+    </div>
     @error('ownerId')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
 
 
+
 <div class="form-group">
     <label for="name">Area</label>
     <div class="form-group">
-        <select class="form-control" name="area">
+        <select class="form-control select2  " name="area">
             <option value="">Select Area</option>
             @foreach($areas as $area)
                 <option @if(old('area',isset($shop)?$shop->area:null)==$area->name) selected @endif value="{{$area->name}}">{{$area->name}}</option>
@@ -38,6 +47,8 @@
     </div>
 
 </div>
+
+
 
 <div class="form-group">
     <label>Shop Address</label>
@@ -55,8 +66,6 @@
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
-
-
 
 
 

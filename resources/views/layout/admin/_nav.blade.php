@@ -31,6 +31,65 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a href="{{route('make_order')}}" class="nav-link active">
+
+                        <p>
+                           Make Order
+                        </p>
+                    </a>
+                </li>
+
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Manage Area manager
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('area_manager.create')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Area Manager</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('area_manager.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Area Manager</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Manage Shopkeeper
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('shopkeeper.create')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Shopkeeper</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('shopkeeper.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Shopkeeper</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
@@ -276,7 +335,20 @@
                             </a>
 
                         </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="{{route('stock.index')}}" class="nav-link">
+                                <i class="far fas fa-gas-pump"></i>
+                                <p>
+                                    Stock
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                        </li>
+
                     </ul>
+
                 </li>
 
             </ul>

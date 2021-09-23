@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Area;
+use App\Shopkeeper;
 use App\ShopRegistration;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,7 @@ class ShopRegistrationController extends Controller
     {
        $data['title']='Register New Shop';
        $data['areas']=Area::get();
+       $data['shopkeepers']=Shopkeeper::get();
        return view('admin.shop_registration.create',$data);
     }
 
@@ -89,6 +91,7 @@ $request->validate([
     {
         $data['title']='Edit Shop Details';
         $data['areas']=Area::get();
+        $data['shopkeepers']=Shopkeeper::get();
         $data['shop']=$shopRegistration;
         return view('admin.shop_registration.edit',$data);
     }

@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\BeverageCategory;
 use App\BeverageFlavor;
 use App\BeverageSize;
+use App\Cart;
 use App\Inventory;
 use App\SnacksCategory;
 use App\SnacksFlavor;
 use App\SnacksSize;
 use Illuminate\Http\Request;
+use MongoDB\Driver\Session;
+
 
 class InventoryController extends Controller
 {
@@ -100,9 +103,11 @@ private function fileupload($img){
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function show(Inventory $inventory)
+    public function show($id)
     {
-        //
+        $data['title']='Product Details';
+        $data['inventory']  = Inventory::findOrFail($id);
+        return view('single_product',$data);
     }
 
     /**
@@ -193,4 +198,18 @@ private function fileupload($img){
         session()->flash('message','Beverage category deleted successfully');
         return redirect()->route('inventory.index');
     }
+
+    function AddToCart( Request $request)
+    {
+        $cart= new Cart();
+        $cart->user_id =1;
+        $cart->product_id = $request->product_id;
+        $cart->save();
+        session()->flash('message','Product Added to the cart');
+        return redirect()->route('make_order');
+    }
+//    static function CartItem(){
+//        $userId = Session::get()
+//    }
 }
+
