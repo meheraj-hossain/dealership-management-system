@@ -23,39 +23,27 @@
                                 <th class="number">#</th>
                                 <th class="image" >image</th>
                                 <th class="name">product name</th>
-                                <th class="qty">quantity</th>
+{{--                                <th class="qty">quantity</th>--}}
                                 <th class="price">price</th>
                                 <th class="total">totle</th>
                                 <th class="remove">remove</th>
                             </tr>
                             </thead>
-
+                            @foreach($inventories as $inventory)
                             <!-- Table Body -->
                             <tbody>
                             <tr>
                                 <td><span class="cart-number">1</span></td>
-                                <td><a href="#" class="cart-pro-image"><img src="{{asset('images/shop/AdminLTELogo.png')}}" alt="" /></a></td>
-                                <td><a href="#" class="cart-pro-title">Holiday Candle</a></td>
-                                <td><div class="product-quantity">
-                                        <input type="text" value="0" name="qtybox">
-                                    </div></td>
-                                <td><p class="cart-pro-price">$104.99</p></td>
-                                <td><p class="cart-price-total">$104.99</p></td>
+                                <td><a href="#" class="cart-pro-image"><img src="{{asset($inventory->image)}}" alt="" /></a></td>
+                                <td><a href="#" class="cart-pro-title">{{$inventory->name}}</a></td>
+                                <td><p class="cart-pro-price">{{$inventory->quantity}}</p></td>
+                                <td><p class="cart-pro-price">{{$inventory->price_per_carton}}</p></td>
+                                <td><p class="cart-price-total">{{$inventory->quantity*$inventory->price_per_carton}}</p></td>
                                 <td><a href="actionAddtoCart.php?action=delete&amp;id=1" class=""><ion-icon name="close-circle-outline"></ion-icon>
                                     </a></td>
                             </tr>
-                            <tr>
-                                <td><span class="cart-number">2</span></td>
-                                <td><a href="#" class="cart-pro-image"><img src="img/product/2.jpg" alt="" /></a></td>
-                                <td><a href="#" class="cart-pro-title">Christmas Tree</a></td>
-                                <td><div class="product-quantity">
-                                        <input type="text" value="0" name="qtybox">
-                                    </div></td>
-                                <td><p class="cart-pro-price">$85.99</p></td>
-                                <td><p class="cart-price-total">$85.99</p></td>
-                                <td><button class="cart-pro-remove"><i class="fa fa-trash-o"></i></button></td>
-                            </tr>
                             </tbody>
+                            @endforeach
                         </table>
                     </div>
 

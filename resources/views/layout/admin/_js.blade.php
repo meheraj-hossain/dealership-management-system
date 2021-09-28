@@ -1,4 +1,5 @@
-<script src="{{asset('assets/admin/plugins/jquery/jquery.min.js')}}"></script>
+
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>--}}
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('assets/admin/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -16,7 +17,7 @@
 <!-- Sparkline -->
 <script src="{{asset('assets/admin/plugins/sparklines/sparkline.js')}}"></script>
 <!-- JQVMap -->
-<script src="{{asset('assets/admin/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
+{{--<script src="{{asset('assets/admin/plugins/jqvmap/jquery.vmap.min.js')}}"></script>--}}
 {{--<script src="{{asset('assets/admin/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>--}}
 <!-- jQuery Knob Chart -->
 <script src="{{asset('assets/admin/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
@@ -37,11 +38,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('assets/admin/dist/js/demo.js')}}"></script>
 <script src="{{asset('assets/admin/plugins/select2/js/select2.full.min.js')}}"></script>
-
 <script>
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2()
     })
-
 </script>
+@stack('js')

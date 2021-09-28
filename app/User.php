@@ -9,7 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-
+public function AreaManager() {
+    return $this-> belongsTo(AreaManager::class,'row_id');
+}
+public function Shopkeeper() {
+    return $this->belongsTo(Shopkeeper::class,'row_id');
+}
     /**
      * The attributes that are mass assignable.
      *
@@ -36,4 +41,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 }

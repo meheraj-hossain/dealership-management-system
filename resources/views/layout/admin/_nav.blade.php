@@ -31,16 +31,17 @@
                         </p>
                     </a>
                 </li>
+                   @if(Auth::user())
                 <li class="nav-item ">
                     <a href="{{route('make_order')}}" class="nav-link active">
 
                         <p>
-                           Make Order
+                            Make Order
                         </p>
                     </a>
                 </li>
 
-
+                @endif
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>

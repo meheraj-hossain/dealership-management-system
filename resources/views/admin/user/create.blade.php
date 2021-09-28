@@ -38,3 +38,31 @@
         <!--/.col (left) -->
     </div>
 @endsection
+@push('js')
+    <script>
+        $(function () {
+            $('body').on('change', '.user',  function (e) {
+
+                var userRole = $('#user').val();
+                var url = "{{ route('user.getdata') }}"
+                $.ajax({
+                    url     : url,
+                    data    : {userRole: userRole},
+                    method    : 'GET',
+                    cache   : false,
+                    success: function (data) {
+                        $('#htmlAppend').empty();
+
+                        console.log(data);
+                        let htmlInput = [];
+                        $.each(data.user, function (index, value) {
+                            console.log(value.id);
+                            $('#htmlAppend').append("<option value='"+value.id+"'>"+value.name+":"+value.phone+"</option>");
+                        });
+
+                    }
+                });
+            });
+        });
+    </script>
+    @endpush

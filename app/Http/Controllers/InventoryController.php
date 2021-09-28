@@ -11,7 +11,9 @@ use App\SnacksCategory;
 use App\SnacksFlavor;
 use App\SnacksSize;
 use Illuminate\Http\Request;
-use MongoDB\Driver\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 
 class InventoryController extends Controller
@@ -160,7 +162,7 @@ private function fileupload($img){
         }
 
         $inventory=Inventory::findOrFail($id);
-        $inventory->inventory_type= $request->inventory_type;
+        $inventory->inventory_type = $request->inventory_type;
         $inventory-> category = $request->category;
         $inventory-> name = $request->name;
         $inventory-> details = $request->details;
@@ -201,15 +203,50 @@ private function fileupload($img){
 
     function AddToCart( Request $request)
     {
-        $cart= new Cart();
-        $cart->user_id =1;
-        $cart->product_id = $request->product_id;
-        $cart->save();
-        session()->flash('message','Product Added to the cart');
-        return redirect()->route('make_order');
+
+        if (Auth::user()) {
+            $cart= new Cart();
+            $cart->user_id = Auth::user('id')->id;
+            $cart->product_id = $request->product_id;
+            $cart->save();
+            session()->flash('message','Product added to the cart');
+            return redirect()->route('make_order');
+        }
+        else {
+            return redirect('dashboard');
+        }
+
+//        $cart= new Cart();
+//        $cart->user_id =1;
+//        $cart->product_id = $request->product_id;
+//        $cart->save();
+//        session()->flash('message','Product Added to the cart');
+//        return redirect()->route('make_order');
     }
 //    static function CartItem(){
 //        $userId = Session::get()
 //    }
+    static function cartItem()
+        {
+            $user_id = Auth::user('id')->id;
+            return Cart::where('user_id',$user_id)->count();
+        }
+
+    function cartList(){
+        $data['title'] = 'Cart List';
+        $data['inventories'] = Inventory::get();
+        $userId = Auth::user('id')->id;
+        $products = DB::table('carts')
+            ->join('inventories','carts.product_id','=','inventories.id')
+            ->where('carts.user_id',$userId)
+            ->select('inventories.*')
+            ->get();
+
+        return view('cart',['inventories'=>$products],$data);
+
+//        return redirect()->to(route('cart',['inventories'=>$products],$data));
+
+    }
+
 }
 
