@@ -3,8 +3,9 @@
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">User</li>
-            <li class="breadcrumb-item active">Create</li>
+            <li class="breadcrumb-item active">Business Settings</li>
+            <li class="breadcrumb-item active">Beverage</li>
+            <li class="breadcrumb-item active">Edit</li>
         </ol>
     </div>
 @endsection
@@ -19,11 +20,12 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" action="{{route('shop_registration.store')}}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{{route('area_manager.update',$area_manager->id)}}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('put')
 
                     <div class="card-body">
-                        @include('admin.shop_registration._form')
+                        @include('admin.user.area_manager._form')
 
                     </div>
                     <!-- /.card-body -->
@@ -37,14 +39,7 @@
         </div>
         <!--/.col (left) -->
     </div>
-
 @endsection
-@push('js')
-    <script>
-    $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-    })
-    </script>
-    @endpush
+
+
 

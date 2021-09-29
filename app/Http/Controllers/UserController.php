@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\AreaManager;
+use App\Shopkeeper;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -41,12 +44,15 @@ class UserController extends Controller
         $request->validate([
             'name'=>'required',
             'email'=>'required|unique:users',
+            'action_table'=>'required',
             'password'=>'required|min:8',
         ]);
         $user           = new User();
+        $user->row_id =$request->assigned_user;
         $user->name     = $request->name;
         $user->email    = $request->email;
-        $user->password = md5($request->password);
+        $user->action_table    = $request->action_table;
+        $user->password = Hash::make($request->password);
         $user->save();
         session()->flash('message','New user created successfully');
         return redirect()->route('user.index');
@@ -111,5 +117,17 @@ class UserController extends Controller
         $user->delete();
         session()->flash('message','User deleted successfully');
         return redirect()->route('user.index');
+    }
+
+    public function getData( Request $request)
+    {
+        if ($request->userRole == 'area_manager') {
+            $data['user'] = AreaManager::get();
+        }
+        elseif ($request->userRole == 'shopkeeper') {
+            $data['user'] = Shopkeeper::get();
+        }
+        return $data;
+
     }
 }

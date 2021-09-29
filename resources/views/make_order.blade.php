@@ -1,8 +1,13 @@
+@push('css')
 <link rel="stylesheet" href="{{asset('assets/make_order/css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/make_order/css/font-awesome.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/make_order/css/ionicons.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/make_order/css/plugins.css')}}">
 <link rel="stylesheet" href="{{asset('assets/make_order/css/style.css')}}">
+@endpush
+<?php
+Use App\Http\Controllers\InventoryController;
+$total =InventoryController::cartItem();
+?>
 @extends('layout.admin.master')
 @section('breadcrumb')
     <div class="col-sm-4" style="
@@ -10,7 +15,7 @@
     margin: 2px;
 ">
         <ol class="breadcrumb float-sm-right">
-            <a href="#" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i><span class="num">2</span></a>
+            <a href="{{route('cart_list')}}">{{$total}}</a>
         </ol>
     </div>
 @endsection
@@ -66,13 +71,7 @@
                                            <h5 style="font-size: 25px;">৳{{$product->price_per_carton}}</h5>
 
                                        </div>
-
-
                                    </div>
-
-
-
-
                                    <!-- Action Button -->
                                    <div class="action-button fix">
                                        <a href="#">add to cart</a>
@@ -96,11 +95,12 @@
     </div><!-- Product Section End-->
 
 @endsection
-
+@push('js')
 <script src="{{asset('assets/make_order/js/vendor/modernizr-2.8.3.min.js')}}"></script>
 <script src="{{asset('assets/make_order/js/main.js')}}"></script>
 <script src="{{asset('assets/make_order/js/ajax-mail.js')}}"></script>
 <script src="{{asset('assets/make_order/js/plugins.js')}}"></script>
 <script src="{{asset('assets/make_order/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/make_order/js/popper.min.js')}}"></script>
-<script src="{{asset('assets/make_order/js/vendor/jquery-1.12.0.min.js')}}"></script>
+
+@endpush

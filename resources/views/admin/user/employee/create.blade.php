@@ -19,11 +19,11 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" action="{{route('shop_registration.store')}}" method="post" enctype="multipart/form-data">
+                <form role="form" action="{{route('area_manager.store')}}" method="post">
                     @csrf
 
                     <div class="card-body">
-                        @include('admin.shop_registration._form')
+                        @include('admin.user.area_manager._form')
 
                     </div>
                     <!-- /.card-body -->
@@ -37,14 +37,4 @@
         </div>
         <!--/.col (left) -->
     </div>
-
 @endsection
-@push('js')
-    <script>
-    $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-    })
-    </script>
-    @endpush
-

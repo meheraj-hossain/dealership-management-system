@@ -95,7 +95,7 @@
                             </h4>
                         </div>
 
-                        <form action="{{route('add_to_cart',1)}}" method="POST">
+                        <form action="{{route('add_to_cart')}}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{$inventory->id}}">
                             <div class="mt-4">
