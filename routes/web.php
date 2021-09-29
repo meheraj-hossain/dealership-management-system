@@ -54,6 +54,7 @@ Route::put('inventory/{id}/update','InventoryController@update')->name('inventor
 Route::delete('inventory/{id}/delete','InventoryController@destroy')->name('inventory.destroy');
 Route::post('add_to_cart','InventoryController@AddToCart')->name('add_to_cart');
 Route::get('cart_list','InventoryController@cartList')->name('cart_list');
+Route::get('remove_cart/{id}','InventoryController@cartRemove')->name('remove_cart');
 Route::resource('area',AreaController::class);
 Route::resource('shop_registration',ShopRegistrationController::class);
 Route::resource('shopkeeper',ShopkeeperController::class);

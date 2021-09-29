@@ -1,9 +1,9 @@
-
+@push('css')
 <link rel="stylesheet" href="{{asset('assets/make_order/css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/make_order/css/font-awesome.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/make_order/css/ionicons.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/make_order/css/plugins.css')}}">
 <link rel="stylesheet" href="{{asset('assets/make_order/css/style.css')}}">
+@endpush
 <?php
 Use App\Http\Controllers\InventoryController;
 $total =InventoryController::cartItem();
@@ -95,11 +95,12 @@ $total =InventoryController::cartItem();
     </div><!-- Product Section End-->
 
 @endsection
-
+@push('js')
 <script src="{{asset('assets/make_order/js/vendor/modernizr-2.8.3.min.js')}}"></script>
 <script src="{{asset('assets/make_order/js/main.js')}}"></script>
 <script src="{{asset('assets/make_order/js/ajax-mail.js')}}"></script>
 <script src="{{asset('assets/make_order/js/plugins.js')}}"></script>
 <script src="{{asset('assets/make_order/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/make_order/js/popper.min.js')}}"></script>
-<script src="{{asset('assets/make_order/js/vendor/jquery-1.12.0.min.js')}}"></script>
+
+@endpush

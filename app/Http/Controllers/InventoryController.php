@@ -234,18 +234,21 @@ private function fileupload($img){
 
     function cartList(){
         $data['title'] = 'Cart List';
-        $data['inventories'] = Inventory::get();
         $userId = Auth::user('id')->id;
         $products = DB::table('carts')
             ->join('inventories','carts.product_id','=','inventories.id')
             ->where('carts.user_id',$userId)
-            ->select('inventories.*')
+            ->select('inventories.*','carts.id as cartId')
             ->get();
-
-        return view('cart',['inventories'=>$products],$data);
-
+        return view('cart',['products'=>$products],$data);
 //        return redirect()->to(route('cart',['inventories'=>$products],$data));
+    }
 
+    public function cartRemove($id)
+    {
+       $cart =Cart::where('id',$id)->first();
+        $cart -> delete();
+        return redirect()->route('cart_list');
     }
 
 }
