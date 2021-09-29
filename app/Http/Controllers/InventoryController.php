@@ -240,6 +240,12 @@ private function fileupload($img){
             ->where('carts.user_id',$userId)
             ->select('inventories.*','carts.id as cartId')
             ->get();
+        $total_price = 0;
+        foreach ($products as $product) {
+            $total_price += $product->price_per_carton;
+        }
+        $data['total_price'] = number_format($total_price,2);
+
         return view('cart',['products'=>$products],$data);
 //        return redirect()->to(route('cart',['inventories'=>$products],$data));
     }
