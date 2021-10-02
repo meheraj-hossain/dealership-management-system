@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('make_order', 'OrderController@home')->name('make_order');
+Route::get('order', 'OrderController@order')->name('order');
 
 
 Route::get('dashboard',function (){
@@ -59,6 +60,6 @@ Route::resource('area',AreaController::class);
 Route::resource('shop_registration',ShopRegistrationController::class);
 Route::resource('shopkeeper',ShopkeeperController::class);
 Route::resource('area_manager',AreaManagerController::class);
-
+Route::resource('employee',EmployeeController::class);
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

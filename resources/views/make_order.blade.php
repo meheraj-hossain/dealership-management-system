@@ -12,8 +12,7 @@ $total =InventoryController::cartItem();
 @section('breadcrumb')
     <div class="col-sm-4" style="
     font-size: 20px;
-    margin: 2px;
-">
+    margin: 2px;">
         <ol class="breadcrumb float-sm-right">
             <a href="{{route('cart_list')}}">{{$total}}</a>
         </ol>

@@ -13,5 +13,12 @@ class OrderController extends Controller
         $data['products'] = Inventory::paginate(5);
         return view('make_order', $data);
     }
+
+    public function order()
+    {
+        $data['title'] = 'Order';
+        $data['products'] = Inventory::paginate(5);
+        return view('order', $data);
+    }
 }
 
