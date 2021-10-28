@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\BeverageCategory;
 use App\BeverageFlavor;
 use App\BeverageSize;
+use App\BeverageType;
 use App\Cart;
 use App\Inventory;
 use App\SnacksCategory;
 use App\SnacksFlavor;
 use App\SnacksSize;
+use App\SnacksType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +28,7 @@ class InventoryController extends Controller
     public function index()
     {
         $data['title'] = 'Inventory';
-        $data['inventories']=Inventory::paginate(2);
+        $data['inventories']=Inventory::with(['BeverageSize','BeverageFlavor','BeverageCategory','BeverageType','SnacksSize','SnacksFlavor','SnacksCategory','SnacksType'])->paginate(2);
         $data['serial']=managePaginationSerial($data['inventories']);
         return view('admin.inventory.index',$data);
     }
@@ -43,12 +45,14 @@ class InventoryController extends Controller
           $data['beveragecategories']=BeverageCategory::get();
           $data['beveragesizes']=BeverageSize::get();
           $data['beverageflavors']=BeverageFlavor::get();
+          $data['beveragetypes']=BeverageType::get();
           return view('admin.inventory.beverages.create',$data);
       }elseif($category=='snacks'){
         $data['title'] = 'Add new Snacks';
         $data['snackscategories']=SnacksCategory::get();
         $data['snackssizes']=SnacksSize::get();
         $data['snacksflavors']=SnacksFlavor::get();
+        $data['snackstypes']=SnacksType::get();
         return view('admin.inventory.snacks.create',$data);}
     }
 private function fileupload($img){
@@ -83,13 +87,13 @@ private function fileupload($img){
         }
         $inventory = new Inventory();
         $inventory->inventory_type= $request->inventory_type;
-        $inventory-> category = $request->category;
+        $inventory-> category_id = $request->category;
         $inventory-> name = $request->name;
         $inventory-> details = $request->details;
-        $inventory-> size = $request->size;
+        $inventory-> size_id = $request->size;
         $inventory->image = isset($photo)?$photo:null;
-        $inventory-> type = $request->type;
-        $inventory-> flavor = $request->flavor;
+        $inventory-> type_id = $request->type;
+        $inventory-> flavor_id = $request->flavor;
         $inventory-> price_per_carton = $request->price_per_carton;
         $inventory-> quantity = $request->quantity;
         $inventory-> total_price = $request->price_per_carton*$request->quantity;
@@ -105,10 +109,10 @@ private function fileupload($img){
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show( $id)
     {
         $data['title']='Product Details';
-        $data['inventory']  = Inventory::findOrFail($id);
+        $data['inventory']  = Inventory::with(['BeverageCategory','BeverageSize','BeverageType','BeverageFlavor'])->findOrFail($id);
         return view('single_product',$data);
     }
 
@@ -126,11 +130,13 @@ private function fileupload($img){
             $data['beveragecategories']=BeverageCategory::get();
             $data['beveragesizes']=BeverageSize::get();
             $data['beverageflavors']=BeverageFlavor::get();
+            $data['beveragetypes']=BeverageType::get();
             return view('admin.inventory.beverages.edit',$data);
         } else{
             $data['snackscategories']=SnacksCategory::get();
             $data['snackssizes']=SnacksSize::get();
             $data['snacksflavors']=SnacksFlavor::get();
+            $data['snackstypes']=SnacksType::get();
             return view('admin.inventory.snacks.edit',$data);
         }
     }
@@ -163,16 +169,16 @@ private function fileupload($img){
 
         $inventory=Inventory::findOrFail($id);
         $inventory->inventory_type = $request->inventory_type;
-        $inventory-> category = $request->category;
+        $inventory-> category_id = $request->category;
         $inventory-> name = $request->name;
         $inventory-> details = $request->details;
-        $inventory-> size = $request->size;
+        $inventory-> size_id = $request->size;
         if ( file_exists($inventory->image)){
             unlink($inventory->image);
         }
         $inventory->image = isset($photo)?$photo:null;
-        $inventory-> type = $request->type;
-        $inventory-> flavor = $request->flavor;
+        $inventory-> type_id = $request->type;
+        $inventory-> flavor_id = $request->flavor;
         $inventory-> price_per_carton = $request->price_per_carton;
         $inventory-> quantity = $request->quantity;
         $inventory-> total_price = $request->price_per_carton*$request->quantity;
@@ -191,7 +197,6 @@ private function fileupload($img){
      */
     public function destroy(Inventory $inventory, $id)
     {
-
         $inventory=Inventory::findOrFail($id);
         if ($inventory->image && file_exists($inventory->image)){
             unlink($inventory->image);
@@ -201,20 +206,24 @@ private function fileupload($img){
         return redirect()->route('inventory.index');
     }
 
-    function AddToCart( Request $request)
-    {
+    public function showProduct(){
 
-        if (Auth::user()) {
-            $cart= new Cart();
-            $cart->user_id = Auth::user('id')->id;
-            $cart->product_id = $request->product_id;
-            $cart->save();
-            session()->flash('message','Product added to the cart');
-            return redirect()->route('make_order');
-        }
-        else {
-            return redirect('dashboard');
-        }
+    }
+//
+//    function AddToCart( Request $request)
+//    {
+//
+//        if (Auth::user()) {
+//            $cart= new Cart();
+//            $cart->user_id = Auth::user('id')->id;
+//            $cart->product_id = $request->product_id;
+//            $cart->save();
+//            session()->flash('message','Product added to the cart');
+//            return redirect()->route('make_order');
+//        }
+//        else {
+//            return redirect('dashboard');
+//        }
 
 //        $cart= new Cart();
 //        $cart->user_id =1;
@@ -226,36 +235,36 @@ private function fileupload($img){
 //    static function CartItem(){
 //        $userId = Session::get()
 //    }
-    static function cartItem()
-        {
-            $user_id = Auth::user('id')->id;
-            return Cart::where('user_id',$user_id)->count();
-        }
-
-    function cartList(){
-        $data['title'] = 'Cart List';
-        $userId = Auth::user('id')->id;
-        $products = DB::table('carts')
-            ->join('inventories','carts.product_id','=','inventories.id')
-            ->where('carts.user_id',$userId)
-            ->select('inventories.*','carts.id as cartId')
-            ->get();
-        $total_price = 0;
-        foreach ($products as $product) {
-            $total_price += $product->price_per_carton;
-        }
-        $data['total_price'] = number_format($total_price,2);
-
-        return view('cart',['products'=>$products],$data);
-//        return redirect()->to(route('cart',['inventories'=>$products],$data));
-    }
-
-    public function cartRemove($id)
-    {
-       $cart =Cart::where('id',$id)->first();
-        $cart -> delete();
-        return redirect()->route('cart_list');
-    }
-
-}
+//    static function cartItem()
+//        {
+//            $user_id = Auth::user('id')->id;
+//            return Cart::where('user_id',$user_id)->count();
+//        }
+//
+//    function cartList(){
+//        $data['title'] = 'Cart List';
+//        $userId = Auth::user('id')->id;
+//        $products = DB::table('carts')
+//            ->join('inventories','carts.product_id','=','inventories.id')
+//            ->where('carts.user_id',$userId)
+//            ->select('inventories.*','carts.id as cartId')
+//            ->get();
+//        $total_price = 0;
+//        foreach ($products as $product) {
+//            $total_price += $product->price_per_carton;
+//        }
+//        $data['total_price'] = number_format($total_price,2);
+//
+//        return view('cart',['products'=>$products],$data);
+////        return redirect()->to(route('cart',['inventories'=>$products],$data));
+//    }
+//
+//    public function cartRemove($id)
+//    {
+//       $cart =Cart::where('id',$id)->first();
+//        $cart -> delete();
+//        return redirect()->route('cart_list');
+//    }
+//
+//}
 

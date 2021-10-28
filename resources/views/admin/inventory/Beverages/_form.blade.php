@@ -5,7 +5,7 @@
         <select class="form-control" name="category">
             <option value="">Select Category</option>
             @foreach($beveragecategories as $beveragecategory)
-            <option @if(old('category',isset($inventory)?$inventory->category:null)==$beveragecategory->name) selected @endif value="{{$beveragecategory->name}}">{{$beveragecategory->name}}</option>
+            <option @if(old('category',isset($inventory)?$inventory->category_id:null)==$beveragecategory->id) selected @endif value="{{$beveragecategory->id}}">{{$beveragecategory->name}}</option>
             @endforeach
         </select>
         @error('category')
@@ -37,7 +37,7 @@
         <select class="form-control" name="size">
             <option> Select Size</option>
             @foreach($beveragesizes as $beveragesize)
-                <option @if(old('size',isset($inventory)?$inventory->size:null)==$beveragesize->name) selected @endif  value="{{$beveragesize->name}}">{{$beveragesize->name}}</option>
+                <option @if(old('size',isset($inventory)?$inventory->size_id:null)==$beveragesize->id) selected @endif  value="{{$beveragesize->id}}">{{$beveragesize->name}}</option>
             @endforeach
         </select>
     </div>
@@ -57,8 +57,9 @@
     <div class="form-group">
         <select class="form-control" name="type">
             <option>Select Type</option>
-                <option @if(old('type',isset($inventory)?$inventory->type:null)=='PET') selected @endif value="PET">PET</option>
-                <option @if(old('type',isset($inventory)?$inventory->type:null)=='CAN') selected @endif value="CAN">CAN</option>
+            @foreach($beveragetypes as $beveragetype)
+                <option @if(old('size',isset($inventory)?$inventory->type_id:null)==$beveragetype->id) selected @endif  value="{{$beveragetype->id}}">{{$beveragetype->name}}</option>
+            @endforeach
         </select>
     </div>
     @error('type')
@@ -72,7 +73,7 @@
         <select class="form-control" name="flavor">
             <option>Select Flavor</option>
             @foreach($beverageflavors as $beverageflavor)
-                <option @if(old('flavor',isset($inventory)?$inventory->flavor:null)==$beverageflavor->name) selected @endif value="{{$beverageflavor->name}}">{{$beverageflavor->name}}</option>
+                <option @if(old('flavor',isset($inventory)?$inventory->flavor_id:null)==$beverageflavor->id) selected @endif value="{{$beverageflavor->id}}">{{$beverageflavor->name}}</option>
             @endforeach
         </select>
     </div>
