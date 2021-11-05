@@ -37,4 +37,9 @@ class Inventory extends Model
     public function BeverageType() {
         return $this->belongsTo(BeverageType::class,'type_id');
     }
+
+    public function OrderDetail(){
+        return $this->hasMany(OrderDetail::class,'product_id');
+    }
+
 }

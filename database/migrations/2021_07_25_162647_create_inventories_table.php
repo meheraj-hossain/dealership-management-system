@@ -27,6 +27,7 @@ class CreateInventoriesTable extends Migration
             $table->decimal('quantity');
             $table->decimal('total_price');
             $table->enum('status',['Active','Inactive'])->default('Active');
+
             $table->timestamps();
         });
     }

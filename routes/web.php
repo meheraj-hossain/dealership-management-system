@@ -64,5 +64,9 @@ Route::resource('shop_registration',ShopRegistrationController::class);
 Route::resource('shopkeeper',ShopkeeperController::class);
 Route::resource('area_manager',AreaManagerController::class);
 Route::resource('employee',EmployeeController::class);
+
+
+Route::get('pending_delivery', 'DeliveryController@pendingDelivery')->name('pending.delivery');
+Route::get('pending_delivery/{id}/order_details', 'DeliveryController@orderDetails')->name('order.details');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
