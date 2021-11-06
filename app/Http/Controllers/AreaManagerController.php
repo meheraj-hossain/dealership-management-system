@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
 use App\AreaManager;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class AreaManagerController extends Controller
     public function index()
     {
         $data['title']='Area Manager List';
-        $data['area_managers']= AreaManager::paginate(2);
+        $data['area_managers']= AreaManager::with(['Area'])->paginate(2);
         $data['serial']=managePaginationSerial($data['area_managers']);
         return view('admin.user.area_manager.index',$data);
     }
@@ -28,9 +29,19 @@ class AreaManagerController extends Controller
     public function create()
     {
         $data['title']='Add New Area Manager';
+        $data['areas']=Area::get();
         return view('admin.user.area_manager.create',$data);
     }
 
+
+    private function imageUpload($img)
+    {
+        $path      = 'assets/admin/assets/img/area_managers';
+        $file_name = time() . rand('00000', '99999') . '.' . $img->getClientOriginalExtension();
+        $img->move($path, $file_name);
+        $fullpath = $path . '/' . $file_name;
+        return $fullpath;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -46,15 +57,18 @@ class AreaManagerController extends Controller
             'email'=>'required',
             'phone'=>'required',
             'image'=>'required',
+            'area'=>'required',
             'address'=>'required',
         ]);
+        $photo =$this->imageUpload($request->image);
         $area_manager = new AreaManager();
         $area_manager-> name = $request->name;
         $area_manager-> date = $request->date;
         $area_manager-> nid = $request->nid;
         $area_manager-> email = $request->email;
         $area_manager-> phone = $request->phone;
-        $area_manager-> image = $request->image;
+        $area_manager-> image = $photo;
+        $area_manager-> area_id = $request->area;
         $area_manager-> address = $request->address;
         $area_manager->save();
         session()->flash('message','Area Manager Details Added Successfully');
@@ -81,6 +95,7 @@ class AreaManagerController extends Controller
     public function edit(AreaManager $areaManager)
     {
         $data['title']='Edit Area Manager Details';
+        $data['areas']=Area::get();
         $data['area_manager']=$areaManager;
         return view('admin.user.area_manager.edit',$data);
     }
@@ -100,14 +115,24 @@ class AreaManagerController extends Controller
             'nid'=>'required',
             'email'=>'required',
             'phone'=>'required',
+            'area'=>'required',
             'address'=>'required',
         ]);
+        if (isset($request->image) && $request->image != null) {
+            $photo = $this->imageUpload($request->image);
+            if ($areaManager->image && file_exists($areaManager->image)) {
+                unlink($areaManager->image);
+            }
+        } else {
+            $photo = $areaManager->image;
+        }
+        $areaManager->image=$photo;
         $areaManager-> name = $request->name;
         $areaManager-> date = $request->date;
         $areaManager-> nid = $request->nid;
         $areaManager-> email = $request->email;
         $areaManager-> phone = $request->phone;
-        $areaManager-> image = $request->image;
+        $areaManager-> area_id = $request->area;
         $areaManager-> address = $request->address;
         $areaManager->update();
         session()->flash('message','Area Manager Details Updated Successfully');

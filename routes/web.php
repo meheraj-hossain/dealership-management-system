@@ -68,5 +68,6 @@ Route::resource('employee',EmployeeController::class);
 
 Route::get('pending_delivery', 'DeliveryController@pendingDelivery')->name('pending.delivery');
 Route::get('pending_delivery/{id}/order_details', 'DeliveryController@orderDetails')->name('order.details');
+Route::get('pending_delivery/{id}/order_status', 'DeliveryController@orderStatus')->name('order.status');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

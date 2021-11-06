@@ -19,7 +19,7 @@ class CreateShopRegistrationsTable extends Migration
             $table->char('uniqueId');
             $table->char('ownerId');
             $table->text('address');
-            $table->string('area');
+            $table->string('area_id');
             $table->string('image')->nullable();
             $table->timestamps();
         });

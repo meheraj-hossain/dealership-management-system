@@ -32,7 +32,7 @@
 
 <div class="form-group">
     <label for="name">Area Manager Phone Number</label>
-    <input type="number" name="phone" value="{{old('phone',isset($area_manager)?$area_manager->phone:null)}}" class="form-control" id="phone" placeholder="Enter NID number" >
+    <input type="number" name="phone" value="{{old('phone',isset($area_manager)?$area_manager->phone:null)}}" class="form-control" id="phone" placeholder="Enter Phone number" >
     @error('phone')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
@@ -44,6 +44,21 @@
     @error('image')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
+</div>
+
+<div class="form-group">
+    <label for="name">Area</label>
+    <div class="form-group">
+        <select class="form-control select2  " name="area">
+            <option value="">Select Area</option>
+            @foreach($areas as $area)
+                <option @if(old('area',isset($area_manager)?$area_manager->area_id:null)==$area->id) selected @endif value="{{$area->id}}">{{$area->name}}</option>
+            @endforeach
+        </select>
+        @error('area')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+    </div>
 </div>
 
 <div class="form-group">

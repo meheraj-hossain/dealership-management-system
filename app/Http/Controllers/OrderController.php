@@ -45,8 +45,6 @@ class OrderController extends Controller
             $final_total = 0;
             foreach ($request->id as $product_id) {
                 $inventory=Inventory::where('id', $product_id)->first();
-                $inventory->quantity = $inventory->quantity-$request->quantity[$product_id];
-                $inventory->save();
                 $order_details= new OrderDetail();
                 $order_details->order_id = $order->id;
                 $order_details->product_id = $inventory->id;
@@ -59,6 +57,7 @@ class OrderController extends Controller
             $order->update(['total'=>$final_total]);
             DB::commit();
             $data['title']='Invoice';
+            session()->flash('message','Your order is now pending');
             return view('place_order',$data);
         } catch (\Exception $exception) {
             DB::rollBack();

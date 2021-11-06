@@ -16,6 +16,15 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{$title}}</h3>
+                    @if($orders->order_status=='Pending')
+                        <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-info" > <i class="fa fa-user-edit"></i> Approve Order?</a></h3>
+                    @elseif($orders->order_status=='Approved')
+                        <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-info" > <i class="fa fa-user-edit"></i> Shipped Order?</a></h3>
+                    @elseif($orders->order_status=='Shipped')
+                        <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-info" > <i class="fa fa-user-edit"></i> Recieved Order?</a></h3>
+                    @elseif($orders->order_status=='Recieved')
+                        <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-info" > <i class="fa fa-user-edit"></i> Deliverd Ordered?</a></h3>
+                    @endif
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -29,6 +38,7 @@
                             <th>Product Size</th>
                             <th>Product Flavor</th>
                             <th>Product Price</th>
+                            <th>Available Quantity</th>
                             <th>Quantity</th>
                             <th>Total</th>
 
@@ -44,6 +54,7 @@
                                 <td>{{$order_detail->Inventory->BeverageSize->name}}</td>
                                 <td>{{$order_detail->Inventory->BeverageFlavor->name}}</td>
                                 <td>{{$order_detail->Inventory->price_per_carton}}</td>
+                                <td>{{$order_detail->Inventory->quantity}}</td>
                                 <td>{{$order_detail->quantity}}</td>
                                 <td>BDT.{{$order_detail->total}}</td>
 {{--                                <td class="text-center">--}}

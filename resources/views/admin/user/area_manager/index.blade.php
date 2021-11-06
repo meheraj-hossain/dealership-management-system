@@ -1,7 +1,7 @@
 @extends('layout.admin.master')
 @section('breadcrumb')
     <div class="col-sm-6 text-right">
-        <a href="{{route('area_manager.create')}}" class="btn btn-warning pull-right addNew">Register New shop</a>
+        <a href="{{route('area_manager.create')}}" class="btn btn-warning pull-right addNew">Register New Area Manager</a>
     </div>
 @endsection
 @section('content')
@@ -37,7 +37,8 @@
                                 <td>{{$area_manager->nid}}</td>
                                 <td>{{$area_manager->email}}</td>
                                 <td>{{$area_manager->phone}}</td>
-                                <td>{{$area_manager->image}}</td>
+                                <td><img src="{{$area_manager->image}}" alt="" height="100px" ></td>
+                                <td>{{$area_manager->Area->name}}</td>
                                 <td>{{$area_manager->address}}</td>
                                 <td class="text-center">
                                     <a  href="{{route('area_manager.edit',$area_manager->id)}}" class="btn btn-info btn-sm">

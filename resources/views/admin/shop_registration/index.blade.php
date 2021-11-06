@@ -33,10 +33,10 @@
                                 <td>{{$serial++}}</td>
                                 <td>{{$shop->name}}</td>
                                 <td>{{$shop->uniqueId}}</td>
-                                <td>{{$shop->ownerId}}</td>
-                                <td>{{$shop->area}}</td>
+                                <td>{{$shop->Shopkeeper->name}}</td>
+                                <td>{{$shop->Area->name}}</td>
                                 <td>{{$shop->address}}</td>
-                                <td>{{$shop->image}}</td>
+                                <td><img src="{{$shop->image}}" alt=""></td>
                                 <td class="text-center">
                                     <a  href="{{route('shop_registration.edit',$shop->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Edit

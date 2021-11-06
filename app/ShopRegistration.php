@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ShopRegistration extends Model
 {
     public function Shopkeeper(){
-        return $this->hasOne(Shopkeeper::class,'ownerId');
+        return $this->belongsTo(Shopkeeper::class,'ownerId');
+    }
+
+    public function Area(){
+        return $this->belongsTo(Area::class,'area_id');
     }
 }

@@ -27,6 +27,7 @@
                             <th>Shop Address</th>
                             <th>Total</th>
                             <th>Date</th>
+                            <th>Order_Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -40,6 +41,7 @@
                                 <td>{{$delivery->User->Shopkeeper->ShopRegistration->address}}</td>
                                 <td>BDT.{{$delivery->total}}</td>
                                 <td>{{$delivery->created_at}}</td>
+                                <td>{{$delivery->order_status}}</td>
                                 <td class="text-center">
                                     <a  href="{{route('order.details',$delivery->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Order Details
