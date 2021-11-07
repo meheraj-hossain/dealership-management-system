@@ -9,6 +9,7 @@ use App\BeverageType;
 use App\Inventory;
 use App\Order;
 use App\OrderDetail;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,11 +37,15 @@ class OrderController extends Controller
     }
 
     public function placeOrder(Request $request){
+        $shop_id = User::with(['Shopkeeper'=>function($query){
+            $query->with(['ShopRegistration']);
+        }])->where('id',Auth::user()->id)->first();
         DB::beginTransaction();
         try {
             $order = new Order();
             $order->user_id= Auth::user()->id;
             $order->order_id=Str::random(6);
+            $order->shop_id = $shop_id->Shopkeeper->ShopRegistration->id;
             $order->save();
             $final_total = 0;
             foreach ($request->id as $product_id) {
@@ -63,6 +68,18 @@ class OrderController extends Controller
             DB::rollBack();
             dd($exception->getMessage());
         }
+    }
+
+    public function userOrderList(){
+
+        $data['deliveries']=Order::with(['User'=>function($query){
+            $query->with(['Shopkeeper'=>function($query){
+                $query->with('ShopRegistration');
+            }]);
+        }])->where('user_id',Auth::user()->id)->paginate(6);
+        $data['serial']=managePaginationSerial($data['deliveries']);
+        $data['title'] = 'Order List';
+        return view('admin.user.shopkeeper.order_list.index',$data);
     }
 }
 

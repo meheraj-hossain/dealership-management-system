@@ -18,6 +18,7 @@ Route::get('/', function () {
 //Route::get('make_order', 'OrderController@home')->name('make_order');
 Route::get('order', 'OrderController@order')->name('order');
 Route::post('place_order', 'OrderController@placeOrder')->name('place.order');
+Route::get('user_order_list','OrderController@userOrderList')->name('order.list');
 
 
 Route::get('dashboard',function (){
@@ -64,7 +65,6 @@ Route::resource('shop_registration',ShopRegistrationController::class);
 Route::resource('shopkeeper',ShopkeeperController::class);
 Route::resource('area_manager',AreaManagerController::class);
 Route::resource('employee',EmployeeController::class);
-
 
 Route::get('pending_delivery', 'DeliveryController@pendingDelivery')->name('pending.delivery');
 Route::get('pending_delivery/{id}/order_details', 'DeliveryController@orderDetails')->name('order.details');

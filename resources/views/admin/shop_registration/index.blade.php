@@ -36,7 +36,7 @@
                                 <td>{{$shop->Shopkeeper->name}}</td>
                                 <td>{{$shop->Area->name}}</td>
                                 <td>{{$shop->address}}</td>
-                                <td><img src="{{$shop->image}}" alt=""></td>
+                                <td><img src="{{$shop->image}}" alt="" style="height:100px"></td>
                                 <td class="text-center">
                                     <a  href="{{route('shop_registration.edit',$shop->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Edit

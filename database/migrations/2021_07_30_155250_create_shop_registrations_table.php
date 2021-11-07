@@ -17,9 +17,11 @@ class CreateShopRegistrationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->char('uniqueId');
-            $table->char('ownerId');
+            $table->unsignedBigInteger('ownerId');
+            $table->foreign('ownerId')->references('id')->on('shopkeepers');
             $table->text('address');
-            $table->string('area_id');
+            $table->unsignedBigInteger('area_id');
+            $table->foreign('area_id')->references('id')->on('areas');
             $table->string('image')->nullable();
             $table->timestamps();
         });

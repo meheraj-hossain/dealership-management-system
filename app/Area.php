@@ -13,4 +13,5 @@ class Area extends Model
     public function AreaManager(){
         return $this->hasOne(AreaManager::class,'area_id');
     }
+
 }

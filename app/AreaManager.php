@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AreaManager extends Model
 {
-    public function User ()
+//    public function User ()
+//    {
+//        return $this->hasOne(User::class, 'row_id')->where('action_table','area_manager');
+//    }
+
+    public function user()
     {
-        return $this->hasOne(User::class, 'row_id', 'id')->where('action_table','area_manager');
+        return $this->morphOne(User::class, 'ids');
     }
 
     public function current_user()

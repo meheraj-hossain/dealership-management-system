@@ -3,10 +3,11 @@
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Pending Orders</li>
+            <li class="breadcrumb-item active">Order List</li>
         </ol>
     </div>
 @endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -35,24 +36,24 @@
                         @foreach($deliveries as $delivery)
                             <tr>
                                 <td>{{$serial++}}</td>
-                                <td>{{$delivery->ShopRegistration->name}}</td>
-{{--                                <td>{{$delivery->order_id}}</td>--}}
-{{--                                <td>{{$delivery->User->Shopkeeper->ShopRegistration->name}}</td>--}}
-{{--                                <td>{{$delivery->User->Shopkeeper->ShopRegistration->address}}</td>--}}
-{{--                                <td>BDT.{{$delivery->total}}</td>--}}
-{{--                                <td>{{$delivery->created_at}}</td>--}}
-{{--                                <td>{{$delivery->order_status}}</td>--}}
+                                <td>{{$delivery->User->Shopkeeper->name}}</td>
+                                <td>{{$delivery->order_id}}</td>
+                                <td>{{$delivery->User->Shopkeeper->ShopRegistration->name}}</td>
+                                <td>{{$delivery->User->Shopkeeper->ShopRegistration->address}}</td>
+                                <td>BDT.{{$delivery->total}}</td>
+                                <td>{{$delivery->created_at}}</td>
+                                <td>{{$delivery->order_status}}</td>
                                 <td class="text-center">
                                     <a  href="{{route('order.details',$delivery->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Order Details
                                     </a>
-{{--                                    <form class="" action="{{route('area_manager.destroy',$delivery->id)}}" method="post" style="display:inline">--}}
-{{--                                        @csrf--}}
-{{--                                        @method('delete')--}}
-{{--                                        <button title="Delete" type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">--}}
-{{--                                            <i class="fa fa-trash"></i>Delete--}}
-{{--                                        </button>--}}
-{{--                                    </form>--}}
+                                    {{--                                    <form class="" action="{{route('area_manager.destroy',$delivery->id)}}" method="post" style="display:inline">--}}
+                                    {{--                                        @csrf--}}
+                                    {{--                                        @method('delete')--}}
+                                    {{--                                        <button title="Delete" type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">--}}
+                                    {{--                                            <i class="fa fa-trash"></i>Delete--}}
+                                    {{--                                        </button>--}}
+                                    {{--                                    </form>--}}
                                 </td>
 
                             </tr>

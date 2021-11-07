@@ -13,4 +13,7 @@ class ShopRegistration extends Model
     public function Area(){
         return $this->belongsTo(Area::class,'area_id');
     }
+    public function Order(){
+        return $this->hasMany(Order::class,'shop_id');
+    }
 }
