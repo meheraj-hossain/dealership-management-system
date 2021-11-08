@@ -8,6 +8,7 @@ use App\Delivery;
 use App\Inventory;
 use App\Order;
 use App\OrderDetail;
+use App\Shopkeeper;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,32 +17,26 @@ class DeliveryController extends Controller
 {
    public function pendingDelivery(){
        $user= User::where('id',Auth::id())->first();
-//       dd($user->ids->area_id);
        $data['title']='Customers Order';
-       $data['deliveries'] = Area::with(['ShopRegistration'=>function($query){
-           $query->with(['Order'
-//               $query->with(['User'=>function($query){
-//                   $query->with(['Shopkeeper'=>function($query){
-//                       $query->with(['ShopRegistration']);
-//                   }]);
-//               }]);=>function($query){}
-           ]);
+       $data['areas'] = Area::with(['ShopRegistration'=>function($query){
+           $query->with(['Order'=>function($query){
+               $query->where('order_status','!=','Pending');
+           },'Shopkeeper']);
        }])->where('id',$user->ids->area_id)->first();
-       dd($data['deliveries']->ShopRegistration);
+//       dd($data['deliveries']->ShopRegistration);
 
 //       $data['deliveries']=Order::with(['User'=>function($query){
 //           $query->with(['Shopkeeper'=>function($query){
 //               $query->with('ShopRegistration');
 //           }]);
 //       }])->paginate(6);
-       $data['serial']=managePaginationSerial($data['deliveries']);
+//       $data['serial']=managePaginationSerial($data['areas']);
        return view('delivery.pending_delivery',$data);
    }
 
    public function orderDetails($id){
-//       dd($id);
+      $data['user_role'] = Auth::user()->action_table;
       $data['title']='Order Details';
-//      dd($data);
       $data['orders']=Order::with(['OrderDetail'=>function($query){
           $query->with(['Inventory'=>function($query){
               $query->with(['BeverageSize','BeverageType','BeverageFlavor','SnacksFlavor']);
@@ -67,6 +62,7 @@ class DeliveryController extends Controller
        }elseif ($status->order_status == 'Shipped' ){
            $status->order_status = 'Recieved';
            $status->update();
+           return redirect()->route('order.list');
        }elseif($status->order_status == 'Recieved'){
            $status->order_status = 'Delivered';
            $status->update();

@@ -72,7 +72,7 @@
                         <a href="{{route('inventory.show',$product->id)}}" class="product__viewBtn" style="margin-left: 80px">view details</a>
                     </div>
 
-                    <a href="#" data-name="{{$product->id}}" data-product="{{$product->name}}"  data-price="{{$product->price_per_carton}}" data-flavor="{{$product->BeverageFlavor->name}}" data-size="{{$product->beverageSize->name}}"   class="add-to-cart btn btn-primary" style=" margin-bottom: 15px; margin-top:-10px; margin-left: 105px;">Add to cart</a>
+                    <a href="#" data-name="{{$product->id}}" data-product="{{$product->name}}"  data-price="{{$product->price_per_carton}}" data-flavor="{{$product->BeverageFlavor->name}}" data-size="{{$product->beverageSize->name}}" data-type="{{$product->BeverageType->name}}"  class="add-to-cart btn btn-primary" style=" margin-bottom: 15px; margin-top:-10px; margin-left: 105px;">Add to cart</a>
 
                 </div>
             @endforeach
@@ -139,12 +139,13 @@
             cart = [];
 
             // Constructor
-            function Item(name,product,flavor,size,  price, count) {
+            function Item(name,product,flavor,size,type, price, count) {
                 this.name = name;
                 this.product = product;
                 this.flavor = flavor;
                 this.price = price;
                 this.size = size;
+                this.type = type;
                 this.count = count;
             }
 
@@ -168,7 +169,7 @@
             var obj = {};
 
             // Add to cart
-            obj.addItemToCart = function(name,product, flavor,size, price, count) {
+            obj.addItemToCart = function(name,product, flavor,size,type, price, count) {
                 for(var item in cart) {
                     if(cart[item].name === name) {
                         cart[item].count ++;
@@ -176,7 +177,7 @@
                         return;
                     }
                 }
-                var item = new Item(name,product, flavor,size, price, count);
+                var item = new Item(name,product, flavor,size,type, price, count);
                 cart.push(item);
                 saveCart();
             }
@@ -279,8 +280,9 @@
             var product = $(this).data('product');
             var flavor = $(this).data('flavor');
             var size = $(this).data('size');
+            var type = $(this).data('type');
             var price = Number($(this).data('price'));
-            shoppingCart.addItemToCart(name,product, flavor, size, price, 1);
+            shoppingCart.addItemToCart(name,product, flavor, size,type, price, 1);
             displayCart();
         });
 
@@ -297,6 +299,7 @@
                 +"<td>"+"Name"+ "</td>"
                 + "<td>" +"Flavor" + "</td>"
                 + "<td>" +"Size" + "</td>"
+                + "<td>" +"Type" + "</td>"
                 + "<td>" +"Price" + "</td>"
                 + "<td>" +"Quantity" + "</td>"
                 + "<td>" +"Action" + "</td>"
@@ -309,6 +312,7 @@
                     <td id="name">${cartArray[i].product}</td>
                     <td id="flavor">${cartArray[i].flavor}</td>
                     <td id="size">${cartArray[i].size}</td>
+                    <td id="size">${cartArray[i].type}</td>
                     <td id="price">${cartArray[i].price}</td>
                     <td><div class="input-group"><button class="minus-item input-group-addon btn btn-primary" data-name="${cartArray[i].name}">-</button>
                     <input type="number" class="item-count form-control" data-name="${cartArray[i].name}" value="${cartArray[i].count }" name="quantity[${cartArray[i].name}]">

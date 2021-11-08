@@ -32,7 +32,7 @@ class OrderController extends Controller
         $data['sizes']=BeverageSize::all();
         $data['flavors']=BeverageFlavor::all();
         $data['types']=BeverageType::all();
-        $data['products'] = Inventory::with(['BeverageSize','BeverageFlavor','BeverageCategory','BeverageType','SnacksSize','SnacksFlavor','SnacksCategory','SnacksType'])->paginate(3);
+        $data['products'] = Inventory::with(['BeverageSize','BeverageFlavor','BeverageCategory','BeverageType','SnacksSize','SnacksFlavor','SnacksCategory','SnacksType'])->where('quantity','>',0)->paginate(3);
         return view('order', $data);
     }
 
