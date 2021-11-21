@@ -59,17 +59,21 @@ class AreaManagerController extends Controller
             'image'=>'required',
             'area'=>'required',
             'address'=>'required',
+            'salary'=>'required',
         ]);
-        $photo =$this->imageUpload($request->image);
+        if ($request->image) {
+            $photo=$this->imageUpload($request->image);
+        }
         $area_manager = new AreaManager();
         $area_manager-> name = $request->name;
         $area_manager-> date = $request->date;
         $area_manager-> nid = $request->nid;
         $area_manager-> email = $request->email;
         $area_manager-> phone = $request->phone;
-        $area_manager-> image = $photo;
+        $area_manager-> image = isset($photo)?$photo:null;
         $area_manager-> area_id = $request->area;
         $area_manager-> address = $request->address;
+        $area_manager-> salary = $request->salary;
         $area_manager->save();
         session()->flash('message','Area Manager Details Added Successfully');
         return redirect()->route('area_manager.create');
@@ -117,6 +121,7 @@ class AreaManagerController extends Controller
             'phone'=>'required',
             'area'=>'required',
             'address'=>'required',
+            'salary'=>'required',
         ]);
         if (isset($request->image) && $request->image != null) {
             $photo = $this->imageUpload($request->image);
@@ -134,6 +139,7 @@ class AreaManagerController extends Controller
         $areaManager-> phone = $request->phone;
         $areaManager-> area_id = $request->area;
         $areaManager-> address = $request->address;
+        $areaManager-> salary = $request->salary;
         $areaManager->update();
         session()->flash('message','Area Manager Details Updated Successfully');
         return redirect()->route('area_manager.edit',$areaManager->id);
@@ -147,6 +153,11 @@ class AreaManagerController extends Controller
      */
     public function destroy(AreaManager $areaManager)
     {
-        //
+        if ($areaManager->image && file_exists($areaManager->image)){
+            unlink($areaManager->image);
+        }
+        $areaManager->delete();
+        session()->flash('message','Area Manager Deleted Successfully');
+        return redirect()->route('area_manager.index');
     }
 }

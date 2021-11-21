@@ -23,6 +23,7 @@ class CreateAreaManagersTable extends Migration
             $table->string('image')->nullable();
             $table->integer('area_id');
             $table->text('address');
+            $table->decimal('salary');
             $table->timestamps();
         });
     }

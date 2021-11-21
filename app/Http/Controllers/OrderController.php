@@ -71,12 +71,11 @@ class OrderController extends Controller
     }
 
     public function userOrderList(){
-
         $data['deliveries']=Order::with(['User'=>function($query){
             $query->with(['Shopkeeper'=>function($query){
                 $query->with('ShopRegistration');
             }]);
-        }])->where('user_id',Auth::user()->id)->paginate(6);
+        }])->where('user_id',Auth::user()->id)->latest()->paginate(6);
         $data['serial']=managePaginationSerial($data['deliveries']);
         $data['title'] = 'Order List';
         return view('admin.user.shopkeeper.order_list.index',$data);

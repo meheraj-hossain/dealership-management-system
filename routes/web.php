@@ -66,6 +66,10 @@ Route::resource('shopkeeper',ShopkeeperController::class);
 Route::resource('area_manager',AreaManagerController::class);
 Route::resource('employee',EmployeeController::class);
 
+Route::get('salary_list','EmployeeManagementController@salaryList')->name('employee.salaryList');
+Route::post('salary_list/store','EmployeeManagementController@salaryListStore')->name('employee.salaryListStore');
+Route::get('employee_salary_list','EmployeeManagementController@employeeSalaryList')->name('employee.employeeSalaryList');
+
 Route::get('pending_delivery', 'DeliveryController@pendingDelivery')->name('pending.delivery');
 Route::get('pending_delivery/{id}/order_details', 'DeliveryController@orderDetails')->name('order.details');
 Route::get('pending_delivery/{id}/order_status', 'DeliveryController@orderStatus')->name('order.status');

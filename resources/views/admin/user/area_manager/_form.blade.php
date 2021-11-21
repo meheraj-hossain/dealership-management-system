@@ -69,7 +69,13 @@
     @enderror
 </div>
 
-
+<div class="form-group">
+    <label for="name">Area Manager Salary</label>
+    <input type="number" name="salary" value="{{old('salary',isset($area_manager)?$area_manager->salary:null)}}" class="form-control" id="salary" placeholder="Enter Amount" >
+    @error('salary')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
 
 
 

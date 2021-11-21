@@ -31,7 +31,7 @@
                     <table class="table table-bordered text-center">
                         <thead>
                         <tr>
-{{--                            <th style="width: 10px">Sl No</th>--}}
+                            <th style="width: 10px">Sl No</th>
                             <th>Order ID</th>
                             <th>Product Name</th>
                             <th>Product Type</th>
@@ -47,7 +47,7 @@
                         @foreach($orders->OrderDetail as $key=>$order_detail)
                             <tr>
                                 <td>{{++$key}}</td>
-{{--                                <td>{{$order->order_id}}</td>--}}
+                                <td>{{$orders->order_id}}</td>
                                 <td>{{$order_detail->Inventory->name}}</td>
                                 <td>{{$order_detail->Inventory->BeverageType->name}}</td>
                                 <td>{{$order_detail->Inventory->BeverageSize->name}}</td>

@@ -1,7 +1,5 @@
 @extends('layout.admin.master')
 @section('breadcrumb')
-
-
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart (<span class="total-count"></span>)</button><button class="clear-cart btn btn-danger">Clear Cart</button>
@@ -62,7 +60,7 @@
                     <div class="card " id="card" style="width: 20rem;">
                         <img class="card-img-top" src="{{asset($product->image)}}" alt="Card image cap">
                         <div class="card-block"><a href="">
-                                <h4 class="card-title col-md-12" style="font-size: 20px;font-style:italic;font-family: Times New Roman, Times, serif;">{{$product->name}}</h4></a>
+                                <h4 class="card-title col-md-12" style="text-align: center; font-size: 20px;font-style:italic;font-family: Times New Roman, Times, serif;">{{$product->name}}</h4></a>
                             {{--                    <h4 class="card-text ">{{$product->category}}</h4>--}}
                             {{--                    <h4 class="card-title ">{{$product->size}}</h4>--}}
                             <p class="card-text" style="text-align: center;    font-weight: 600">{{$product->BeverageCategory->name}}</p>
@@ -71,9 +69,7 @@
                         </div>
                         <a href="{{route('inventory.show',$product->id)}}" class="product__viewBtn" style="margin-left: 80px">view details</a>
                     </div>
-
                     <a href="#" data-name="{{$product->id}}" data-product="{{$product->name}}"  data-price="{{$product->price_per_carton}}" data-flavor="{{$product->BeverageFlavor->name}}" data-size="{{$product->beverageSize->name}}" data-type="{{$product->BeverageType->name}}"  class="add-to-cart btn btn-primary" style=" margin-bottom: 15px; margin-top:-10px; margin-left: 105px;">Add to cart</a>
-
                 </div>
             @endforeach
 

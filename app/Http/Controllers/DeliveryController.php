@@ -46,7 +46,6 @@ class DeliveryController extends Controller
    }
 
    public function orderStatus($id){
-
        $status = Order::with(['OrderDetail'])->findOrFail($id);
        if ($status->order_status == 'Pending' ){
            $status->order_status = 'Approved';

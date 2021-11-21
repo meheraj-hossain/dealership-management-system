@@ -24,7 +24,9 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Image</th>
+                            <th>Area Assigned</th>
                             <th>Address</th>
+                            <th>Salary</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -40,6 +42,7 @@
                                 <td><img src="{{$area_manager->image}}" alt="" height="100px" ></td>
                                 <td>{{$area_manager->Area->name}}</td>
                                 <td>{{$area_manager->address}}</td>
+                                <td>{{$area_manager->salary}}</td>
                                 <td class="text-center">
                                     <a  href="{{route('area_manager.edit',$area_manager->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Edit
