@@ -112,8 +112,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $user,  $id)
     {
+        $user = User::findOrFail($id);
         $user->delete();
         session()->flash('message','User deleted successfully');
         return redirect()->route('user.index');
@@ -121,13 +122,12 @@ class UserController extends Controller
 
     public function getData( Request $request)
     {
-        if ($request->userRole == 'area_manager') {
+        if ($request->userRole == 'App\AreaManager') {
             $data['user'] = AreaManager::get();
         }
-        elseif ($request->userRole == 'shopkeeper') {
+        elseif ($request->userRole == 'App\Shopkeeper') {
             $data['user'] = Shopkeeper::get();
         }
         return $data;
-
     }
 }

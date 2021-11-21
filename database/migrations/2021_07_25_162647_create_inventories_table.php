@@ -16,17 +16,18 @@ class CreateInventoriesTable extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('inventory_type',['Beverages','Snacks']);
-            $table->string('category');
+            $table->unsignedBigInteger('category_id');
             $table->string('name');
             $table->text('details');
-            $table->string('size');
+            $table->unsignedBigInteger('size_id');
             $table->string('image')->nullable();
-            $table->string('type');
-            $table->string('flavor');
+            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('flavor_id');
             $table->decimal('price_per_carton');
             $table->decimal('quantity');
             $table->decimal('total_price');
             $table->enum('status',['Active','Inactive'])->default('Active');
+
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" action="{{route('area_manager.store')}}" method="post">
+                <form role="form" action="{{route('area_manager.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
 
                     <div class="card-body">

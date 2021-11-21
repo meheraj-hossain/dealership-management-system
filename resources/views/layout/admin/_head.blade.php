@@ -6,6 +6,7 @@
 <!-- Font Awesome -->
 <link rel="stylesheet" href="{{asset('assets/admin/plugins/fontawesome-free/css/all.min.css')}}">
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <!-- Ionicons -->
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 <!-- Tempusdominus Bbootstrap 4 -->
@@ -29,4 +30,67 @@
 <!-- Google Font: Source Sans Pro -->
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+<style>
+    .show-cart li {
+        display: flex;
+    }
+    .card-img-top {
+        width: 200px;
+        height: 200px;
+        align-self: center;
+    }
+</style>
 
+<style>
+    #container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #edf7f6;
+    }
+    #card {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        transition: all 250ms ease-in-out;
+    }
+    #card:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        display: block;
+        height: 100%;
+        width: 100%;
+        background-color: #3e363f;
+        opacity: 0;
+        transition: all 500ms ease-in-out;
+    }
+    #card:hover:after {
+        opacity: 0.5;
+    }
+    #card:hover > .product__viewBtn {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
+    }
+    .product__viewBtn {
+        cursor: pointer;
+        position: absolute;
+        bottom: 10%;
+        background: #212527;
+        color: #edf7f6;
+        padding: 10px 20px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 250ms ease-in-out;
+    }
+    .product__viewBtn:hover {
+        color: #212527;
+        background: #edf7f6;
+    }
+
+
+</style>

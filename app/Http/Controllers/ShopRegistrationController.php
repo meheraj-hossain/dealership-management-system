@@ -17,7 +17,7 @@ class ShopRegistrationController extends Controller
     public function index()
     {
         $data['title']='Shop List';
-        $data['shops']=ShopRegistration::paginate(2);
+        $data['shops']=ShopRegistration::with(['Area','Shopkeeper'])->paginate(2);
         $data['serial']=managePaginationSerial($data['shops']);
         return view('admin.shop_registration.index',$data);
     }
@@ -35,6 +35,14 @@ class ShopRegistrationController extends Controller
        return view('admin.shop_registration.create',$data);
     }
 
+    private function imageUpload($img)
+    {
+        $path      = 'assets/admin/assets/img/shop';
+        $file_name = time() . rand('00000', '99999') . '.' . $img->getClientOriginalExtension();
+        $img->move($path, $file_name);
+        $fullpath = $path . '/' . $file_name;
+        return $fullpath;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -44,24 +52,22 @@ class ShopRegistrationController extends Controller
     public function store(Request $request)
     {
 
-$request->validate([
-    'name'=>'required',
-    'uniqueId'=>'required',
-    'ownerId'=>'required',
-    'area'=>'required',
-    'address'=>'required',
+        $request->validate([
+            'name'=>'required',
+            'uniqueId'=>'required',
+            'ownerId'=>'required',
+            'area'=>'required',
+            'address'=>'required',
 
 
-]);
+        ]);
 
-        if ($request->image) {
-            $photo=$this->fileupload($request->image);
-        }
+        $photo =$this->imageUpload($request->image);
         $shopRegistration= New ShopRegistration();
         $shopRegistration-> name = $request-> name;
         $shopRegistration-> uniqueId = $request-> uniqueId;
         $shopRegistration-> ownerId = $request-> ownerId;
-        $shopRegistration-> area = $request-> area;
+        $shopRegistration-> area_id = $request-> area;
         $shopRegistration-> address = $request->address;
         $shopRegistration-> image = isset($photo)?$photo:null;
         $shopRegistration->save();
@@ -96,13 +102,6 @@ $request->validate([
         return view('admin.shop_registration.edit',$data);
     }
 
-    private function fileupload($img){
-
-        $path = 'images/shop';
-        $img->move($path, $img->getClientOriginalName());
-        $fullpath = $path . '/' . $img->getClientOriginalName();
-        return $fullpath;
-    }
 
     /**
      * Update the specified resource in storage.
@@ -121,19 +120,21 @@ $request->validate([
             'address'=>'required',
 
         ]);
-        if ($request->image) {
-            $photo=$this->fileupload($request->image);
-
+        if (isset($request->image) && $request->image != null) {
+            $photo = $this->imageUpload($request->image);
+            if ($shopRegistration->image && file_exists($shopRegistration->image)) {
+                unlink($shopRegistration->image);
+            }
+        } else {
+            $photo = $shopRegistration->image;
         }
+        $shopRegistration->image=$photo;
         $shopRegistration-> name = $request-> name;
         $shopRegistration-> uniqueId = $request-> uniqueId;
         $shopRegistration-> ownerId = $request-> ownerId;
-        $shopRegistration-> area = $request-> area;
+        $shopRegistration-> area_id = $request-> area;
         $shopRegistration-> address = $request->address;
-        if ( file_exists($shopRegistration->image)){
-            unlink($shopRegistration->image);
-        }
-        $shopRegistration-> image = isset($photo)?$photo:null;
+
         $shopRegistration->update();
         session()->flash('message','New Shop Registered');
         return redirect()-> route('shop_registration.edit',$shopRegistration->id);
@@ -147,6 +148,9 @@ $request->validate([
      */
     public function destroy(ShopRegistration $shopRegistration)
     {
+        if ($shopRegistration->image && file_exists($shopRegistration->image)){
+            unlink($shopRegistration->image);
+        }
         $shopRegistration->delete();
         session()->flash('message','Shop Details Deleted Successfully');
         return redirect()->route('shop_registration.index');

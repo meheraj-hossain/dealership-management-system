@@ -32,7 +32,7 @@
 
 <div class="form-group">
     <label for="name">Area Manager Phone Number</label>
-    <input type="number" name="phone" value="{{old('phone',isset($area_manager)?$area_manager->phone:null)}}" class="form-control" id="phone" placeholder="Enter NID number" >
+    <input type="number" name="phone" value="{{old('phone',isset($area_manager)?$area_manager->phone:null)}}" class="form-control" id="phone" placeholder="Enter Phone number" >
     @error('phone')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
@@ -47,6 +47,21 @@
 </div>
 
 <div class="form-group">
+    <label for="name">Area</label>
+    <div class="form-group">
+        <select class="form-control select2  " name="area">
+            <option value="">Select Area</option>
+            @foreach($areas as $area)
+                <option @if(old('area',isset($area_manager)?$area_manager->area_id:null)==$area->id) selected @endif value="{{$area->id}}">{{$area->name}}</option>
+            @endforeach
+        </select>
+        @error('area')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+
+<div class="form-group">
     <label>Area Manager Address</label>
     <textarea class="form-control" style="resize:none" name="address"  rows="3" placeholder="Enter ...">{{old('address',isset($area_manager)?$area_manager->address:null)}}</textarea>
     @error('address')
@@ -54,7 +69,13 @@
     @enderror
 </div>
 
-
+<div class="form-group">
+    <label for="name">Area Manager Salary</label>
+    <input type="number" name="salary" value="{{old('salary',isset($area_manager)?$area_manager->salary:null)}}" class="form-control" id="salary" placeholder="Enter Amount" >
+    @error('salary')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
 
 
 

@@ -38,13 +38,13 @@
                             <tr>
                                 <td>{{$serial++}}</td>
                                 <td>{{$inventory->inventory_type}}</td>
-                                <td>{{$inventory->category}}</td>
+                                <td>{{$inventory->BeverageCategory->name}}</td>
                                 <td>{{$inventory->name}}</td>
                                 <td>{{$inventory->details}}</td>
-                                <td>{{$inventory->size}}</td>
-                                <td>{{$inventory->image}}</td>
-                                <td>{{$inventory->type}}</td>
-                                <td>{{$inventory->flavor}}</td>
+                                <td>{{$inventory->BeverageSize->name}}</td>
+                                <td><img src="{{asset($inventory->image)}}" alt="image" style="height: 120px;width:100px"></td>
+                                <td>{{$inventory->BeverageType->name}}</td>
+                                <td>{{$inventory->BeverageFlavor->name}}</td>
                                 <td>{{$inventory->price_per_carton}}</td>
                                 <td>{{$inventory->quantity}}</td>
                                 <td>{{$inventory->total_price}}</td>

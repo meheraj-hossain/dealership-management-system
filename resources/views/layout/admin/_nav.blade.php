@@ -31,17 +31,17 @@
                         </p>
                     </a>
                 </li>
-                   @if(Auth::user())
-                <li class="nav-item ">
-                    <a href="{{route('make_order')}}" class="nav-link active">
+{{--                   @if(Auth::user())--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a href="{{route('make_order')}}" class="nav-link active">--}}
 
-                        <p>
-                            Make Order
-                        </p>
-                    </a>
-                </li>
+{{--                        <p>--}}
+{{--                            Make Order--}}
+{{--                        </p>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
-                @endif
+{{--                @endif--}}
 {{--                <li class="nav-item has-treeview">--}}
 {{--                    <a href="#" class="nav-link">--}}
 {{--                        <i class="nav-icon fas fa-user"></i>--}}
@@ -214,7 +214,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-exchange-alt"></i>
                         <p>
-                            Stock
+                            Employee Management
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -224,15 +224,15 @@
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
-                                    Fuel
+                                    Salary
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('employee.salaryList')}}" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Dashboard</p>
+                                        <p>Salary List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -241,12 +241,12 @@
                                         <p>Purchased</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Supplied</p>
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a href="#" class="nav-link">--}}
+{{--                                        <i class="far fa-dot-circle nav-icon"></i>--}}
+{{--                                        <p>Supplied</p>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
@@ -319,6 +319,13 @@
                                         <p>Flavor</p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('beverage_type.index')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>Type</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
@@ -346,6 +353,13 @@
                                     <a href="{{route('snacks_flavor.index')}}" class="nav-link">
                                         <i class="fa fa-angle-double-right nav-icon"></i>
                                         <p>Flavor</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('snacks_type.index')}}" class="nav-link">
+                                        <i class="fa fa-angle-double-right nav-icon"></i>
+                                        <p>Type</p>
                                     </a>
                                 </li>
                             </ul>

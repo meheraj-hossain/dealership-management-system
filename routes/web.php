@@ -15,7 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('make_order', 'OrderController@home')->name('make_order');
+//Route::get('make_order', 'OrderController@home')->name('make_order');
+Route::get('order', 'OrderController@order')->name('order');
+Route::post('place_order', 'OrderController@placeOrder')->name('place.order');
+Route::get('user_order_list','OrderController@userOrderList')->name('order.list');
 
 
 Route::get('dashboard',function (){
@@ -42,6 +45,8 @@ Route::resource('snacks_size',SnacksSizeController::class);
 Route::resource('beverage_flavor',BeverageFlavorController::class);
 Route::resource('snacks_flavor',SnacksFlavorController::class);
 Route::resource('stock',StockController::class);
+Route::resource('beverage_type',BeverageTypeController::class);
+Route::resource('snacks_type',SnacksTypeController::class);
 //Route::post('stock/store/{id}','StockController@store')->name('stock.store');
 
 
@@ -52,13 +57,21 @@ Route::get('inventory/{type}/{id}/edit','InventoryController@edit')->name('inven
 Route::get('inventory/{id}/show','InventoryController@show')->name('inventory.show');
 Route::put('inventory/{id}/update','InventoryController@update')->name('inventory.update');
 Route::delete('inventory/{id}/delete','InventoryController@destroy')->name('inventory.destroy');
-Route::post('add_to_cart','InventoryController@AddToCart')->name('add_to_cart');
-Route::get('cart_list','InventoryController@cartList')->name('cart_list');
-Route::get('remove_cart/{id}','InventoryController@cartRemove')->name('remove_cart');
+//Route::post('add_to_cart','InventoryController@AddToCart')->name('add_to_cart');
+//Route::get('cart_list','InventoryController@cartList')->name('cart_list');
+//Route::get('remove_cart/{id}','InventoryController@cartRemove')->name('remove_cart');
 Route::resource('area',AreaController::class);
 Route::resource('shop_registration',ShopRegistrationController::class);
 Route::resource('shopkeeper',ShopkeeperController::class);
 Route::resource('area_manager',AreaManagerController::class);
+Route::resource('employee',EmployeeController::class);
 
+Route::get('salary_list','EmployeeManagementController@salaryList')->name('employee.salaryList');
+Route::post('salary_list/store','EmployeeManagementController@salaryListStore')->name('employee.salaryListStore');
+Route::get('employee_salary_list','EmployeeManagementController@employeeSalaryList')->name('employee.employeeSalaryList');
+
+Route::get('pending_delivery', 'DeliveryController@pendingDelivery')->name('pending.delivery');
+Route::get('pending_delivery/{id}/order_details', 'DeliveryController@orderDetails')->name('order.details');
+Route::get('pending_delivery/{id}/order_status', 'DeliveryController@orderStatus')->name('order.status');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

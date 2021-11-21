@@ -25,9 +25,8 @@
     <div class="form-group">
         <select class="form-control select2 user" id="user" name="action_table">
             <option value="">Select User Role</option>
-            <option value="admin">Admin</option>
-            <option value="area_manager">Area Manager</option>
-            <option value="shopkeeper">Shopkeeper</option>
+            <option value="App\AreaManager">Area Manager</option>
+            <option value="App\Shopkeeper">Shopkeeper</option>
         </select>
     </div>
     @error('user_role')

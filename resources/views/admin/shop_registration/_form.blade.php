@@ -21,7 +21,7 @@
         <select class="form-control select2" name="ownerId">
             <option>Select Owner ID</option>
             @foreach($shopkeepers as $shopkeeper)
-                <option @if(old('ownerId',isset($shop)?$shop->ownerId:null)==$shopkeeper->id) selected @endif value="{{$shopkeeper->id}}">{{$shopkeeper->id}}</option>
+                <option @if(old('ownerId',isset($shop)?$shop->ownerId:null)==$shopkeeper->id) selected @endif value="{{$shopkeeper->id}}">{{$shopkeeper->name}}</option>
             @endforeach
         </select>
     </div>
@@ -38,7 +38,7 @@
         <select class="form-control select2  " name="area">
             <option value="">Select Area</option>
             @foreach($areas as $area)
-                <option @if(old('area',isset($shop)?$shop->area:null)==$area->name) selected @endif value="{{$area->name}}">{{$area->name}}</option>
+                <option @if(old('area',isset($shop)?$shop->area_id:null)==$area->id) selected @endif value="{{$area->id}}">{{$area->name}}</option>
             @endforeach
         </select>
         @error('area')
