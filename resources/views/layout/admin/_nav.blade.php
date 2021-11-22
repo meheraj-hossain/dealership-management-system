@@ -31,6 +31,16 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item ">
+                    <a href="{{route('user.portal')}}" class="nav-link ">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Portal
+                        </p>
+                    </a>
+                </li>
+
 {{--                   @if(Auth::user())--}}
 {{--                <li class="nav-item ">--}}
 {{--                    <a href="{{route('make_order')}}" class="nav-link active">--}}

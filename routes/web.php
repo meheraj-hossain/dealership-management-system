@@ -38,6 +38,7 @@ Route::get('user/{id}/edit','UserController@edit')->name('user.edit');
 Route::put('user/{id}/update','UserController@update')->name('user.update');
 Route::delete('user/{id}/delete','UserController@destroy')->name('user.destroy');
 Route::get('user/getdata','UserController@getData')->name('user.getdata');
+Route::get('user/portal','UserController@userPortal')->name('user.portal');
 Route::resource('beverage_category',BeverageCategoryController::class);
 Route::resource('beverage_size',BeverageSizeController::class);
 Route::resource('snacks_category',SnacksCategoryController::class);
@@ -48,7 +49,6 @@ Route::resource('stock',StockController::class);
 Route::resource('beverage_type',BeverageTypeController::class);
 Route::resource('snacks_type',SnacksTypeController::class);
 //Route::post('stock/store/{id}','StockController@store')->name('stock.store');
-
 
 Route::get('inventory/{category}/create','InventoryController@create')->name('inventory.create');
 Route::post('inventory/store','InventoryController@store')->name('inventory.store');

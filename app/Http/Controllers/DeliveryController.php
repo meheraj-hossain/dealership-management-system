@@ -45,7 +45,7 @@ class DeliveryController extends Controller
       return view('delivery.order_details',$data);
    }
 
-   public function orderStatus($id){
+   public function orderStatus(Request $request, $id){
        $status = Order::with(['OrderDetail'])->findOrFail($id);
        if ($status->order_status == 'Pending' ){
            $status->order_status = 'Approved';
@@ -60,6 +60,7 @@ class DeliveryController extends Controller
            $status->update();
        }elseif ($status->order_status == 'Shipped' ){
            $status->order_status = 'Recieved';
+           $status->received_date = $request->received_date;
            $status->update();
            return redirect()->route('order.list');
        }elseif($status->order_status == 'Recieved'){

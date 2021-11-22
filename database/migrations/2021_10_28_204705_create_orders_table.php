@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('shop_id');
             $table->foreign('shop_id')->references('id')->on('shop_registrations');
             $table->string('order_status')->default('Pending');
+            $table->date('received_date')->nullable();
             $table->decimal('total')->nullable();
             $table->timestamps();
         });

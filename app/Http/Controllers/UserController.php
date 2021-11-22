@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\AreaManager;
+use App\EmployeeManagement;
+use App\Order;
 use App\Shopkeeper;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use function foo\func;
 
 class UserController extends Controller
 {
@@ -129,5 +132,22 @@ class UserController extends Controller
             $data['user'] = Shopkeeper::get();
         }
         return $data;
+    }
+
+    public function userPortal(){
+        $data['title'] = 'Portal';
+        $employe_id = User::where('id',auth()->id())->first();
+
+        $data['user'] = User::with(['AreaManager'=>function($query){
+            $query->with(['Area']);
+        },'Shopkeeper'=>function($query){
+            $query->with(['ShopRegistration']);
+        }])->where('id',auth()->id())->first();
+
+        $data['salary_status'] = EmployeeManagement::where('employee_id',$employe_id->row_id)->latest()->first();
+
+        $data['due'] = Order::where('user_id',auth()->id())->sum('total');
+        return view('admin.user.portal',$data);
+
     }
 }
