@@ -3,13 +3,11 @@
 @endsection
 @section('content')
     @if($user->action_table=='App\Shopkeeper')
-
     <div class="row">
         <div class="col-md-3">
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
-
                         <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle" src="{{asset($user->Shopkeeper->image)}}" alt="User profile picture">
                         </div>
@@ -67,7 +65,7 @@
             <!-- /.card -->
         </div>
         <!-- /.col -->
-        <div class="col-md-6">
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
@@ -77,17 +75,22 @@
                     </ul>
                 </div><!-- /.card-header -->
                 <div class="card-body">
+                    @error('amount')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <div class="tab-content">
                         <div class="active tab-pane" id="activity">
                             <table class="table table-bordered text-center">
                                 <thead>
                                 <tr>
+                                    <th>TOTAL ORDERED</th>
+                                    <th>PAID AMOUNT</th>
                                     <th>DUE</th>
-                                    <th>PAID</th>
-                                    <th>TOTAL</th>
                                 </tr>
                                 </thead>
-                                <td>{{$due}}</td>
+                                <td><b>{{$due}}/-</b></td>
+                                <td><b>{{$paid}}/-</b></td>
+                                <td><b>{{$due-$paid}}/-</b></td>
                                 <tbody>
                                 </tbody>
                             </table>
@@ -102,6 +105,7 @@
             </div>
             <!-- /.card -->
                 <div class="modal fade" id="modal-info">
+                    <form action="{{route('user.payment')}}" method="get">
                     <div class="modal-dialog">
                         <div class="modal-content bg-info">
                             <div class="modal-header">
@@ -111,23 +115,21 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Total Due :</p>
+                                <p>Total Due : BDT. {{$due-$paid}}/-</p>
                                 <div class="form-group">
                                     <label for="name">Amount</label>
-                                    <input type="number" name="amount" value="" class="form-control" id="amount" placeholder="Enter Amount you want to pay" >
-                                    @error('amount')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+                                    <input type="number" max="{{$due-$paid}}" name="amount" value="" class="form-control" id="amount" placeholder="Enter Amount you want to pay" >
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-outline-light">Pay</button>
+                                <button type="submit" class="btn btn-outline-light" onclick="myFunction()">Pay</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
                     </div>
                     <!-- /.modal-dialog -->
+                    </form>
                 </div>
         </div>
         <!-- /.col -->
@@ -243,4 +245,11 @@
                 </div>
     @endif
 @endsection
+@push('js')
+                    <script>
+                        function myFunction() {
+                            alert("Click OK to proceed the payment ");
+                        }
+                    </script>
+@endpush
 

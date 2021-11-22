@@ -5,6 +5,7 @@ use App\AreaManager;
 use App\EmployeeManagement;
 use App\Order;
 use App\Shopkeeper;
+use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -146,7 +147,8 @@ class UserController extends Controller
 
         $data['salary_status'] = EmployeeManagement::where('employee_id',$employe_id->row_id)->latest()->first();
 
-        $data['due'] = Order::where('user_id',auth()->id())->sum('total');
+        $data['due'] = Order::where('user_id',auth()->id())->where('order_status','Approved')->sum('total');
+        $data['paid'] = Transaction::where('user_id',auth()->id())->sum('paid_amount');
         return view('admin.user.portal',$data);
 
     }

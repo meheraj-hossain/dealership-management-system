@@ -39,6 +39,12 @@ Route::put('user/{id}/update','UserController@update')->name('user.update');
 Route::delete('user/{id}/delete','UserController@destroy')->name('user.destroy');
 Route::get('user/getdata','UserController@getData')->name('user.getdata');
 Route::get('user/portal','UserController@userPortal')->name('user.portal');
+Route::get('payment','userPaymentController@index')->name('user.payment');
+Route::post('payment/success','userPaymentController@success')->name('user.payment.success');
+Route::post('payment/fail','userPaymentController@fail')->name('user.payment.fail');
+Route::post('payment/cancel','userPaymentController@cancel')->name('user.payment.cancel');
+
+
 Route::resource('beverage_category',BeverageCategoryController::class);
 Route::resource('beverage_size',BeverageSizeController::class);
 Route::resource('snacks_category',SnacksCategoryController::class);
