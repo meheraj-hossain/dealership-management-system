@@ -45,9 +45,18 @@ class DeliveryController extends Controller
       return view('delivery.order_details',$data);
    }
 
-   public function orderStatus($id){
+   public function orderStatus(Request $request, $id){
+
+       $user_role = Auth::user()->action_table;
        $status = Order::with(['OrderDetail'])->findOrFail($id);
-       if ($status->order_status == 'Pending' ){
+
+       if($status->order_status == 'Pending' && $user_role == 'App\Shopkeeper'){
+           $status->order_status = 'Canceled';
+           $status->update();
+           session()->flash('message','Order Canceled Successfully');
+           return redirect()->back();
+       }
+       elseif ($status->order_status == 'Pending' ){
            $status->order_status = 'Approved';
            foreach ($status->OrderDetail as $order_detail){
                $inventory=Inventory::where('id', $order_detail->product_id)->first();
@@ -55,17 +64,25 @@ class DeliveryController extends Controller
                $inventory->save();
            }
            $status->update();
-       }elseif ($status->order_status == 'Approved' ){
+       }
+
+       elseif ($status->order_status == 'Approved' ){
            $status->order_status = 'Shipped';
            $status->update();
-       }elseif ($status->order_status == 'Shipped' ){
+       }
+
+       elseif ($status->order_status == 'Shipped' ){
            $status->order_status = 'Recieved';
+           $status->received_date = $request->received_date;
            $status->update();
            return redirect()->route('order.list');
-       }elseif($status->order_status == 'Recieved'){
+       }
+
+       elseif($status->order_status == 'Recieved'){
            $status->order_status = 'Delivered';
            $status->update();
        }
+       session()->flash('message','Order Status is changed Successfully');
        return redirect()->route('pending.delivery');
    }
 }

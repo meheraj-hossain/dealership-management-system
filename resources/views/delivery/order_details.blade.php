@@ -8,7 +8,7 @@
         </ol>
     </div>
 @endsection
-
+{{--<a href="" class="btn btn-info" > <i class="fa fa-user-edit"></i> Received Order?</a>--}}
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -18,11 +18,20 @@
                     <h3 class="card-title">{{$title}}</h3>
                     @if($orders->order_status=='Pending' && $user_role =='App\Admin')
                         <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-primary" > <i class="fa fa-user-edit"></i> Approve Order?</a></h3>
+
+                        @elseif($orders->order_status=='Pending' && $user_role =='App\Shopkeeper')
+                            <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-warning" > <i class="fa fa-user-edit"></i> Cancel Order?</a></h3>
+
                     @elseif($orders->order_status=='Approved' && $user_role == 'App\AreaManager')
                         <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-secondary" > <i class="fa fa-user-edit"></i> Shipped Order?</a></h3>
                     @elseif($orders->order_status=='Shipped' && $user_role == 'App\Shopkeeper')
-                        <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-info" > <i class="fa fa-user-edit"></i> Received Order?</a></h3>
-                    @elseif($orders->order_status=='Recieved' && $user_role == 'App\Admin')
+                        <h3 class="card-title" style="float: right">
+                            <form action="{{route('order.status',$orders->id)}}" method="GET">
+                                @csrf
+                                <input type="hidden" name="received_date" value="{{date('Y-m-d')}}">
+                                <button class="btn btn-info"><i class="fa fa-user-edit"></i>Received Order?</button>
+                            </form></h3>
+                    @elseif($orders->order_status=='Received' && $user_role == 'App\Admin')
                         <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-success" > <i class="fa fa-user-edit"></i> Delivered Ordered?</a></h3>
                     @endif
                 </div>
@@ -52,7 +61,7 @@
                                 <td>{{$order_detail->Inventory->BeverageType->name}}</td>
                                 <td>{{$order_detail->Inventory->BeverageSize->name}}</td>
                                 <td>{{$order_detail->Inventory->BeverageFlavor->name}}</td>
-                                <td>{{$order_detail->Inventory->quantity}}</td>
+                                <td>{{$order_detail->Inventory->price_per_carton}}</td>
                                 <td>{{$order_detail->quantity}}</td>
                                 <td>BDT.{{$order_detail->total}}</td>
 {{--                                <td class="text-center">--}}
@@ -87,9 +96,7 @@
                 <!-- Pagination ends -->
             </div>
             <!-- /.card -->
-
         </div>
         <!-- /.col -->
-
     </div>
 @endsection

@@ -9,7 +9,7 @@
 <div class="form-group">
     <label for="name">Shopkeeper Date of Birth</label>
     <input type="date" name="date" value="{{old('date',isset($shopkeeper)?$shopkeeper->date:null)}}" class="form-control" id="date" placeholder="Enter Shop ID" >
-    @error('uniqueId')
+    @error('date')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
