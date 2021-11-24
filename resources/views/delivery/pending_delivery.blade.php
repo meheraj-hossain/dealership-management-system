@@ -32,6 +32,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if($user->action_table=='App\AreaManager')
                         @foreach($areas->ShopRegistration as $shopRegistration)
                             @foreach($shopRegistration->Order as $key=>$order)
                             <tr>
@@ -51,6 +52,25 @@
                             </tr>
                             @endforeach
                         @endforeach
+                        @elseif($user->action_table=='App\Admin')
+                            @foreach($deliveries as $key=>$delivery)
+                                <tr>
+                                    <td>{{++$key}}</td>
+                                    <td>{{$delivery->User->Shopkeeper->name}}</td>
+                                    <td>{{$delivery->order_id}}</td>
+                                    <td>{{$delivery->User->Shopkeeper->ShopRegistration->name}}</td>
+                                    <td>{{$delivery->User->Shopkeeper->ShopRegistration->address}}</td>
+                                    <td>BDT.{{$delivery->total}}</td>
+                                    <td>{{$delivery->created_at}}</td>
+                                    <td>{{$delivery->order_status}}</td>
+                                    <td class="text-center">
+                                        <a  href="{{route('order.details',$delivery->id)}}" class="btn btn-info btn-sm">
+                                            <i class="fa fa-edit"></i>Order Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>

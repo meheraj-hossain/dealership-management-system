@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,22 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+
+    protected function redirectTO(){
+        if(Auth::user()->action_table == 'App\Admin'){
+            return 'dashboard';
+        }elseif (Auth::user()->action_table == 'App\AreaManager' ){
+            return '/user/portal';
+        }elseif (Auth::user()->action_table == 'App\Shopkeeper'){
+            return '/user/portal';
+        }
+        else{
+            return '/home';
+        }
+    }
+
+
+//    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
