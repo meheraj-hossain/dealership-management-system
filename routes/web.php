@@ -66,6 +66,11 @@ Route::group(['middleware'=>['auth','ShopkeeperMiddleware']],function (){
     Route::get('pending_delivery/{id}/order_status', 'DeliveryController@orderStatus')->name('order.status');
     Route::get('pending_delivery/{id}/order_details', 'DeliveryController@orderDetails')->name('order.details');
     Route::get('inventory/{id}/show','InventoryController@show')->name('inventory.show');
+    Route::get('user/portal','UserController@userPortal')->name('user.portal');
+    Route::get('payment','userPaymentController@index')->name('user.payment');
+    Route::post('payment/success','userPaymentController@success')->name('user.payment.success');
+    Route::post('payment/fail','userPaymentController@fail')->name('user.payment.fail');
+    Route::post('payment/cancel','userPaymentController@cancel')->name('user.payment.cancel');
 });
 Route::group(['middleware'=>['auth','ShopkeeperMiddleware','AreaManagerMiddleware']],function (){
     Route::get('user/portal','UserController@userPortal')->name('user.portal');
