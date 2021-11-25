@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="name">Name</label>
+    <label for="name">Username</label>
     <input type="text" name="name" value="{{old('name',isset($user)?$user->name:null)}}" class="form-control" id="name" placeholder="Enter User name" >
     @error('name')
     <div class="alert alert-danger">{{ $message }}</div>

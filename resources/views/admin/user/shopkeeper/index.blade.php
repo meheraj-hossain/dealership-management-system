@@ -37,7 +37,7 @@
                                 <td>{{$shopkeeper->nid}}</td>
                                 <td>{{$shopkeeper->email}}</td>
                                 <td>{{$shopkeeper->phone}}</td>
-                                <td>{{$shopkeeper->image}}</td>
+                                <td><img src="{{asset($shopkeeper->image)}}" style="height: 120px;width: 110px" alt=""></td>
                                 <td>{{$shopkeeper->address}}</td>
                                 <td class="text-center">
                                     <a  href="{{route('shopkeeper.edit',$shopkeeper->id)}}" class="btn btn-info btn-sm">

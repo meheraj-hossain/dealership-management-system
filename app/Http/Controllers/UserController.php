@@ -46,7 +46,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required',
+            'name'=>'required|unique:users',
             'email'=>'required|unique:users',
             'action_table'=>'required',
             'password'=>'required|min:8',
@@ -147,7 +147,7 @@ class UserController extends Controller
 
         $data['salary_status'] = EmployeeManagement::where('employee_id',$employe_id->row_id)->latest()->first();
 
-        $data['due'] = Order::where('user_id',auth()->id())->where('order_status','Approved')->sum('total');
+        $data['due'] = Order::where('user_id',auth()->id())->where('order_status','!=','Approved')->sum('total');
         $data['paid'] = Transaction::where('user_id',auth()->id())->sum('paid_amount');
         return view('admin.user.portal',$data);
 

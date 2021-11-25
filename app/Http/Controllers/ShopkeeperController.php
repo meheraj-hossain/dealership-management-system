@@ -31,6 +31,15 @@ class ShopkeeperController extends Controller
         return view('admin.user.shopkeeper.create',$data);
     }
 
+    private function imageUpload($img)
+    {
+        $path      = 'assets/admin/assets/img/shopkeeper';
+        $file_name = time() . rand('00000', '99999') . '.' . $img->getClientOriginalExtension();
+        $img->move($path, $file_name);
+        $fullpath = $path . '/' . $file_name;
+        return $fullpath;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -48,13 +57,16 @@ class ShopkeeperController extends Controller
             'image'=>'required',
             'address'=>'required',
         ]);
+        if ($request->image) {
+            $photo=$this->imageUpload($request->image);
+        }
         $shopkeeper = new Shopkeeper();
         $shopkeeper-> name = $request->name;
         $shopkeeper-> date = $request->date;
         $shopkeeper-> nid = $request->nid;
         $shopkeeper-> email = $request->email;
         $shopkeeper-> phone = $request->phone;
-        $shopkeeper-> image = $request->image;
+        $shopkeeper-> image = isset($photo)?$photo:null;
         $shopkeeper-> address = $request->address;
         $shopkeeper->save();
         session()->flash('message','Shopkeeper Details Added Successfully');
@@ -102,12 +114,20 @@ class ShopkeeperController extends Controller
             'phone'=>'required',
             'address'=>'required',
         ]);
+        if (isset($request->image) && $request->image != null) {
+            $photo = $this->imageUpload($request->image);
+            if ($shopkeeper->image && file_exists($shopkeeper->image)) {
+                unlink($shopkeeper->image);
+            }
+        } else {
+            $photo = $shopkeeper->image;
+        }
+
         $shopkeeper-> name = $request->name;
         $shopkeeper-> date = $request->date;
         $shopkeeper-> nid = $request->nid;
         $shopkeeper-> email = $request->email;
         $shopkeeper-> phone = $request->phone;
-        $shopkeeper-> image = $request->image;
         $shopkeeper-> address = $request->address;
         $shopkeeper->update();
         session()->flash('message','Shopkeeper Details Updated Successfully');
@@ -122,6 +142,9 @@ class ShopkeeperController extends Controller
      */
     public function destroy(Shopkeeper $shopkeeper)
     {
+        if ($shopkeeper->image && file_exists($shopkeeper->image)){
+            unlink($shopkeeper->image);
+        }
         $shopkeeper->delete();
         session()->flash('message','Shopkeeper Details deleted Successfully');
         return redirect()->route('shopkeeper.index');

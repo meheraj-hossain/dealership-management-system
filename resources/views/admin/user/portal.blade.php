@@ -243,6 +243,92 @@
                     </div>
                     <!-- /.col -->
                 </div>
+
+                @elseif($user->action_table=='App\Admin')
+                    <div class="row">
+                        <div class="col-md-3">
+                            <!-- Profile Image -->
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <div class="text-center">
+                                        <img class="profile-user-img img-fluid img-circle" src="{{asset('assets/admin/dist/img/user2-160x160.jpg')}}" alt="User profile picture">
+                                    </div>
+                                    <h3 class="profile-username text-center">{{$user->name}}</h3>
+                                    <p class="text-muted text-center">Admin</p>
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                            <b>E-mail</b> <a class="float-right">{{$user->email}}</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Password</b> <a class="float-right">********</a>
+                                        </li>
+                                    </ul>
+                                    <a href="" class="btn btn-primary btn-block"><b>Update Profile</b></a>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+
+                            <!-- About Me Box -->
+
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-header p-2">
+                                    <ul class="nav nav-pills">
+                                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Reports</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                                        {{--                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>--}}
+                                    </ul>
+                                </div><!-- /.card-header -->
+                                <div class="card-body">
+                                    @error('amount')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                    <div class="tab-content">
+                                        <div class="active tab-pane" id="activity">
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="timeline">
+
+                                        </div>
+                                        <!-- /.tab-content -->
+                                    </div><!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                                <div class="modal fade" id="modal-info">
+                                    <form action="{{route('user.payment')}}" method="get">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content bg-info">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Info Modal</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Total Due : BDT. {{$due-$paid}}/-</p>
+                                                    <div class="form-group">
+                                                        <label for="name">Amount</label>
+                                                        <input type="number" max="{{$due-$paid}}" name="amount" value="" class="form-control" id="amount" placeholder="Enter Amount you want to pay" >
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-outline-light" onclick="myFunction()">Pay</button>
+                                                </div>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
     @endif
 @endsection
 @push('js')
