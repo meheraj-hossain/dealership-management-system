@@ -18,8 +18,9 @@ class CreateEmployeeManagementTable extends Migration
             $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('area_managers');
             $table->string('month');
-            $table->decimal('salary');
+            $table->decimal('salary')->nullable();
             $table->decimal('bonus')->nullable();
+            $table->decimal('commission')->nullable();
             $table->enum('is_approved',['Yes','No'])->default('No');
             $table->enum('is_paid',['Yes','No'])->default('No');
             $table->date('payment_date')->nullable();
