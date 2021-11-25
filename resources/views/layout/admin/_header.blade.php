@@ -33,7 +33,7 @@
                 <i class="fas fa-th-large"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">Admin</span>
+                <span class="dropdown-item dropdown-header">{{Auth::user()->action_table}}</span>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class=""></i> Logout

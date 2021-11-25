@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class ShopkeeperMiddleware
 {
@@ -15,6 +16,9 @@ class ShopkeeperMiddleware
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(Auth::user()->action_table == 'App\Shopkeeper'){
+            return $next($request);
+        }
+        abort(403);
     }
 }

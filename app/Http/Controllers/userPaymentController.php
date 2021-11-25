@@ -73,7 +73,6 @@ class userPaymentController extends Controller
     }
 
     public function success(Request $request){
-        dump($request->all());
         $transaction = new Transaction();
         $transaction->user_id = $request->value_a;
         $transaction->transaction_id = $request->tran_id;

@@ -65,6 +65,9 @@ class Kernel extends HttpKernel
         'AdminMiddleware'=>\App\Http\Middleware\AdminMiddleware::class,
         'AreaManagerMiddleware'=>\App\Http\Middleware\AreaManagerMiddleware::class,
         'ShopkeeperMiddleware'=>\App\Http\Middleware\ShopkeeperMiddleware::class,
+        'ShopkeeperAreaManagerMiddleware'=>\App\Http\Middleware\ShopkeeperAreaManagerMiddleware::class,
+        'AdminAreaManagerMiddleware'=>\App\Http\Middleware\AdminAreaManagerMiddleware::class,
+        'AdminShopkeeperAreaManagerMiddleware'=>\App\Http\Middleware\AdminShopkeeperAreaManagerMiddleware::class,
     ];
 
     /**

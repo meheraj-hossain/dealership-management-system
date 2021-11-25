@@ -30,13 +30,13 @@ class LoginController extends Controller
     protected function redirectTO(){
         if(Auth::user()->action_table == 'App\Admin'){
             return 'dashboard';
-        }elseif (Auth::user()->action_table == 'App\AreaManager' ){
-            return '/user/portal';
-        }elseif (Auth::user()->action_table == 'App\Shopkeeper'){
-            return '/user/portal';
+        }elseif(Auth::user()->action_table == 'App\AreaManager' ){
+            return 'dashboard';
+        }elseif(Auth::user()->action_table == 'App\Shopkeeper'){
+            return 'dashboard';
         }
         else{
-            return '/home';
+            return 'dashboard';
         }
     }
 

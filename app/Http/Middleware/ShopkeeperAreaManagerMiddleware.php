@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class ShopkeeperAreaManagerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,11 +15,6 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->action_table == 'App\Admin'){
-            return $next($request);
-        }
-        abort(403);
-
-
+        return $next($request);
     }
 }
