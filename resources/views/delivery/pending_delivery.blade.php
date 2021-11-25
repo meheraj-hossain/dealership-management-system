@@ -48,6 +48,9 @@
                                     <a  href="{{route('order.details',$order->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Order Details
                                     </a>
+                                    <a  href="{{route('order.deliver',['order_id'=>$order->id, 'area_manager_id'=>\Illuminate\Support\Facades\Auth::id()])}}" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-shipping-fast"></i>Deliver
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach

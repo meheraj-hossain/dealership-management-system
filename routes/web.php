@@ -79,6 +79,7 @@ Route::group(['middleware'=>['auth','AdminShopkeeperAreaManagerMiddleware']],fun
     })->name('dashboard');
     Route::get('pending_delivery/{id}/order_status', 'DeliveryController@orderStatus')->name('order.status');
     Route::get('pending_delivery/{id}/order_details', 'DeliveryController@orderDetails')->name('order.details');
+    Route::get('deliver/{order_id}/{user_id}', 'DeliveryController@deliver')->name('order.deliver');
     Route::get('user/portal','UserController@userPortal')->name('user.portal');
 });
 

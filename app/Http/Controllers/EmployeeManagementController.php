@@ -22,7 +22,15 @@ public function salaryListStore(Request $request){
     ]);
     foreach ($request->id as $employee_id){
         $employee = AreaManager::where('id',$employee_id)->first();
-        $employee_salary = new EmployeeManagement();
+        $employee_salary = EmployeeManagement::where([
+            ['employee_id', $employee_id],
+            ['month', $request->month]
+        ])->first();
+        if (empty($employee_salary)) {
+            $employee_salary = new EmployeeManagement();
+        } else {
+            $employee_salary = $employee_salary;
+        }
         $employee_salary->employee_id = $employee_id;
         $employee_salary->month = $request->month;
         $employee_salary->salary = $employee->salary;
