@@ -26,7 +26,6 @@
 <link rel="stylesheet" href="{{asset('assets/admin/plugins/select2/css/select2.css')}}">
 <script src="{{asset('assets/admin/plugins/jquery/jquery.min.js')}}"></script>
 @stack('css')
-
 <!-- Google Font: Source Sans Pro -->
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 

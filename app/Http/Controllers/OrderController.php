@@ -9,6 +9,10 @@ use App\BeverageType;
 use App\Inventory;
 use App\Order;
 use App\OrderDetail;
+use App\SnacksCategory;
+use App\SnacksFlavor;
+use App\SnacksSize;
+use App\SnacksType;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -32,11 +36,16 @@ class OrderController extends Controller
         $data['sizes']=BeverageSize::all();
         $data['flavors']=BeverageFlavor::all();
         $data['types']=BeverageType::all();
-        $data['products'] = Inventory::with(['BeverageSize','BeverageFlavor','BeverageCategory','BeverageType','SnacksSize','SnacksFlavor','SnacksCategory','SnacksType'])->where('quantity','>',0)->paginate(3);
+        $data['stypes']=SnacksType::all();
+        $data['sflavors']=SnacksFlavor::all();
+        $data['ssizes']=SnacksSize::all();
+        $data['scategories']=SnacksCategory::all();
+        $data['products'] = Inventory::with(['BeverageSize','BeverageFlavor','BeverageCategory','BeverageType','SnacksSize','SnacksFlavor','SnacksCategory','SnacksType'])->where('quantity','>',0)->where('status','Active')->get();
         return view('order', $data);
     }
 
     public function placeOrder(Request $request){
+
         $shop_id = User::with(['Shopkeeper'=>function($query){
             $query->with(['ShopRegistration']);
         }])->where('id',Auth::user()->id)->first();
@@ -61,9 +70,8 @@ class OrderController extends Controller
             }
             $order->update(['total'=>$final_total]);
             DB::commit();
-            $data['title']='Invoice';
             session()->flash('message','Your order is now pending');
-            return view('place_order',$data);
+            return redirect()->route('order.list');
         } catch (\Exception $exception) {
             DB::rollBack();
             dd($exception->getMessage());

@@ -42,4 +42,7 @@ class Inventory extends Model
         return $this->hasMany(OrderDetail::class,'product_id');
     }
 
+    public function Stock(){
+        return $this->hasOne(Stock::class,'inventory_id');
+    }
 }

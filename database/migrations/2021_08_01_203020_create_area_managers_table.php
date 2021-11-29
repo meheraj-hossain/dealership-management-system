@@ -21,9 +21,11 @@ class CreateAreaManagersTable extends Migration
             $table->string('email')->unique();
             $table->char('phone');
             $table->string('image')->nullable();
-            $table->integer('area_id');
+            $table->unsignedBigInteger('area_id');
+            $table->foreign('area_id')->references('id')->on('areas');
             $table->text('address');
             $table->decimal('salary');
+            $table->enum('status',['Active','Inactive'])->default('inactive');
             $table->timestamps();
         });
     }

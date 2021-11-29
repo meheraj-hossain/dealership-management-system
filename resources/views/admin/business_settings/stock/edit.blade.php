@@ -1,7 +1,7 @@
 @extends('layout.admin.master')
 @section('breadcrumb')
     <div class="col-sm-6 text-right">
-        <a href="{{route('inventory.create','beverages')}}" class="btn btn-warning pull-right addNew">Add New Beverages</a>
+        <a href="{{route('inventory.index')}}" class="btn btn-warning pull-right addNew">Inventory List</a>
     </div>
 @endsection
 @section('content')
@@ -21,6 +21,7 @@
                             <th>Name</th>
                             <th> Existed Stock</th>
                             <th> Add Stock</th>
+                            <th> Add Purchased Price</th>
 
                         </tr>
                         </thead>
@@ -31,13 +32,20 @@
                                 <td>{{$inventory->name}}</td>
                                 <td>{{$inventory->quantity}}</td>
                                 <td>
-                                        <input type="number" name="stock">
+                                    <input type="number" name="stock">
                                     @error('stock')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
-                                    <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
-                                    </td>
+
+                                </td>
+                                <td>
+                                    <input type="number" name="purchased_price">
+                                     @error('purchased_price')
+                                     <div class="alert alert-danger">{{ $message }}</div>
+                                     @enderror
+                                </td>
                                 <td class="text-center">
+                                    <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                    <button type="submit" class="btn btn-outline-primary btn-block"> save</button>
 
                                 </td>

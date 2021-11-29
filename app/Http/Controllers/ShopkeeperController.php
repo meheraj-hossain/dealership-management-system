@@ -15,7 +15,7 @@ class ShopkeeperController extends Controller
     public function index()
     {
         $data['title']='Shopkeeper List';
-        $data['shopkeepers']= Shopkeeper::paginate(2);
+        $data['shopkeepers']= Shopkeeper::paginate(10);
         $data['serial']=managePaginationSerial($data['shopkeepers']);
         return view('admin.user.shopkeeper.index',$data);
     }

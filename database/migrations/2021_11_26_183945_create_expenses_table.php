@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class PurchasedPriceToInventoriesTable extends Migration
+class CreateExpensesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class PurchasedPriceToInventoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('inventories', function (Blueprint $table) {
-            $table->decimal('purchased_price')->after('flavor_id');
+        Schema::create('expenses', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->text('details');
+            $table->decimal('amount');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class PurchasedPriceToInventoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('inventories', function (Blueprint $table) {
-            $table->dropColumn('purchased_price');
-        });
+        Schema::dropIfExists('expenses');
     }
 }

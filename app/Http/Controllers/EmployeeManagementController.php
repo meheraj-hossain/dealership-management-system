@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AreaManager;
 use App\EmployeeManagement;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\New_;
 
@@ -42,10 +43,27 @@ public function salaryListStore(Request $request){
     }
 
     public function employeeSalaryList(){
-        $data['title'] = 'Employee Salary Status';
-        $data['salary_lists'] = EmployeeManagement::with(['AreaManager'=>function($query){
+        $title = 'Employee Salary Status';
+        $salary_lists = EmployeeManagement::with(['AreaManager'=>function($query){
             $query->with(['Area']);
-        }])->get();
-        return view('admin.employee_management.salary.employee_salary_list',$data);
+        }])->latest()->paginate(7);
+        $serial=managePaginationSerial($salary_lists);
+        return view('admin.employee_management.salary.employee_salary_list',compact('title','salary_lists','serial'));
+    }
+    public function isApporved($id){
+        $employee = EmployeeManagement::findOrFail($id);
+        $employee->is_approved = 'Yes';
+        $employee->update();
+        session()->flash('message','Salary is Approved');
+        return redirect()->back();
+    }
+
+    public function isPaid($id){
+        $employee = EmployeeManagement::findOrFail($id);
+        $employee->is_paid = 'Yes';
+        $employee->payment_date = Carbon::now();
+        $employee->update();
+        session()->flash('message','Salary is Approved');
+        return redirect()->back();
     }
 }

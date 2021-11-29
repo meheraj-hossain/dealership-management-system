@@ -24,7 +24,7 @@
                         <img src=" {{asset(Auth::user()->ids->image)}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="" class="d-block">{{Auth::user()->ids->name}} ({{Auth::user()->name}})</a>
+                        <a href="" class="d-block">{{Auth::user()->ids->name}}</a>
                     </div>
                 </div>
         @endif
@@ -42,14 +42,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item ">
-                    <a href="{{route('user.portal')}}" class="nav-link ">
-                        <i class="nav-icon fas fa-calculator"></i>
-                        <p>
-                            Portal
-                        </p>
-                    </a>
-                </li>
 
 {{--                   @if(Auth::user())--}}
 {{--                <li class="nav-item ">--}}
@@ -111,6 +103,24 @@
                         </li>
                     </ul>
                 </li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Manage Shopkeeper
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('shopkeeper.index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Shopkeeper</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
@@ -222,6 +232,13 @@
                                         <p>Salary List</p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('employee.employeeSalaryList')}}" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Monthly Salary List</p>
+                                    </a>
+                                </li>
 {{--                                <li class="nav-item">--}}
 {{--                                    <a href="#" class="nav-link">--}}
 {{--                                        <i class="far fa-dot-circle nav-icon"></i>--}}
@@ -230,38 +247,34 @@
 {{--                                </li>--}}
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Raw Material
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Dashboard</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Purchased</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Supplied</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+
 
                     </ul>
                 </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-money-bill"></i>
+                            <p>
+                                Expenses Management
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('expenses.create')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add Expense</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{route('expenses.index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Expenses</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-cogs"></i>
@@ -372,6 +385,30 @@
                     </ul>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa fa-file"></i>
+                            <p>
+                                Reports
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('report.perMonthCalculation')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Per Month Calculation</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{route('report.perMonthOrder')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Total Order Per Month</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cart-plus"></i>
                             <p>
                                 Manage Order
@@ -390,6 +427,15 @@
 
                 </li>
                     @elseif(Auth::user()->action_table == 'App\AreaManager')
+                    <li class="nav-item ">
+                        <a href="{{route('user.portal')}}" class="nav-link ">
+                            <i class="nav-icon fas fa-calculator"></i>
+                            <p>
+                                Portal
+                            </p>
+                        </a>
+                    </li>
+
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user"></i>
@@ -439,7 +485,16 @@
                                 </a>
                             </li>
                 @elseif(Auth::user()->action_table == 'App\Shopkeeper')
-                    <li class="nav-item has-treeview">
+                                <li class="nav-item ">
+                                    <a href="{{route('user.portal')}}" class="nav-link ">
+                                        <i class="nav-icon fas fa-calculator"></i>
+                                        <p>
+                                            Portal
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user"></i>
                             <p>

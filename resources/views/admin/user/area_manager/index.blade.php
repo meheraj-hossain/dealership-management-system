@@ -27,6 +27,7 @@
                             <th>Area Assigned</th>
                             <th>Address</th>
                             <th>Salary</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -43,6 +44,7 @@
                                 <td>{{$area_manager->Area->name}}</td>
                                 <td>{{$area_manager->address}}</td>
                                 <td>{{$area_manager->salary}}</td>
+                                <td>{{$area_manager->status}}</td>
                                 <td class="text-center">
                                     <a  href="{{route('area_manager.edit',$area_manager->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Edit

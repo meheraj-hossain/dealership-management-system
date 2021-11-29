@@ -25,9 +25,7 @@ class CreateInventoriesTable extends Migration
             $table->unsignedBigInteger('flavor_id');
             $table->decimal('price_per_carton');
             $table->decimal('quantity');
-            $table->decimal('total_price');
             $table->enum('status',['Active','Inactive'])->default('Active');
-
             $table->timestamps();
         });
     }

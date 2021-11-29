@@ -16,7 +16,7 @@ class AreaManagerController extends Controller
     public function index()
     {
         $data['title']='Area Manager List';
-        $data['area_managers']= AreaManager::with(['Area'])->paginate(2);
+        $data['area_managers']= AreaManager::with(['Area'])->paginate(3);
         $data['serial']=managePaginationSerial($data['area_managers']);
         return view('admin.user.area_manager.index',$data);
     }
@@ -74,6 +74,7 @@ class AreaManagerController extends Controller
         $area_manager-> area_id = $request->area;
         $area_manager-> address = $request->address;
         $area_manager-> salary = $request->salary;
+        $area_manager-> status = 'Inactive';
         $area_manager->save();
         session()->flash('message','Area Manager Details Added Successfully');
         return redirect()->route('area_manager.create');
@@ -139,7 +140,6 @@ class AreaManagerController extends Controller
         $areaManager-> phone = $request->phone;
         $areaManager-> area_id = $request->area;
         $areaManager-> address = $request->address;
-        $areaManager-> salary = $request->salary;
         $areaManager->update();
         session()->flash('message','Area Manager Details Updated Successfully');
         return redirect()->route('area_manager.edit',$areaManager->id);

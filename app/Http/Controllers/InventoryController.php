@@ -12,6 +12,8 @@ use App\SnacksCategory;
 use App\SnacksFlavor;
 use App\SnacksSize;
 use App\SnacksType;
+use App\Stock;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +30,7 @@ class InventoryController extends Controller
     public function index()
     {
         $data['title'] = 'Inventory';
-        $data['inventories']=Inventory::with(['BeverageSize','BeverageFlavor','BeverageCategory','BeverageType','SnacksSize','SnacksFlavor','SnacksCategory','SnacksType'])->paginate(2);
+        $data['inventories']=Inventory::with(['BeverageSize','BeverageFlavor','BeverageCategory','BeverageType','SnacksSize','SnacksFlavor','SnacksCategory','SnacksType'])->paginate(15);
         $data['serial']=managePaginationSerial($data['inventories']);
         return view('admin.inventory.index',$data);
     }
@@ -55,13 +57,15 @@ class InventoryController extends Controller
         $data['snackstypes']=SnacksType::get();
         return view('admin.inventory.snacks.create',$data);}
     }
-private function fileupload($img){
 
-    $path = 'images/inventories';
-    $img->move($path, $img->getClientOriginalName());
-    $fullpath = $path . '/' . $img->getClientOriginalName();
-    return $fullpath;
-}
+    private function imageUpload($img)
+    {
+        $path      = 'assets/admin/assets/img/inventories';
+        $file_name = time() . rand('00000', '99999') . '.' . $img->getClientOriginalExtension();
+        $img->move($path, $file_name);
+        $fullpath = $path . '/' . $file_name;
+        return $fullpath;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -78,12 +82,13 @@ private function fileupload($img){
             'size'=>'required',
             'type'=>'required',
             'flavor'=>'required',
+            'purchased_price'=>'required',
             'price_per_carton'=>'required',
             'quantity'=>'required',
             'status'=>'required',
         ]);
         if ($request->image) {
-    $photo=$this->fileupload($request->image);
+            $photo=$this->imageUpload($request->image);
         }
         $inventory = new Inventory();
         $inventory->inventory_type= $request->inventory_type;
@@ -96,10 +101,16 @@ private function fileupload($img){
         $inventory-> flavor_id = $request->flavor;
         $inventory-> price_per_carton = $request->price_per_carton;
         $inventory-> quantity = $request->quantity;
-        $inventory-> total_price = $request->price_per_carton*$request->quantity;
         $inventory-> status = $request->status;
         $inventory-> save();
-        session()->flash('message','New Beverage Added successfully');
+
+        $stock = new Stock();
+        $stock->inventory_id=$inventory->id;
+        $stock->stock=$inventory->quantity;
+        $stock->purchased_price=$request->purchased_price;
+        $stock->total_purchased_price=$stock->stock*$request->purchased_price;
+        $stock->save();
+        session()->flash('message','New Product Added successfully');
         return redirect()->route('inventory.index');
     }
 
@@ -112,7 +123,7 @@ private function fileupload($img){
     public function show( $id)
     {
         $data['title']='Product Details';
-        $data['inventory']  = Inventory::with(['BeverageCategory','BeverageSize','BeverageType','BeverageFlavor'])->findOrFail($id);
+        $data['inventory']  = Inventory::with(['BeverageCategory','BeverageSize','BeverageType','BeverageFlavor','SnacksCategory','SnacksSize','SnacksType','SnacksFlavor'])->findOrFail($id);
         return view('single_product',$data);
     }
 
@@ -162,29 +173,31 @@ private function fileupload($img){
             'status'=>'required',
             'image'=>'mimes:jpeg,jpg,png',
         ]);
-        if ($request->image) {
-            $photo=$this->fileupload($request->image);
-
-        }
 
         $inventory=Inventory::findOrFail($id);
+
+        if (isset($request->image) && $request->image != null) {
+            $photo = $this->imageUpload($request->image);
+            if ($inventory->image && file_exists($inventory->image)) {
+                unlink($inventory->image);
+            }
+        } else {
+            $photo = $inventory->image;
+        }
+        $inventory->image=$photo;
         $inventory->inventory_type = $request->inventory_type;
         $inventory-> category_id = $request->category;
         $inventory-> name = $request->name;
         $inventory-> details = $request->details;
         $inventory-> size_id = $request->size;
-        if ( file_exists($inventory->image)){
-            unlink($inventory->image);
-        }
-        $inventory->image = isset($photo)?$photo:null;
         $inventory-> type_id = $request->type;
         $inventory-> flavor_id = $request->flavor;
         $inventory-> price_per_carton = $request->price_per_carton;
         $inventory-> quantity = $request->quantity;
-        $inventory-> total_price = $request->price_per_carton*$request->quantity;
+        $inventory-> total_price = $request->purchased_price*$request->quantity;
         $inventory-> status = $request->status;
         $inventory-> update();
-        session()->flash('message','New Beverage Added successfully');
+        session()->flash('message',' Product Updated successfully');
         return redirect()->route('inventory.edit',[$inventory->inventory_type,$id]);
     }
 

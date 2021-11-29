@@ -8,6 +8,7 @@ use App\Shopkeeper;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use function foo\func;
 
@@ -21,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         $data['title']='All Users';
-        $data['users']=User::paginate(2);
+        $data['users']=User::paginate(5);
         $data['serial']=managePaginationSerial($data['users']);
         return view('admin.user.index',$data);
     }
@@ -46,19 +47,32 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|unique:users',
-            'email'=>'required|unique:users',
             'action_table'=>'required',
-            'password'=>'required|min:8',
+            'password'=>'required'
         ]);
+       $area_manager= AreaManager::findOrFail($request->assigned_user);
+//        dd($area_manager->email);
+        $shopkeeper=Shopkeeper::findOrFail($request->assigned_user);
         $user           = new User();
         $user->row_id =$request->assigned_user;
-        $user->name     = $request->name;
-        $user->email    = $request->email;
+        if ($request->action_table == 'App\AreaManager'){
+            $user->name     = $area_manager->name;
+            $user->email    = $area_manager->email;
+        }elseif ($request->action_table=='App\Shopkeeper'){
+            $user->name     = $shopkeeper->name;
+            $user->email    = $shopkeeper->email;
+        }
         $user->action_table    = $request->action_table;
         $user->password = Hash::make($request->password);
         $user->save();
-        session()->flash('message','New user created successfully');
+        if($user->action_table=='App\Shopkeeper'){
+            $shopkeeper->status = 'Active';
+            $shopkeeper->update();
+        }elseif ($user->action_table=='App\AreaManager'){
+            $area_manager->status ='Active';
+            $area_manager->update();
+        }
+        session()->flash('message','New user assigned successfully');
         return redirect()->route('user.index');
     }
 
@@ -127,29 +141,39 @@ class UserController extends Controller
     public function getData( Request $request)
     {
         if ($request->userRole == 'App\AreaManager') {
-            $data['user'] = AreaManager::get();
+            $data['user'] = AreaManager::where('status','Inactive')->get();
         }
         elseif ($request->userRole == 'App\Shopkeeper') {
-            $data['user'] = Shopkeeper::get();
+            $data['user'] = Shopkeeper::where('status','Inactive')->get();
         }
         return $data;
     }
 
     public function userPortal(){
-        $data['title'] = 'Portal';
-        $employe_id = User::where('id',auth()->id())->first();
+        $title = 'Portal';
+        $employee_id = User::where('id',auth()->id())->first();
 
-        $data['user'] = User::with(['AreaManager'=>function($query){
+        $user = User::with(['AreaManager'=>function($query){
             $query->with(['Area']);
         },'Shopkeeper'=>function($query){
             $query->with(['ShopRegistration']);
         }])->where('id',auth()->id())->first();
-
-        $data['salary_status'] = EmployeeManagement::where('employee_id',$employe_id->row_id)->latest()->first();
-
-        $data['due'] = Order::where('user_id',auth()->id())->where('order_status','!=','Approved')->sum('total');
-        $data['paid'] = Transaction::where('user_id',auth()->id())->sum('paid_amount');
-        return view('admin.user.portal',$data);
+        $salary_status = EmployeeManagement::where('employee_id',$employee_id->row_id)->latest()->first();
+        $order = Order::where('delivered_by',$employee_id->row_id)->get();
+        $due = Order::where('user_id',auth()->id())->where('order_status','!=','Pending')->sum('total');
+        $paid = Transaction::where('user_id',auth()->id())->sum('paid_amount');
+        $transactions = Transaction::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->take(5)->get();
+        return view('admin.user.portal',compact('title','employee_id','user','salary_status','due','paid','transactions','order'));
 
     }
+
+//    public function transactionList(){
+//        $user = Auth::user()->id;
+//        dd($user);
+//        $data['transactions'] = Transaction::with(['User'])->where('user_id',$user)->paginate(10);
+//        $data['serial'] =managePaginationSerial($data['transactions']);
+//        return view('admin.user.portal');
+//    }
+
+
 }

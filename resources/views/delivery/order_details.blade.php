@@ -24,13 +24,7 @@
 
                     @elseif($orders->order_status=='Approved' && $user_role == 'App\AreaManager')
                         <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-secondary" > <i class="fa fa-user-edit"></i> Shipped Order?</a></h3>
-                    @elseif($orders->order_status=='Shipped' && $user_role == 'App\Shopkeeper')
-                        <h3 class="card-title" style="float: right">
-                            <form action="{{route('order.status',$orders->id)}}" method="GET">
-                                @csrf
-                                <input type="hidden" name="received_date" value="{{date('Y-m-d')}}">
-                                <button class="btn btn-info"><i class="fa fa-user-edit"></i>Received Order?</button>
-                            </form></h3>
+
                     @elseif($orders->order_status=='Received' && $user_role == 'App\Admin')
                         <h3 class="card-title" style="float: right"><a href="{{route('order.status',$orders->id)}}" class="btn btn-success" > <i class="fa fa-user-edit"></i> Delivered Ordered?</a></h3>
                     @endif
@@ -58,9 +52,9 @@
                                 <td>{{++$key}}</td>
                                 <td>{{$orders->order_id}}</td>
                                 <td>{{$order_detail->Inventory->name}}</td>
-                                <td>{{$order_detail->Inventory->BeverageType->name}}</td>
-                                <td>{{$order_detail->Inventory->BeverageSize->name}}</td>
-                                <td>{{$order_detail->Inventory->BeverageFlavor->name}}</td>
+                                <td>{{($order_detail->Inventory->inventory_type=='Beverages')?$order_detail->Inventory->BeverageType->name:$order_detail->Inventory->SnacksType->name}}</td>
+                                <td>{{($order_detail->Inventory->inventory_type=='Beverages')?$order_detail->Inventory->BeverageSize->name:$order_detail->Inventory->SnacksSize->name}}</td>
+                                <td>{{($order_detail->Inventory->inventory_type=='Beverages')?$order_detail->Inventory->BeverageFlavor->name:$order_detail->Inventory->SnacksFlavor->name}}</td>
                                 <td>{{$order_detail->Inventory->price_per_carton}}</td>
                                 <td>{{$order_detail->quantity}}</td>
                                 <td>BDT.{{$order_detail->total}}</td>

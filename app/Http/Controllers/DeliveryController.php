@@ -28,22 +28,14 @@ class DeliveryController extends Controller
                 'ShopRegistration' => function ($query) {
                     $query->with([
                         'Order' => function ($query) {
-                            $query->where('order_status', '!=', 'Pending');
-                        }, 'Shopkeeper'
-                    ]);
-                }
-            ])->where('id', $user->ids->area_id)->first();
+                            $query->where('order_status', '!=', 'Pending')->orderBy('updated_at','DESC');
+                            },'Shopkeeper']);}])->where('id', $user->ids->area_id)->first();
             return view('delivery.pending_delivery', compact('user', 'areas', 'title'));
         } else {
             $deliveries = Order::with([
                 'User' => function ($query) {
-                    $query->with([
-                        'Shopkeeper' => function ($query) {
-                            $query->with('ShopRegistration');
-                        }
-                    ]);
-                }
-            ])->get();
+                    $query->with(['Shopkeeper' => function ($query) {
+                            $query->with('ShopRegistration');}]);}])->orderBy('updated_at','DESC')->get();
 
             return view('delivery.pending_delivery', compact('user', 'deliveries', 'title'));
         }
@@ -57,7 +49,7 @@ class DeliveryController extends Controller
             'OrderDetail' => function ($query) {
                 $query->with([
                     'Inventory' => function ($query) {
-                        $query->with(['BeverageSize', 'BeverageType', 'BeverageFlavor', 'SnacksFlavor']);
+                        $query->with(['BeverageSize', 'BeverageType', 'BeverageFlavor', 'SnacksFlavor','SnacksType','SnacksSize']);
                     }
                 ]);
             }
@@ -67,8 +59,9 @@ class DeliveryController extends Controller
 
     public function orderStatus(Request $request, $id)
     {
+        $user_role = Auth::user()->action_table;
         $status = Order::with(['OrderDetail'])->findOrFail($id);
-        if ($status->order_status == 'Pending') {
+        if ($status->order_status == 'Pending' && $user_role=='App\Admin') {
             $status->order_status = 'Approved';
             foreach ($status->OrderDetail as $order_detail) {
                 $inventory           = Inventory::where('id', $order_detail->product_id)->first();
@@ -76,16 +69,13 @@ class DeliveryController extends Controller
                 $inventory->save();
             }
             $status->update();
-        } elseif ($status->order_status == 'Approved') {
-            $status->order_status = 'Shipped';
-            $status->update();
-        } elseif ($status->order_status == 'Shipped') {
-            $status->order_status  = 'Received';
-            $status->received_date = $request->received_date;
+        }elseif ($status->order_status == 'Pending' && $user_role=='App\Shopkeeper'){
+            $status->order_status = 'Cancelled';
             $status->update();
             return redirect()->route('order.list');
-        } elseif ($status->order_status == 'Received') {
-            $status->order_status = 'Delivered';
+        }
+        elseif ($status->order_status == 'Approved') {
+            $status->order_status = 'Shipped';
             $status->update();
         }
         return redirect()->route('pending.delivery');
@@ -126,6 +116,8 @@ class DeliveryController extends Controller
             DB::rollBack();
             dd($exception->getMessage());
         }
+        session()->flash('message','Order status updated successfully');
+        return redirect()->back();
     }
 }
 // delivery Controller

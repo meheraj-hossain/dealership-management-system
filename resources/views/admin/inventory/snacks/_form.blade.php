@@ -5,7 +5,7 @@
         <select class="form-control" name="category">
             <option value="">Select Category</option>
             @foreach($snackscategories as $snackscategory)
-            <option @if(old('category',isset($inventory)?$inventory->category:null)==$snackscategory->name) selected @endif value="{{$snackscategory->name}}">{{$snackscategory->name}}</option>
+            <option @if(old('category',isset($inventory)?$inventory->category:null)==$snackscategory->name) selected @endif value="{{$snackscategory->id}}">{{$snackscategory->name}}</option>
             @endforeach
         </select>
         @error('category')
@@ -37,7 +37,7 @@
         <select class="form-control" name="size">
             <option> Select Size</option>
             @foreach($snackssizes as $snackssize)
-                <option @if(old('size',isset($inventory)?$inventory->size:null)==$snackssize->name) selected @endif  value="{{$snackssize->name}}">{{$snackssize->name}}</option>
+                <option @if(old('size',isset($inventory)?$inventory->size:null)==$snackssize->name) selected @endif  value="{{$snackssize->id}}">{{$snackssize->name}}</option>
             @endforeach
         </select>
     </div>
@@ -57,8 +57,9 @@
     <div class="form-group">
         <select class="form-control" name="type">
             <option>Select Type</option>
-                <option @if(old('type',isset($inventory)?$inventory->type:null)=='PET') selected @endif value="PET">PET</option>
-                <option @if(old('type',isset($inventory)?$inventory->type:null)=='CAN') selected @endif value="CAN">CAN</option>
+            @foreach($snackstypes as $snackstype)
+                <option @if(old('type',isset($inventory)?$inventory->type_id:null)==$snackstype->id) selected @endif  value="{{$snackstype->id}}">{{$snackstype->name}}</option>
+            @endforeach
         </select>
     </div>
     @error('type')
@@ -72,7 +73,7 @@
         <select class="form-control" name="flavor">
             <option>Select Flavor</option>
             @foreach($snacksflavors as $snacksflavor)
-                <option @if(old('flavor',isset($inventory)?$inventory->flavor:null)==$snacksflavor->name) selected @endif value="{{$snacksflavor->name}}">{{$snacksflavor->name}}</option>
+                <option @if(old('flavor',isset($inventory)?$inventory->flavor:null)==$snacksflavor->name) selected @endif value="{{$snacksflavor->id}}">{{$snacksflavor->name}}</option>
             @endforeach
         </select>
     </div>
@@ -82,7 +83,15 @@
 </div>
 
 <div class="form-group">
-    <label for="name">Price per carton</label>
+    <label for="name">Purchased price per pack</label>
+    <input type="number" name="purchased_price" value="{{old('purchased_price',isset($inventory)?$inventory->purchased_price:null)}}" class="form-control" id="name" placeholder="Enter Purchased price" >
+    @error('purchased_price')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="form-group">
+    <label for="name">Price per pack to sell</label>
     <input type="number" name="price_per_carton" value="{{old('price_per_carton',isset($inventory)?$inventory->price_per_carton:null)}}" class="form-control" id="name" placeholder="Enter Price Per Carton" >
     @error('price_per_carton')
     <div class="alert alert-danger">{{ $message }}</div>

@@ -18,8 +18,11 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">Sl No</th>
-                            <th>Inventory ID</th>
+                            <th>Product Name</th>
+                            <th>Product Image</th>
                             <th>Added Stocks</th>
+                            <th>Purchased Price</th>
+                            <th>Total Purchased Price</th>
                             <th>Purchase Date</th>
                         </tr>
                         </thead>
@@ -27,9 +30,12 @@
                         @foreach($stocks as $stock)
                             <tr>
                                 <td>{{$serial++}}</td>
-                                <td>{{$stock->inventory_id}}</td>
+                                <td>{{$stock->Inventory->name}}</td>
+                                <td><img src="{{$stock->Inventory->image}}" alt="" style="width: 60px" height="60px"></td>
                                 <td>{{$stock->stock}}</td>
-                                <td>{{$stock->created_at}}</td>
+                                <td>{{$stock->purchased_price}}/-</td>
+                                <td>{{$stock->purchased_price*$stock->stock}}/-</td>
+                                <td>{{date('d M, Y',strtotime($stock->created_at))}}</td>
                             </tr>
                         @endforeach
                         </tbody>

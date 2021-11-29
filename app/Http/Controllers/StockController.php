@@ -16,7 +16,7 @@ class StockController extends Controller
     public function index()
     {
         $data['title']="Stocks";
-        $data['stocks']=Stock::paginate(2);
+        $data['stocks']=Stock::with('Inventory')->paginate(20);
         $data['serial']=managePaginationSerial($data['stocks']);
         return view('admin.business_settings.stock.index',$data);
     }
@@ -39,24 +39,27 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'stock'=>'required' ,
         ]);
         $stock = new Stock();
-
+        $inventory=Inventory::with('Stock')->findOrFail($request->inventory_id);
         $stock->stock= $request->stock;
         $stock->inventory_id=$request->inventory_id;
+        if ($request->purchased_price==""){
+            $stock->purchased_price=$inventory->Stock->purchased_price;
+            $stock->total_purchased_price =$request->stock*$stock->purchased_price;
+        }else{
+            $stock->purchased_price=$request->purchased_price;
+            $stock->total_purchased_price =$request->stock*$request->purchased_price;
+        }
         $stock->save();
-
         $inventory=Inventory::findOrFail($request->inventory_id);
         $inventory->quantity=$inventory->quantity+=$request->stock;
         $inventory->update();
-
-        $data['title']="Inventory";
-        $data['inventories']=Inventory::paginate(2);
-        $data['serial']=managePaginationSerial($data['inventories']);
         session()->flash('message','Stock added successfully');
-        return redirect()->to(route('inventory.index',$data));
+        return redirect()->route('inventory.index');
 //        return view('admin.inventory.index',$data);
 
 //        $request->validate([

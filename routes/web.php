@@ -43,12 +43,16 @@ Route::group(['middleware'=>['auth','AdminMiddleware']],function (){
     Route::get('salary_list','EmployeeManagementController@salaryList')->name('employee.salaryList');
     Route::post('salary_list/store','EmployeeManagementController@salaryListStore')->name('employee.salaryListStore');
     Route::get('employee_salary_list','EmployeeManagementController@employeeSalaryList')->name('employee.employeeSalaryList');
-
+    Route::resource('expenses',ExpenseController::class);
+    Route::get('per_month_calculation','ReportGenerateController@perMonthCalculation')->name('report.perMonthCalculation');
+    Route::get('total_order_per_month','ReportGenerateController@totalOrderPerMonth')->name('report.perMonthOrder');
+    Route::get('empployee/{id}/isApproved','EmployeeManagementController@isApporved')->name('employee.isApproved');
+    Route::get('empployee/{id}/isPaid','EmployeeManagementController@isPaid')->name('employee.isPaid');
 });
 
 Route::group(['middleware'=>['auth','AreaManagerMiddleware']],function (){
     Route::resource('shop_registration',ShopRegistrationController::class);
-    Route::resource('shopkeeper',ShopkeeperController::class);
+
 });
 
 Route::group(['middleware'=>['auth','ShopkeeperMiddleware']],function (){
@@ -61,7 +65,7 @@ Route::group(['middleware'=>['auth','ShopkeeperMiddleware']],function (){
     Route::post('payment/success','userPaymentController@success')->name('user.payment.success');
     Route::post('payment/fail','userPaymentController@fail')->name('user.payment.fail');
     Route::post('payment/cancel','userPaymentController@cancel')->name('user.payment.cancel');
-
+    Route::get('user/report_of_status','ReportGenerateController@perMonthCalculationForShopkeeper')->name('user.transaction.status');
 });
 
 Route::group(['middleware'=>['auth','ShopkeeperAreaManagerMiddleware']],function (){
@@ -70,6 +74,7 @@ Route::group(['middleware'=>['auth','ShopkeeperAreaManagerMiddleware']],function
 
 Route::group(['middleware'=>['auth','AdminAreaManagerMiddleware']],function (){
     Route::get('pending_delivery', 'DeliveryController@pendingDelivery')->name('pending.delivery');
+    Route::resource('shopkeeper',ShopkeeperController::class);
 });
 
 Route::group(['middleware'=>['auth','AdminShopkeeperAreaManagerMiddleware']],function (){

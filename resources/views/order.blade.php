@@ -1,4 +1,47 @@
 @extends('layout.admin.master')
+@push('css')
+    <style>
+        x, .alert-container {
+            font-family: helvetica, arial;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        x, .alert-container {
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -ms-border-radius: 4px;
+            border-radius: 4px;
+        }
+        x, .alert-container {
+            background-color: #5f7c8a;
+            color: #f8f8f8;
+            border: 1px solid #516a76;
+        }
+        x {
+            margin: 20px 20px;
+        }
+        .alert-container {
+            position: fixed;
+            bottom: 5px;
+            left: 2%;
+            width: 50%;
+            margin: 0 25% 0 25%;
+        }
+        .alert-container .alert {
+            text-align: center;
+            padding: 17px 0 20px 0;
+            margin: 0 25% 0 25%;
+            height: 54px;
+            font-size: 20px;
+        }
+    </style>
+@endpush
 @section('breadcrumb')
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -9,7 +52,7 @@
 @section('content')
 
     <div class=" col-md-2" style="float: left">
-        <h4>Search</h4>
+        <h4>Beverage Search</h4>
         <form action="">
             <h5>Categories</h5>
             <div class="form-group">
@@ -50,41 +93,107 @@
             </div>
         </form>
 
+        <h5>Types</h5>
+        <form action="">
+            <div class="form-group">
+                @foreach($types as $flavor)
+                    <div class="custom-control custom-checkbox">
+                        <input class="" name="{{$flavor->name}}" type="checkbox" id="{{$flavor->name}}" value="40{{$flavor->id}}">
+                        <label for="Categories" class="">{{$flavor->name}}</label>
+                    </div>
+                @endforeach
+
+            </div>
+        </form>
     </div>
 
+
+    <div class=" col-md-2" style="float: left" >
+        <h4>Snacks Search</h4>
+        <form action="">
+            <h5>Snacks Categories</h5>
+            <div class="form-group">
+                @foreach($scategories as $category)
+                    <div class="custom-control custom-checkbox">
+                        <input class="" name="{{$category->name}}" type="checkbox" id="{{$category->name}}" value="10{{'1'.$category->id}}">
+                        <label for="Categories" class="">{{$category->name}}</label>
+                    </div>
+                @endforeach
+
+
+            </div>
+        </form>
+
+        <h5>Sizes</h5>
+        <form action="">
+            <div class="form-group">
+                @foreach($ssizes as $size)
+                    <div class="custom-control custom-checkbox">
+                        <input class="" name="{{$size->name}}" type="checkbox" id="{{$size->name}}" value="20{{'2'.$size->id}}">
+                        <label for="Categories" class="">{{$size->name}}</label>
+                    </div>
+                @endforeach
+
+            </div>
+        </form>
+
+        <h5>Flavors</h5>
+        <form action="">
+            <div class="form-group">
+                @foreach($sflavors as $flavor)
+                    <div class="custom-control custom-checkbox">
+                        <input class="" name="{{$flavor->name}}" type="checkbox" id="{{$flavor->name}}" value="30{{'3'.$flavor->id}}">
+                        <label for="Categories" class="">{{$flavor->name}}</label>
+                    </div>
+                @endforeach
+
+            </div>
+        </form>
+
+        <h5>Types</h5>
+        <form action="">
+            <div class="form-group">
+                @foreach($stypes as $flavor)
+                    <div class="custom-control custom-checkbox">
+                        <input class="" name="{{$flavor->name}}" type="checkbox" id="{{$flavor->name}}" value="40{{'4'.$flavor->id}}">
+                        <label for="Categories" class="">{{$flavor->name}}</label>
+                    </div>
+                @endforeach
+
+            </div>
+        </form>
+
+
+    </div>
+
+
     <!-- Main -->
-    <div class="container col-md-10 " id="container">
+    <div class="container col-md-8 " id="container" >
         <div class="row ">
             @foreach($products as $product)
-                <div class="col" data-category="10{{$product->BeverageCategory->id}} 20{{$product->BeverageSize->id}} 30{{$product->BeverageFlavor->id}} " >
+                <div class="col" data-category="10{{($product->inventory_type=='Beverages')?$product->BeverageCategory->id:'1'.$product->SnacksCategory->id}} 20{{($product->inventory_type=='Beverages')?$product->BeverageSize->id:'2'.$product->SnacksSize->id}} 30{{($product->inventory_type=='Beverages')?$product->BeverageFlavor->id:'3'.$product->SnacksFlavor->id}} 40{{($product->inventory_type=='Beverages')?$product->BeverageType->id:'4'.$product->SnacksType->id}}" >
                     <div class="card " id="card" style="width: 20rem;">
                         <img class="card-img-top" src="{{asset($product->image)}}" alt="Card image cap">
                         <div class="card-block"><a href="">
-                                <h4 class="card-title col-md-12" style="text-align: center; font-size: 20px;font-style:italic;font-family: Times New Roman, Times, serif;">{{$product->name}}</h4></a>
+                                <h4 class="card-title col-md-12" style="text-align: center; font-size: 20px;font-style:italic;font-family: Times New Roman, Times, serif;"><b>{{$product->name}}</b></h4></a>
                             {{--                    <h4 class="card-text ">{{$product->category}}</h4>--}}
                             {{--                    <h4 class="card-title ">{{$product->size}}</h4>--}}
-                            <p class="card-text" style="text-align: center;    font-weight: 600">{{$product->BeverageCategory->name}}</p>
-                            <p class="card-text" style="text-align: center;    font-weight: 500;margin-top: -15px">{{$product->BeverageSize->name}}</p>
-                            <p class="card-text" style="text-align: center;margin-top: -15px;color:red " >৳{{$product->price_per_carton}}</p>
+                            <p class="card-text" style="text-align: center;    font-weight: 600"><b>Category-{{($product->inventory_type=='Beverages')?$product->BeverageCategory->name:$product->SnacksCategory->name}} </b></p>
+                            <p class="card-text" style="text-align: center;    font-weight: 500;margin-top: -15px"><b>Size-{{($product->inventory_type=='Beverages')?$product->BeverageSize->name:$product->SnacksSize->name}}</b></p>
+                            <p class="card-text" style="text-align: center;    font-weight: 500;margin-top: -15px"><b>Type-{{($product->inventory_type=='Beverages')?$product->BeverageType->name:$product->SnacksType->name}}</b></p>
+                            <p class="card-text" style="text-align: center;    font-weight: 500;margin-top: -15px"><b>Flavor-{{($product->inventory_type=='Beverages')?$product->BeverageFlavor->name:$product->SnacksFlavor->name}}</b></p>
+                            <p class="card-text" style="text-align: center;margin-top: -15px;color:red " ><b>৳{{$product->price_per_carton}}</b></p>
                         </div>
                         <a href="{{route('inventory.show',$product->id)}}" class="product__viewBtn" style="margin-left: 80px">view details</a>
                     </div>
-                    <a href="#" data-name="{{$product->id}}" data-product="{{$product->name}}"  data-price="{{$product->price_per_carton}}" data-flavor="{{$product->BeverageFlavor->name}}" data-size="{{$product->beverageSize->name}}" data-type="{{$product->BeverageType->name}}"  class="add-to-cart btn btn-primary" style=" margin-bottom: 15px; margin-top:-10px; margin-left: 105px;">Add to cart</a>
+                    <x href="#" data-name="{{$product->id}}" data-product="{{$product->name}}"  data-price="{{$product->price_per_carton}}" data-flavor="{{($product->inventory_type=='Beverages')?$product->BeverageFlavor->name:$product->SnacksFlavor->name}}" data-size="{{($product->inventory_type=='Beverages')?$product->BeverageSize->name:$product->SnacksSize->name}}" data-type="{{($product->inventory_type=='Beverages')?$product->BeverageType->name:$product->SnacksType->name}}"  class="add-to-cart btn btn-primary" style=" margin-bottom: 15px; margin-top:-10px; margin-left: 105px;">Add to cart</x>
                 </div>
             @endforeach
 
 
         </div>
     </div>
-    <div class="card" style="float: right">
-        <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="{{$products->previousPageUrl()}}">&laquo;</a></li>
-            @for($i=1;$i<=$products->lastPage();$i++)
-                <li class="page-item"><a class="page-link" href="{{$products->url($i)}}">{{$i}}</a></li>
-            @endfor
-            <li class="page-item"><a class="page-link" href="{{$products->nextPageUrl()}}">&raquo;</a></li>
-        </ul>
-    </div>
+
 
 
     <!-- Modal -->
@@ -104,7 +213,7 @@
                         <table class="show-cart table">
 
                         </table>
-                        <div>Total price: $<span class="total-cart"></span></div>
+                        <div>Total price: ৳<span class="total-cart"></span></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -116,12 +225,16 @@
             </div>
         </div>
     </div>
+
+    <div class="alert-container">
+        <div class="alert">
+            Product has been added to list.
+        </div>
+    </div>
 @endsection
 
 
 @push('js')
-
-
     <script type="text/javascript" >
 
         // ************************************************
@@ -318,19 +431,19 @@
                     <td id="total">${cartArray[i].total}</td>
                     </tr>
                     `;
-                    // +"<tr>"
-                    // +"<input type='hidden' value=''>"
-                    // + "<td>" + cartArray[i].product + "</td>"
-                    // + "<td>(" + cartArray[i].flavor + ")</td>"
-                    // + "<td>(" + cartArray[i].size + ")</td>"
-                    // + "<td>(" + cartArray[i].price + ")</td>"
-                    // + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
-                    // + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
-                    // + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
-                    // + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
-                    //
-                    // + "<td>" + cartArray[i].total + "</td>"
-                    // +  "</tr>";
+                // +"<tr>"
+                // +"<input type='hidden' value=''>"
+                // + "<td>" + cartArray[i].product + "</td>"
+                // + "<td>(" + cartArray[i].flavor + ")</td>"
+                // + "<td>(" + cartArray[i].size + ")</td>"
+                // + "<td>(" + cartArray[i].price + ")</td>"
+                // + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
+                // + "<input type='number' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
+                // + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
+                // + "<td><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
+                //
+                // + "<td>" + cartArray[i].total + "</td>"
+                // +  "</tr>";
             }
             $('.show-cart').html(output);
             $('.total-cart').html(shoppingCart.totalCart());
@@ -377,7 +490,6 @@
 
 
     </script>
-
     <script>
         var $filterCheckboxes = $('input[type="checkbox"]');
         var filterFunc = function() {
@@ -428,5 +540,20 @@
         }
 
         $filterCheckboxes.on('change', filterFunc);
+    </script>
+    <script>
+        $(function() {
+            var alert = $(".alert-container");
+
+            alert.hide();
+
+            $("x").click(function(e) {
+                e.preventDefault();
+                alert.slideDown();
+                window.setTimeout(function() {
+                    alert.slideUp();
+                }, 2500);
+            });
+        });
     </script>
 @endpush

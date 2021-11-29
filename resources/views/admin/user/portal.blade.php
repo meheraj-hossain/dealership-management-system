@@ -70,7 +70,7 @@
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Transaction</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Latest Transaction</a></li>
 {{--                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>--}}
                     </ul>
                 </div><!-- /.card-header -->
@@ -88,16 +88,36 @@
                                     <th>DUE</th>
                                 </tr>
                                 </thead>
+                                <tbody>
                                 <td><b>{{$due}}/-</b></td>
                                 <td><b>{{$paid}}/-</b></td>
                                 <td><b>{{$due-$paid}}/-</b></td>
-                                <tbody>
                                 </tbody>
                             </table>
                                 <button type="submit" class="btn btn-info float-right" data-toggle="modal" data-target="#modal-info" >Want to Pay?</button>
                         </div>
                         <!-- /.tab-pane -->
                         <div class="tab-pane" id="timeline">
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>PAID AMOUNT</th>
+                                    <th>Paid date</th>
+
+                                </tr>
+                                </thead>
+
+                                @foreach($transactions as $transaction)
+                                <tbody>
+                                <td><b>{{$transaction->transaction_id}}</b></td>
+                                <td><b>{{$transaction->paid_amount}}</b></td>
+                                <td><b>{{date("d M Y",strtotime($transaction->created_at))}}</b></td>
+                                </tbody>
+                                @endforeach
+                            </table>
+                            <!-- Pagination ends -->
+                        </div>
 
                     </div>
                     <!-- /.tab-content -->
@@ -109,7 +129,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content bg-info">
                             <div class="modal-header">
-                                <h4 class="modal-title">Info Modal</h4>
+                                <h4 class="modal-title">Please Enter Amount First!</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -197,7 +217,7 @@
                     <!-- /.card -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
@@ -214,6 +234,7 @@
                                         <tr>
                                             <th>Basic Salary</th>
                                             <th>Bonus</th>
+                                            <th>Commission</th>
                                             <th>Total Salary</th>
                                             <th>Month</th>
                                             <th>Is Approved?</th>
@@ -224,7 +245,8 @@
                                         <tbody>
                                         <td>{{$salary_status->salary}}</td>
                                         <td>{{$salary_status->bonus}}</td>
-                                        <td>{{$salary_status->bonus+$salary_status->salary}}</td>
+                                        <td>{{$salary_status->commission}}</td>
+                                        <td>BDT. {{$salary_status->bonus+$salary_status->salary+$salary_status->commission}}</td>
                                         <td>{{$salary_status->month}}</td>
                                         <td>{{$salary_status->is_approved}}</td>
                                         <td>{{$salary_status->is_paid}}</td>
@@ -234,7 +256,15 @@
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="timeline">
-
+                                    @if(count($order) >= 2)
+                                    <div class="alert alert-success">
+                                        <center style="font-weight: bold;">Commission added</center>
+                                    </div>
+                                    @else
+                                        <div class="alert alert-danger">
+                                            <center style="font-weight: bold;">You have to deliver {{2-count($order)}} more order to get commission</center>
+                                        </div>
+                                    @endif
                                 </div>
                                 <!-- /.tab-content -->
                             </div><!-- /.card-body -->

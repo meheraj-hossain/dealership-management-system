@@ -16,8 +16,10 @@ class CreateStocksTable extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->bigIncrements('id');
            $table->unsignedBigInteger('inventory_id');
-            $table->foreign('inventory_id')->references('id')->on('inventories')->onDelete('cascade');
+            $table->foreign('inventory_id')->references('id')->on('inventories');
             $table->string('stock');
+            $table->decimal('purchased_price');
+            $table->decimal('total_purchased_price');
             $table->timestamps();
         });
     }

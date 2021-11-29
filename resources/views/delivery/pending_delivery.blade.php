@@ -45,12 +45,16 @@
                                 <td>{{$order->created_at}}</td>
                                 <td>{{$order->order_status}}</td>
                                 <td class="text-center">
+                                    @if($order->order_status!='Cancelled')
                                     <a  href="{{route('order.details',$order->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Order Details
                                     </a>
+                                    @endif
+                                        @if($order->order_status =='Shipped')
                                     <a  href="{{route('order.deliver',['order_id'=>$order->id, 'area_manager_id'=>\Illuminate\Support\Facades\Auth::id()])}}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-shipping-fast"></i>Deliver
                                     </a>
+                                        @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -67,9 +71,11 @@
                                     <td>{{$delivery->created_at}}</td>
                                     <td>{{$delivery->order_status}}</td>
                                     <td class="text-center">
+                                        @if($delivery->order_status!='Cancelled')
                                         <a  href="{{route('order.details',$delivery->id)}}" class="btn btn-info btn-sm">
                                             <i class="fa fa-edit"></i>Order Details
                                         </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
