@@ -15,7 +15,7 @@ class SnacksCategoryController extends Controller
     public function index()
     {
         $data['title'] = 'All Snacks Categories';
-        $data['snacks_categories']=SnacksCategory::paginate(2);
+        $data['snacks_categories']=SnacksCategory::paginate(20);
         $data['serial']=managePaginationSerial($data['snacks_categories']);
         return view('admin.business_settings.snacks_category.index',$data);
     }

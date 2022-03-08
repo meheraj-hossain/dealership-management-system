@@ -136,13 +136,41 @@ class ReportGenerateController extends Controller
                 $output[$item['user']]['total_order'] += $item['total_order'];
         }
 
+        dd($output);
         return view('admin.report.total_order_per_month',compact('title','output'));
     }
-    public function perMonthCalculationForShopkeeper(){
-        $user = Auth::user()->id;
-        $paid = Transaction::where('user_id',$user)->sum('paid_amount');
-        dd($paid);
+    public function userTransactionStatus(){
+        $title = 'User Transaction Status';
+        $total_due = Order::select(
+            DB::raw("SUM(total) as total_due"),
+            DB::raw("user_id as user")
+        )->where('order_status','!=','Cancelled')
+            ->groupBy('user')
+            ->get()->toArray();
+
+        $total_paid = Transaction::select(
+            DB::raw("SUM(paid_amount) as total_paid"),
+            DB::raw("user_id as user")
+        )->groupBy('user')
+            ->get()->toArray();
+
+        $data = array_merge($total_due,$total_paid);
+        $output = [];
+        foreach ($data as $item){
+            if (!isset($output[$item['user']])){
+                $output[$item['user']] = ["user"=>$item['user'],"total_due"=>0, "total_paid"=>0];
+            }
+            if (isset($item['total_due']))
+                $output[$item['user']]['total_due']+=$item['total_due'];
+            if (isset($item['total_paid']))
+                $output[$item['user']]['total_paid']+=$item['total_paid'];
+
+        }
+        return view('admin.report.user_transaction_status',compact('title','output'));
     }
+
+
+
 
 
 }

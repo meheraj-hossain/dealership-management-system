@@ -1,7 +1,9 @@
 @extends('layout.admin.master')
 @section('breadcrumb')
     <div class="col-sm-6 text-right">
-        <a href="{{route('shopkeeper.create')}}" class="btn btn-warning pull-right addNew">Register New shop</a>
+        @if(\Illuminate\Support\Facades\Auth::user()->action_table == 'App\AreaManager')
+        <a href="{{route('shopkeeper.create')}}" class="btn btn-warning pull-right addNew">Register New shopkeeper</a>
+        @endif
     </div>
 @endsection
 @section('content')
@@ -25,6 +27,7 @@
                             <th>Phone</th>
                             <th>Image</th>
                             <th>Address</th>
+                            <th>Shop Assigned?</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -39,6 +42,8 @@
                                 <td>{{$shopkeeper->phone}}</td>
                                 <td><img src="{{asset($shopkeeper->image)}}" style="height: 120px;width: 110px" alt=""></td>
                                 <td>{{$shopkeeper->address}}</td>
+                                <td>{{$shopkeeper->shop_assigned}}</td>
+                                @if($shopkeeper->status != 'Active' && \Illuminate\Support\Facades\Auth::user()->action_table != 'App\Admin')
                                 <td class="text-center">
                                     <a  href="{{route('shopkeeper.edit',$shopkeeper->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Edit
@@ -51,6 +56,7 @@
                                         </button>
                                     </form>
                                 </td>
+                                @endif
 
                             </tr>
                         @endforeach

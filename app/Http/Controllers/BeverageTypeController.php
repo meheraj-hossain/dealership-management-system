@@ -15,7 +15,7 @@ class BeverageTypeController extends Controller
     public function index()
     {
         $data['title'] = 'All Beverage Types';
-        $data['beverage_types']=BeverageType::paginate(2);
+        $data['beverage_types']=BeverageType::paginate(20);
         $data['serial']=managePaginationSerial($data['beverage_types']);
         return view('admin.business_settings.beverage_type.index',$data);
     }

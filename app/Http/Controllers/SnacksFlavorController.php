@@ -16,7 +16,7 @@ class SnacksFlavorController extends Controller
     public function index()
     {
         $data['title']='List of Snacks Flavor';
-        $data['snacks_flavors']=SnacksFlavor::paginate(2);
+        $data['snacks_flavors']=SnacksFlavor::paginate(20);
         $data['serial']=managePaginationSerial($data['snacks_flavors']);
         return view('admin.business_settings.snacks_flavor.index',$data);
     }

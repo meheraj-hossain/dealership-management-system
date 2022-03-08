@@ -15,6 +15,8 @@ class CreateShopkeepersTable extends Migration
     {
         Schema::create('shopkeepers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('areaManagerId');
+            $table->foreign('areaManagerId')->references('id')->on('users');
             $table->string('name');
             $table->date('date');
             $table->char('nid');
@@ -22,7 +24,10 @@ class CreateShopkeepersTable extends Migration
             $table->char('phone');
             $table->string('image')->nullable();
             $table->text('address');
+            $table->enum('status',['Active','Inactive'])->default('Inactive');
+            $table->enum('shop_assigned',['No','Yes'])->default('No');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -28,21 +29,24 @@ class LoginController extends Controller
      * @var string
      */
 
-    protected function redirectTO(){
-        if(Auth::user()->action_table == 'App\Admin'){
-            return 'dashboard';
-        }elseif(Auth::user()->action_table == 'App\AreaManager' ){
-            return 'dashboard';
-        }elseif(Auth::user()->action_table == 'App\Shopkeeper'){
-            return 'dashboard';
-        }
-        else{
-            return 'dashboard';
+//    protected function redirectTO(){
+//        if (Auth::user()->status == 'Active'){
+//            return '/dashboard';
+//        }else{
+//            return '/login';
+//        }
+//    }
+
+//
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->status != "Active") {
+            Auth::logout();
+            return redirect()->to('/login')->withErrors(['error' => 'Looks Like Your status is Inactive']);
         }
     }
-
-
-//    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.

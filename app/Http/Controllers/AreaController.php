@@ -15,7 +15,7 @@ class AreaController extends Controller
     public function index()
     {
         $data['title']='List of Areas';
-        $data['areas']=Area::paginate(2);
+        $data['areas']=Area::paginate(10);
         $data['serial']=managePaginationSerial($data['areas']);
         return view('admin.business_settings.Area.index',$data);
     }

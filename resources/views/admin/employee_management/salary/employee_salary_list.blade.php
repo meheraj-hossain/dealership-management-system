@@ -47,11 +47,11 @@
                                 <td>{{$salary_list->is_paid}}</td>
                                 <td>{{$salary_list->payment_date}}</td>
                                 <td class="text-center">
-                                    @if($salary_list->is_approved != 'Yes')
+                                    @if($salary_list->salary !='' && $salary_list->is_approved != 'Yes')
                                     <a  href="{{route('employee.isApproved',$salary_list->id)}}" class="btn btn-info btn-sm">
                                         <i class="fa fa-edit"></i>Is Approved?
                                     </a>
-                                        @elseif($salary_list->is_paid != 'Yes')
+                                        @elseif($salary_list->salary !='' && $salary_list->is_paid != 'Yes')
                                         <a  href="{{route('employee.isPaid',$salary_list->id)}}" class="btn btn-info btn-sm">
                                             <i class="fa fa-edit"></i>Is Paid?
                                         </a>

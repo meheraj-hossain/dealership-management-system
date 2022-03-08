@@ -22,7 +22,9 @@
                         <tr>
                             <th style="width: 10px">Sl No</th>
                             <th>Name</th>
+                            <th>Image</th>
                             <th>Email</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -31,15 +33,13 @@
                             <tr>
                                 <td>{{$serial++}}</td>
                                 <td>{{$user->name}}</td>
+                                <td><img src="{{asset(($user->action_table == 'App\AreaManager')?$user->AreaManager->image:$user->Shopkeeper->image)}}" alt="" style="height: 90px; width: 80px"></td>
                                 <td>{{$user->email}}</td>
+                                <td>{{$user->status}}</td>
                                 <td class="text-center">
-                                    <form action="{{route('user.destroy',$user->id)}}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                            <i class="fa fa-trash"></i>Delete
-                                        </button>
-                                    </form>
+                                    <a  href="{{route('user.edit',$user->id)}}" class="btn btn-info btn-sm">
+                                        <i class="fa fa-edit"></i>Edit
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

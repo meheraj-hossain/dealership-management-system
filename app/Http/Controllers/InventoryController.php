@@ -82,10 +82,11 @@ class InventoryController extends Controller
             'size'=>'required',
             'type'=>'required',
             'flavor'=>'required',
-            'purchased_price'=>'required',
-            'price_per_carton'=>'required',
-            'quantity'=>'required',
+            'purchased_price'=>'required|gt:1',
+            'price_per_carton'=>'required|gt:1',
+            'quantity'=>'required|gt:1',
             'status'=>'required',
+            'image'=>'required|mimes:jpeg,png,jpg|max:2048',
         ]);
         if ($request->image) {
             $photo=$this->imageUpload($request->image);
@@ -168,9 +169,8 @@ class InventoryController extends Controller
             'size'=>'required',
             'type'=>'required',
             'flavor'=>'required',
-            'price_per_carton'=>'required',
-            'quantity'=>'required',
             'status'=>'required',
+            'price_per_carton'=>'required|gt:1',
             'image'=>'mimes:jpeg,jpg,png',
         ]);
 
@@ -192,9 +192,6 @@ class InventoryController extends Controller
         $inventory-> size_id = $request->size;
         $inventory-> type_id = $request->type;
         $inventory-> flavor_id = $request->flavor;
-        $inventory-> price_per_carton = $request->price_per_carton;
-        $inventory-> quantity = $request->quantity;
-        $inventory-> total_price = $request->purchased_price*$request->quantity;
         $inventory-> status = $request->status;
         $inventory-> update();
         session()->flash('message',' Product Updated successfully');

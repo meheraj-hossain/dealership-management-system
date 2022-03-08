@@ -7,6 +7,7 @@ use App\Order;
 use App\Shopkeeper;
 use App\Transaction;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         $data['title']='All Users';
-        $data['users']=User::paginate(5);
+        $data['users']=User::with(['Shopkeeper','AreaManager'])->where('action_table','!=','App\Admin')->orderBy('updated_at','DESC')->paginate(10);
         $data['serial']=managePaginationSerial($data['users']);
         return view('admin.user.index',$data);
     }
@@ -48,30 +49,24 @@ class UserController extends Controller
     {
         $request->validate([
             'action_table'=>'required',
-            'password'=>'required'
+            'assigned_user'=>'required',
+            'password'=>'required|string|min:8'
         ]);
-       $area_manager= AreaManager::findOrFail($request->assigned_user);
-//        dd($area_manager->email);
-        $shopkeeper=Shopkeeper::findOrFail($request->assigned_user);
+
+        if ($request->action_table == 'App\AreaManager'){
+            $member = AreaManager::findOrFail($request->assigned_user);
+        }elseif ($request->action_table == 'App\Shopkeeper'){
+            $member = Shopkeeper::findOrFail($request->assigned_user);
+        }
         $user           = new User();
         $user->row_id =$request->assigned_user;
-        if ($request->action_table == 'App\AreaManager'){
-            $user->name     = $area_manager->name;
-            $user->email    = $area_manager->email;
-        }elseif ($request->action_table=='App\Shopkeeper'){
-            $user->name     = $shopkeeper->name;
-            $user->email    = $shopkeeper->email;
-        }
+        $user->name     = $member->name;
+        $user->email    = $member->email;
         $user->action_table    = $request->action_table;
         $user->password = Hash::make($request->password);
+        $member->status = 'Active';
+        $member->update();
         $user->save();
-        if($user->action_table=='App\Shopkeeper'){
-            $shopkeeper->status = 'Active';
-            $shopkeeper->update();
-        }elseif ($user->action_table=='App\AreaManager'){
-            $area_manager->status ='Active';
-            $area_manager->update();
-        }
         session()->flash('message','New user assigned successfully');
         return redirect()->route('user.index');
     }
@@ -95,10 +90,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //        $data['title'] = 'Edit user';
-//        $data['user']  = User::findOrFail($id);
-//
-//        return view('admin.user.edit',$data);
+        $data['title'] = 'Edit user';
+        $data['user']  = User::findOrFail($id);
+        return view('admin.user.edit',$data);
     }
 
     /**
@@ -110,18 +104,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //        $request->validate([
-//            'name'=>'required',
-//            'email'=>'required|unique:users,id,'.$id,
-//            'password'=>'required|min:8',
-//        ]);
-//        $user           = new User();
-//        $user->name     = $request->name;
-//        $user->email    = $request->email;
-//        $user->password = md5($request->password);
-//        $user->save();
-//        session()->flash('message','New user created successfully');
-//        return redirect()->route('user.index');
+    $request->validate([
+        'status'=>'required'
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->status = $request->status;
+    $user->update();
+    session()->flash('message','Status Changed');
+    return redirect()->back();
     }
 
     /**
@@ -132,6 +123,7 @@ class UserController extends Controller
      */
     public function destroy(User $user,  $id)
     {
+
         $user = User::findOrFail($id);
         $user->delete();
         session()->flash('message','User deleted successfully');
@@ -144,7 +136,7 @@ class UserController extends Controller
             $data['user'] = AreaManager::where('status','Inactive')->get();
         }
         elseif ($request->userRole == 'App\Shopkeeper') {
-            $data['user'] = Shopkeeper::where('status','Inactive')->get();
+            $data['user'] = Shopkeeper::where('status','Inactive')->where('shop_assigned','Yes')->get();
         }
         return $data;
     }
@@ -164,7 +156,6 @@ class UserController extends Controller
         $paid = Transaction::where('user_id',auth()->id())->sum('paid_amount');
         $transactions = Transaction::where('user_id',Auth::user()->id)->orderBy('created_at','DESC')->take(5)->get();
         return view('admin.user.portal',compact('title','employee_id','user','salary_status','due','paid','transactions','order'));
-
     }
 
 //    public function transactionList(){

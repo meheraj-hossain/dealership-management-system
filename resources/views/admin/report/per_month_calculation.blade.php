@@ -32,7 +32,7 @@
                         </tr>
                         </thead>
                         <body>
-                        @foreach($output as $result)
+                        @foreach($output as $key=>$result)
                         <tr>
                             <td>{{ $result['months']}}</td>
                             <td>{{ $result['total_sale']}}</td>
@@ -41,7 +41,7 @@
                             <td>{{ $result['total_commission']}}</td>
                             <td>{{ $result['total_purchase']}}</td>
                             <td>{{ $result['total_expense']}}</td>
-                            <td>{{ $result['total_sale']-($result['total_expense']+$result['total_expense']+$result['total_purchase']+$result['total_commission']+$result['total_bonus']+$result['total_salary'])}}</td>
+                            <td>{{ $result['total_sale']-($result['total_expense']+$result['total_purchase']+$result['total_commission']+$result['total_bonus']+$result['total_salary'])}}</td>
                         </tr>
                         @endforeach
                         </body>

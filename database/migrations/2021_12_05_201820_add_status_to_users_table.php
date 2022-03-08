@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class StatusToShopkeepersTable extends Migration
+class AddStatusToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class StatusToShopkeepersTable extends Migration
      */
     public function up()
     {
-        Schema::table('shopkeepers', function (Blueprint $table) {
-            $table->enum('status',['Active','Inactive'])->default('inactive');
+        Schema::table('users', function (Blueprint $table) {
+
+            $table->enum('status',['Active','Inactive'])->default('Active')->after('password');
         });
     }
 
@@ -25,7 +26,7 @@ class StatusToShopkeepersTable extends Migration
      */
     public function down()
     {
-        Schema::table('shopkeepers', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('status');
         });
     }

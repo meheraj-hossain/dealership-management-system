@@ -54,7 +54,7 @@
 
                         <div class="bg-gray py-2 px-3 mt-4">
                             <h2 class="mb-0">
-                                ৳{{$inventory->price_per_carton}}<h5 >Per Case</h5>
+                                ৳{{$inventory->price_per_carton}}<h5 >@if($inventory->inventory_type == 'Beverages')Per Case @elseif($inventory->inventory_type == 'Snacks') Per pack @endif</h5>
                             </h2>
                             <h4 class="mt-0">
                                 <small></small>

@@ -15,7 +15,7 @@ class SnacksTypeController extends Controller
     public function index()
     {
         $data['title'] = 'All Snacks Types';
-        $data['snacks_types']=SnacksType::paginate(2);
+        $data['snacks_types']=SnacksType::paginate(20);
         $data['serial']=managePaginationSerial($data['snacks_types']);
         return view('admin.business_settings.snacks_type.index',$data);
     }

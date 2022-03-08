@@ -45,7 +45,6 @@ class OrderController extends Controller
     }
 
     public function placeOrder(Request $request){
-
         $shop_id = User::with(['Shopkeeper'=>function($query){
             $query->with(['ShopRegistration']);
         }])->where('id',Auth::user()->id)->first();
@@ -68,13 +67,26 @@ class OrderController extends Controller
                 $final_total += $order_details->total;
                 $order_details->save();
             }
-            $order->update(['total'=>$final_total]);
-            DB::commit();
-            session()->flash('message','Your order is now pending');
+            if ($final_total>=1000 && $final_total<2000){
+                $final_total=$final_total-($final_total*5/100);
+                $order->update(['total'=>$final_total]);
+                DB::commit();
+                session()->flash('message','Your order is now pending. 5% Discount added');
+            }elseif ($final_total>=2000){
+                $final_total=$final_total-($final_total*10/100);
+                $order->update(['total'=>$final_total]);
+                DB::commit();
+                session()->flash('message','Your order is now pending. 10% Discount added');
+            }else {
+                $order->update(['total' => $final_total]);
+                DB::commit();
+                session()->flash('message', 'Your order is now pending');
+            }
             return redirect()->route('order.list');
         } catch (\Exception $exception) {
             DB::rollBack();
-            dd($exception->getMessage());
+            session()->flash('error', 'Order is not created');
+            return redirect()->back();
         }
     }
 

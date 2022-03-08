@@ -42,7 +42,7 @@
                                 <td>{{$inventory->name}}</td>
                                 <td>{{$inventory->details}}</td>
                                 <td>@if($inventory->inventory_type == 'Beverages'){{$inventory->BeverageSize->name}}@else{{$inventory->SnacksSize->name}}@endif</td>
-                                <td><img src="{{asset($inventory->image)}}" alt="image" style="height: 120px;width:100px"></td>
+                                <td><img src="{{asset($inventory->image)}}" alt="image" style="height: 120px;width:110px"></td>
                                 <td>@if($inventory->inventory_type == 'Beverages'){{$inventory->BeverageType->name}}@else{{$inventory->SnacksType->name}}@endif</td>
                                 <td>@if($inventory->inventory_type == 'Beverages'){{$inventory->BeverageFlavor->name}}@else{{$inventory->SnacksFlavor->name}}@endif</td>
                                 <td>{{$inventory->price_per_carton}}/-</td>

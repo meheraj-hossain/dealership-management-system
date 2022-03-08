@@ -21,7 +21,7 @@
                                 <b>Password</b> <a class="float-right">********</a>
                             </li>
                         </ul>
-                        <a href="" class="btn btn-primary btn-block"><b>Update Profile</b></a>
+                        <a href="{{route('user.info',$user->id)}}" class="btn btn-primary btn-block"><b>Update Profile</b></a>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -173,7 +173,7 @@
                                     <b>Password</b> <a class="float-right">**********</a>
                                 </li>
                             </ul>
-                            <a href="" class="btn btn-primary btn-block"><b>Update Profile</b></a>
+                            <a href="{{route('user.info',$user->id)}}" class="btn btn-primary btn-block"><b>Update Profile</b></a>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -243,6 +243,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        @if(!empty($salary_status))
                                         <td>{{$salary_status->salary}}</td>
                                         <td>{{$salary_status->bonus}}</td>
                                         <td>{{$salary_status->commission}}</td>
@@ -252,6 +253,9 @@
                                         <td>{{$salary_status->is_paid}}</td>
                                         <td>{{$salary_status->payment_date}}</td>
                                         </tbody>
+                                    @else
+                                            <p>Your salary is not generated yet! keep Patience</p>
+                                        @endif
                                     </table>
                                 </div>
                                 <!-- /.tab-pane -->

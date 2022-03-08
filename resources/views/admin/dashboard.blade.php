@@ -9,7 +9,7 @@
                 <div class="inner">
                     <h3>
                         @php
-                        $total_order = \App\Order::where('created_at',\Carbon\Carbon::today())->get()->count();
+                        $total_order = \App\Order::whereDate('created_at',\Carbon\Carbon::today())->get()->count();
                             @endphp
                         {{$total_order}}
                     </h3>
@@ -28,7 +28,7 @@
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>@php
-                            $total_payment = \App\Transaction::where('created_at',\Carbon\Carbon::today())->get()->count();
+                            $total_payment = \App\Transaction::whereDate('created_at',\Carbon\Carbon::today())->get()->count();
                         @endphp
                         {{$total_payment}}</h3>
 
@@ -46,7 +46,7 @@
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>@php
-                            $total_sale = \App\Transaction::where('created_at',\Carbon\Carbon::today())->sum('paid_amount');
+                            $total_sale = \App\Transaction::whereDate('created_at',\Carbon\Carbon::today())->sum('paid_amount');
                         @endphp
                         {{$total_sale}}</h3>
 
@@ -140,7 +140,7 @@
                     <div class="inner">
                         <h3>
                             @php
-                                $total_order_delivered = \App\Order::where('created_at',\Carbon\Carbon::today())->where('delivered_by',\Illuminate\Support\Facades\Auth::user()->id)->get()->count();
+                                $total_order_delivered = \App\Order::whereDate('delivery_date',\Illuminate\Support\Carbon::today())->where('delivered_by',\Illuminate\Support\Facades\Auth::user()->row_id)->get()->count();
                             @endphp
                             {{$total_order_delivered}}
                         </h3>
@@ -159,7 +159,7 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3>@php
-                                $total_shopkeeper = \App\Shopkeeper::where('created_at',\Carbon\Carbon::today())->get()->count();
+                                $total_shopkeeper = \App\Shopkeeper::whereDate('created_at',\Carbon\Carbon::today())->where('areaManagerId',\Illuminate\Support\Facades\Auth::user()->row_id)->get()->count();
                             @endphp
                             {{$total_shopkeeper}}</h3>
 
@@ -271,7 +271,7 @@
                         <div class="inner">
                             <h3>
                                 @php
-                                    $total_order = \App\Order::where('created_at',\Carbon\Carbon::today())->where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->get()->count();
+                                    $total_order = \App\Order::whereDate('created_at',\Carbon\Carbon::today())->where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->get()->count();
                                 @endphp
                                 {{$total_order}}
                             </h3>
@@ -290,7 +290,7 @@
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>@php
-                                    $total_payment = \App\Transaction::where('created_at',\Carbon\Carbon::today())->where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->get()->count();
+                                    $total_payment = \App\Transaction::whereDate('created_at',\Carbon\Carbon::today())->where('user_id',\Illuminate\Support\Facades\Auth::user()->id)->get()->count();
                                 @endphp
                                 {{$total_payment}}</h3>
 

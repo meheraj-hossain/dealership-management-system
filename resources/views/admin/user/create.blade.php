@@ -3,7 +3,7 @@
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">User</li>
+            <li class="breadcrumb-item active"><a href="{{route('user.index')}}">User</a></li>
             <li class="breadcrumb-item active">Create</li>
         </ol>
     </div>
@@ -54,40 +54,11 @@
                         let htmlInput = [];
                         $.each(data.user, function (index, value) {
                             console.log(value.id);
-                            $('#htmlAppend').append("<option value='"+value.id+"'>"+value.name+":"+value.phone+"</option>");
+                            $('#htmlAppend').append("<option value='"+value.id+"'>"+value.name+":"+value.email+"</option>");
                         });
-
                     }
                 });
             });
         });
     </script>
-
-    <script>
-        $(function () {
-            $('body').on('change', '.user',  function (e) {
-
-                var userRole = $('#user').val();
-                var url = "{{ route('user.getdata') }}"
-                $.ajax({
-                    url     : url,
-                    data    : {userRole: userRole},
-                    method    : 'GET',
-                    cache   : false,
-                    success: function (data) {
-                        $('#htmlAppend').empty();
-
-                        console.log(data);
-                        let htmlInput = [];
-                        $.each(data.user, function (index, value) {
-                            console.log(value.id);
-                            $('#htmlAppend').append("<option value='"+value.id+"'>"+value.name+","+value.email+"</option>");
-                        });
-
-                    }
-                });
-            });
-        });
-    </script>
-
-    @endpush
+@endpush

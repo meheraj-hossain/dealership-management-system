@@ -44,7 +44,7 @@ class ExpenseController extends Controller
         $request->validate([
             'name'=>'required',
             'details'=>'required',
-            'amount'=>'required|numeric|min:0|not_in:0',
+            'amount'=>'required|numeric|gt:1',
         ]);
         $expense = new Expense();
         $expense-> name = $request->name;
@@ -91,7 +91,7 @@ class ExpenseController extends Controller
         $request->validate([
             'name'=>'required',
             'details'=>'required',
-            'amount'=>'required|numeric|min:0|not_in:0',
+            'amount'=>'required|gt:1',
         ]);
         $expense-> name = $request->name;
         $expense-> details = $request->details;

@@ -15,7 +15,7 @@ class SnacksSizeController extends Controller
     public function index()
     {
         $data['title'] = 'All Snacks Sizes';
-        $data['snacks_sizes']=SnacksSize::paginate(2);
+        $data['snacks_sizes']=SnacksSize::paginate(20);
         $data['serial']=managePaginationSerial($data['snacks_sizes']);
         return view('admin.business_settings.snacks_size.index',$data);
     }

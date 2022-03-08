@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Area;
+use App\AreaManager;
 use App\Shopkeeper;
 use App\ShopRegistration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShopRegistrationController extends Controller
 {
@@ -16,8 +18,10 @@ class ShopRegistrationController extends Controller
      */
     public function index()
     {
+        $area_manager_id = Auth::user()->row_id;
+        $area_manager = AreaManager::findOrFail($area_manager_id);
         $data['title']='Shop List';
-        $data['shops']=ShopRegistration::with(['Area','Shopkeeper'])->paginate(2);
+        $data['shops']=ShopRegistration::with(['Area','Shopkeeper'])->where('area_id',$area_manager->area_id)->paginate(10);
         $data['serial']=managePaginationSerial($data['shops']);
         return view('admin.shop_registration.index',$data);
     }
@@ -30,8 +34,9 @@ class ShopRegistrationController extends Controller
     public function create()
     {
        $data['title']='Register New Shop';
-       $data['areas']=Area::get();
-       $data['shopkeepers']=Shopkeeper::get();
+       $assigned_shopkeepers = ShopRegistration::all()->pluck('ownerId')->toArray();
+       $assigned_shopkeeper = array_unique($assigned_shopkeepers);
+       $data['shopkeepers']=Shopkeeper::where('areaManagerId',Auth::user()->id)->whereNotIn('id',$assigned_shopkeeper)->get();
        return view('admin.shop_registration.create',$data);
     }
 
@@ -52,24 +57,28 @@ class ShopRegistrationController extends Controller
     public function store(Request $request)
     {
 
+
         $request->validate([
             'name'=>'required',
-            'uniqueId'=>'required',
             'ownerId'=>'required',
-            'area'=>'required',
             'address'=>'required',
-
-
+            'image'=>'mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $photo =$this->imageUpload($request->image);
+        $shopkeeper = Shopkeeper::findOrFail($request->ownerId);
+        $area_manager = AreaManager::findOrFail(Auth::user()->row_id);
+        if ($request->image) {
+            $photo=$this->imageUpload($request->image);
+        }
         $shopRegistration= New ShopRegistration();
         $shopRegistration-> name = $request-> name;
-        $shopRegistration-> uniqueId = $request-> uniqueId;
+        $shopRegistration-> uniqueId = 'Sh'.sprintf(mt_rand(1,999));
         $shopRegistration-> ownerId = $request-> ownerId;
-        $shopRegistration-> area_id = $request-> area;
+        $shopRegistration-> area_id = $area_manager->area_id;
         $shopRegistration-> address = $request->address;
         $shopRegistration-> image = isset($photo)?$photo:null;
+        $shopkeeper->shop_assigned = 'Yes';
+        $shopkeeper->update();
         $shopRegistration->save();
         session()->flash('message','New Shop Registered');
         return redirect()-> route('shop_registration.index');
@@ -96,7 +105,6 @@ class ShopRegistrationController extends Controller
     public function edit(ShopRegistration $shopRegistration)
     {
         $data['title']='Edit Shop Details';
-        $data['areas']=Area::get();
         $data['shopkeepers']=Shopkeeper::get();
         $data['shop']=$shopRegistration;
         return view('admin.shop_registration.edit',$data);
@@ -114,10 +122,9 @@ class ShopRegistrationController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'uniqueId'=>'required',
-            'ownerId'=>'required',
-            'area'=>'required',
+            'ownerId'=>'required|unique:shop_registrations,ownerId,'.$shopRegistration->id,
             'address'=>'required',
+            'image'=>'mimes:jpeg,png,jpg|max:2048',
 
         ]);
         if (isset($request->image) && $request->image != null) {
@@ -130,11 +137,8 @@ class ShopRegistrationController extends Controller
         }
         $shopRegistration->image=$photo;
         $shopRegistration-> name = $request-> name;
-        $shopRegistration-> uniqueId = $request-> uniqueId;
         $shopRegistration-> ownerId = $request-> ownerId;
-        $shopRegistration-> area_id = $request-> area;
         $shopRegistration-> address = $request->address;
-
         $shopRegistration->update();
         session()->flash('message','New Shop Registered');
         return redirect()-> route('shop_registration.edit',$shopRegistration->id);

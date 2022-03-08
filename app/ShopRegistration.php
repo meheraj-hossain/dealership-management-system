@@ -16,4 +16,9 @@ class ShopRegistration extends Model
     public function Order(){
         return $this->hasMany(Order::class,'shop_id');
     }
+
+    public function ReturnProducts(){
+        return $this->hasMany(ReturnProduct::class,'shop_id');
+    }
+
 }

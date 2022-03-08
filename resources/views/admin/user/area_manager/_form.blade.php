@@ -9,15 +9,15 @@
 <div class="form-group">
     <label for="name">Area Manager Date of Birth</label>
     <input type="date" name="date" value="{{old('date',isset($area_manager)?$area_manager->date:null)}}" class="form-control" id="date" placeholder="Enter Shop ID" >
-    @error('uniqueId')
+    @error('date')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
 
 <div class="form-group">
     <label for="name">Area Manager NID</label>
-    <input type="number" name="nid" value="{{old('nid',isset($area_manager)?$area_manager->nid:null)}}" class="form-control" id="nid" placeholder="Enter NID number" >
-    @error('ownerId')
+    <input type="number" min="0" name="nid" value="{{old('nid',isset($area_manager)?$area_manager->nid:null)}}" class="form-control" id="nid" placeholder="Enter NID number" >
+    @error('nid')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
@@ -32,7 +32,7 @@
 
 <div class="form-group">
     <label for="name">Area Manager Phone Number</label>
-    <input type="number" name="phone" value="{{old('phone',isset($area_manager)?$area_manager->phone:null)}}" class="form-control" id="phone" placeholder="Enter Phone number" >
+    <input type="number" min="0" name="phone" value="{{old('phone',isset($area_manager)?$area_manager->phone:null)}}" class="form-control" id="phone" placeholder="Enter Phone number" >
     @error('phone')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
@@ -71,7 +71,7 @@
 
 <div class="form-group">
     <label for="name">Area Manager Salary</label>
-    <input type="number" name="salary" value="{{old('salary',isset($area_manager)?$area_manager->salary:null)}}" class="form-control" id="salary" placeholder="Enter Amount" >
+    <input type="number" min="0" name="salary" value="{{old('salary',isset($area_manager)?$area_manager->salary:null)}}" class="form-control" id="salary" placeholder="Enter Amount" >
     @error('salary')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror

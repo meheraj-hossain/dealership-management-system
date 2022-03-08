@@ -15,7 +15,7 @@ class BeverageSizeController extends Controller
     public function index()
     {
         $data['title'] = 'All Beverage Sizes';
-        $data['beverage_sizes']=BeverageSize::paginate(2);
+        $data['beverage_sizes']=BeverageSize::paginate(20);
         $data['serial']=managePaginationSerial($data['beverage_sizes']);
         return view('admin.business_settings.beverage_size.index',$data);
     }

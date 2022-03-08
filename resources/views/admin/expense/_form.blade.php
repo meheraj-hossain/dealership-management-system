@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="name">Name </label>
-    <input type="text" name="name" value="{{old('name',isset($expense)?$expense->name:null)}}" class="form-control" id="name" placeholder="Enter Area Manager name" >
+    <input type="text" name="name" value="{{old('name',isset($expense)?$expense->name:null)}}" class="form-control" id="name" placeholder="Enter Expense name" >
     @error('name')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror

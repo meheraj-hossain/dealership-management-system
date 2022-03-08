@@ -5,7 +5,7 @@
         <select class="form-control" name="category">
             <option value="">Select Category</option>
             @foreach($snackscategories as $snackscategory)
-            <option @if(old('category',isset($inventory)?$inventory->category:null)==$snackscategory->name) selected @endif value="{{$snackscategory->id}}">{{$snackscategory->name}}</option>
+            <option @if(old('category',isset($inventory)?$inventory->category_id:null)==$snackscategory->id) selected @endif value="{{$snackscategory->id}}">{{$snackscategory->name}}</option>
             @endforeach
         </select>
         @error('category')
@@ -35,15 +35,16 @@
     <label for="name">Size</label>
     <div class="form-group">
         <select class="form-control" name="size">
-            <option> Select Size</option>
+            <option value=""> Select Size</option>
             @foreach($snackssizes as $snackssize)
-                <option @if(old('size',isset($inventory)?$inventory->size:null)==$snackssize->name) selected @endif  value="{{$snackssize->id}}">{{$snackssize->name}}</option>
+                <option @if(old('size',isset($inventory)?$inventory->size_id:null)==$snackssize->id) selected @endif  value="{{$snackssize->id}}">{{$snackssize->name}}</option>
             @endforeach
         </select>
+        @error('size')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
     </div>
-    @error('size')
-    <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
+
 </div>
 <div class="form-group">
     <label for="image">Upload Image</label><br>
@@ -56,32 +57,34 @@
     <label for="name"> Type</label>
     <div class="form-group">
         <select class="form-control" name="type">
-            <option>Select Type</option>
+            <option value="">Select Type</option>
             @foreach($snackstypes as $snackstype)
                 <option @if(old('type',isset($inventory)?$inventory->type_id:null)==$snackstype->id) selected @endif  value="{{$snackstype->id}}">{{$snackstype->name}}</option>
             @endforeach
         </select>
+        @error('type')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
     </div>
-    @error('type')
-    <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
+
 </div>
 
 <div class="form-group">
     <label for="name"> Flavor</label>
     <div class="form-group">
         <select class="form-control" name="flavor">
-            <option>Select Flavor</option>
+            <option value="">Select Flavor</option>
             @foreach($snacksflavors as $snacksflavor)
-                <option @if(old('flavor',isset($inventory)?$inventory->flavor:null)==$snacksflavor->name) selected @endif value="{{$snacksflavor->id}}">{{$snacksflavor->name}}</option>
+                <option @if(old('flavor',isset($inventory)?$inventory->flavor_id:null)==$snacksflavor->id) selected @endif value="{{$snacksflavor->id}}">{{$snacksflavor->name}}</option>
             @endforeach
         </select>
+        @error('flavor')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
     </div>
-    @error('flavor')
-    <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-</div>
 
+</div>
+@if(!isset($inventory))
 <div class="form-group">
     <label for="name">Purchased price per pack</label>
     <input type="number" name="purchased_price" value="{{old('purchased_price',isset($inventory)?$inventory->purchased_price:null)}}" class="form-control" id="name" placeholder="Enter Purchased price" >
@@ -90,13 +93,7 @@
     @enderror
 </div>
 
-<div class="form-group">
-    <label for="name">Price per pack to sell</label>
-    <input type="number" name="price_per_carton" value="{{old('price_per_carton',isset($inventory)?$inventory->price_per_carton:null)}}" class="form-control" id="name" placeholder="Enter Price Per Carton" >
-    @error('price_per_carton')
-    <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-</div>
+
 
 <div class="form-group">
     <label for="name">Quantity</label>
@@ -106,7 +103,15 @@
     @enderror
 </div>
 
+@endif
 
+<div class="form-group">
+    <label for="name">Price per pack to sell</label>
+    <input type="number" name="price_per_carton" value="{{old('price_per_carton',isset($inventory)?$inventory->price_per_carton:null)}}" class="form-control" id="name" placeholder="Enter Price Per Carton" >
+    @error('price_per_carton')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
 
 <div class="form-group">
     <label for="status">Status</label>

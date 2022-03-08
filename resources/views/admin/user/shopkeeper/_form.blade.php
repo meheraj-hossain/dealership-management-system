@@ -16,8 +16,8 @@
 
 <div class="form-group">
     <label for="name">Shopkeeper NID</label>
-    <input type="number" name="nid" value="{{old('nid',isset($shopkeeper)?$shopkeeper->nid:null)}}" class="form-control" id="nid" placeholder="Enter NID number" >
-    @error('ownerId')
+    <input type="number"  name="nid" value="{{old('nid',isset($shopkeeper)?$shopkeeper->nid:null)}}" class="form-control" id="nid" placeholder="Enter NID number" >
+    @error('nid')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 </div>
@@ -32,7 +32,7 @@
 
 <div class="form-group">
     <label for="name">Shopkeeper Phone Number</label>
-    <input type="number" name="phone" value="{{old('phone',isset($shopkeeper)?$shopkeeper->phone:null)}}" class="form-control" id="phone" placeholder="Enter NID number" >
+    <input type="number"  name="phone" value="{{old('phone',isset($shopkeeper)?$shopkeeper->phone:null)}}" class="form-control" id="phone" placeholder="Enter Phone number" >
     @error('phone')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror

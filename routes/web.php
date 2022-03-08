@@ -13,7 +13,7 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 Route::group(['middleware'=>['auth','AdminMiddleware']],function (){
     Route::get('user/create','UserController@create')->name('user.create');
@@ -46,13 +46,19 @@ Route::group(['middleware'=>['auth','AdminMiddleware']],function (){
     Route::resource('expenses',ExpenseController::class);
     Route::get('per_month_calculation','ReportGenerateController@perMonthCalculation')->name('report.perMonthCalculation');
     Route::get('total_order_per_month','ReportGenerateController@totalOrderPerMonth')->name('report.perMonthOrder');
+    Route::get('user_transaction_status','ReportGenerateController@userTransactionStatus')->name('report.userTransaction');
     Route::get('empployee/{id}/isApproved','EmployeeManagementController@isApporved')->name('employee.isApproved');
     Route::get('empployee/{id}/isPaid','EmployeeManagementController@isPaid')->name('employee.isPaid');
+    Route::get('return_products/admin_index','ReturnProductController@index')->name('return_products.admin_index');
+    Route::get('return_products/{id}/approve','ReturnProductController@approve')->name('return_products.approve');
 });
 
 Route::group(['middleware'=>['auth','AreaManagerMiddleware']],function (){
     Route::resource('shop_registration',ShopRegistrationController::class);
-
+    Route::get('return_products/area_manager_index','ReturnProductController@index')->name('return_products.area_manager_index');
+    Route::get('return_products/edit/{id}','ReturnProductController@edit')->name('return_product.edit');
+    Route::put('return_products/update/{id}','ReturnProductController@update')->name('return_product.update');
+    Route::delete('return_products/{id}/delete','ReturnProductController@destroy')->name('return_product.destroy');
 });
 
 Route::group(['middleware'=>['auth','ShopkeeperMiddleware']],function (){
@@ -66,10 +72,14 @@ Route::group(['middleware'=>['auth','ShopkeeperMiddleware']],function (){
     Route::post('payment/fail','userPaymentController@fail')->name('user.payment.fail');
     Route::post('payment/cancel','userPaymentController@cancel')->name('user.payment.cancel');
     Route::get('user/report_of_status','ReportGenerateController@perMonthCalculationForShopkeeper')->name('user.transaction.status');
+    Route::get('return_products/create','ReturnProductController@create')->name('return_products.create');
+    Route::post('return_products/store','ReturnProductController@store')->name('return_products.store');
+    Route::get('return_products/index','ReturnProductController@index')->name('return_products.index');
 });
 
 Route::group(['middleware'=>['auth','ShopkeeperAreaManagerMiddleware']],function (){
-
+    Route::get('user/info/{id}','UpdateProfile@info')->name('user.info');
+    Route::put('user/update/{id}','UpdateProfile@updateInfo')->name('user.info_update');
 });
 
 Route::group(['middleware'=>['auth','AdminAreaManagerMiddleware']],function (){
@@ -91,6 +101,7 @@ Route::group(['middleware'=>['auth','AdminShopkeeperAreaManagerMiddleware']],fun
 
 
 
+
 //Route::get('make_order', 'OrderController@home')->name('make_order');
 
 //Route::get('cart',function (){
@@ -103,6 +114,7 @@ Route::group(['middleware'=>['auth','AdminShopkeeperAreaManagerMiddleware']],fun
 //Route::get('cart_list','InventoryController@cartList')->name('cart_list');
 //Route::get('remove_cart/{id}','InventoryController@cartRemove')->name('remove_cart');
 //Route::resource('employee',EmployeeController::class);
+\Illuminate\Support\Facades\Auth::routes(['register'=>false]);
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 

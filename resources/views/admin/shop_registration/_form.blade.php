@@ -6,13 +6,13 @@
     @enderror
 </div>
 
-<div class="form-group">
-    <label for="name">Shop ID</label>
-    <input type="number" name="uniqueId" value="{{old('uniqueId',isset($shop)?$shop->uniqueId:null)}}" class="form-control" id="number" placeholder="Enter Shop ID" >
-    @error('uniqueId')
-    <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-</div>
+{{--<div class="form-group">--}}
+{{--    <label for="name">Shop ID</label>--}}
+{{--    <input type="number" name="uniqueId" value="{{old('uniqueId',isset($shop)?$shop->uniqueId:null)}}" class="form-control" id="number" placeholder="Enter Shop ID" >--}}
+{{--    @error('uniqueId')--}}
+{{--    <div class="alert alert-danger">{{ $message }}</div>--}}
+{{--    @enderror--}}
+{{--</div>--}}
 
 
 <div class="form-group">
@@ -32,21 +32,21 @@
 
 
 
-<div class="form-group">
-    <label for="name">Area</label>
-    <div class="form-group">
-        <select class="form-control select2  " name="area">
-            <option value="">Select Area</option>
-            @foreach($areas as $area)
-                <option @if(old('area',isset($shop)?$shop->area_id:null)==$area->id) selected @endif value="{{$area->id}}">{{$area->name}}</option>
-            @endforeach
-        </select>
-        @error('area')
-        <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
-    </div>
+{{--<div class="form-group">--}}
+{{--    <label for="name">Area</label>--}}
+{{--    <div class="form-group">--}}
+{{--        <select class="form-control select2  " name="area">--}}
+{{--            <option value="">Select Area</option>--}}
+{{--            @foreach($areas as $area)--}}
+{{--                <option @if(old('area',isset($shop)?$shop->area_id:null)==$area->id) selected @endif value="{{$area->id}}">{{$area->name}}</option>--}}
+{{--            @endforeach--}}
+{{--        </select>--}}
+{{--        @error('area')--}}
+{{--        <div class="alert alert-danger">{{ $message }}</div>--}}
+{{--        @enderror--}}
+{{--    </div>--}}
 
-</div>
+{{--</div>--}}
 
 
 

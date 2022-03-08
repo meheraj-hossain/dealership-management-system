@@ -405,6 +405,13 @@
                                     <p>Total Order Per Month</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{route('report.userTransaction')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User Transaction Status</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item has-treeview">
@@ -422,6 +429,13 @@
                                     <p>User Order List</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{route('return_products.admin_index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User Return Product Status</p>
+                                </a>
+                            </li>
+
                         </ul>
                     </li>
 
@@ -484,6 +498,13 @@
                                     <p>User Order List</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{route('return_products.area_manager_index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Return Product Condition</p>
+                                </a>
+                            </li>
+                        </ul>
                 @elseif(Auth::user()->action_table == 'App\Shopkeeper')
                                 <li class="nav-item ">
                                     <a href="{{route('user.portal')}}" class="nav-link ">
@@ -514,6 +535,12 @@
                                 <a href="{{route('order.list')}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Order List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('return_products.create')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Return Products</p>
                                 </a>
                             </li>
                         </ul>

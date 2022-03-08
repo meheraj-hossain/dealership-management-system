@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Shopkeeper;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShopkeeperController extends Controller
 {
@@ -15,7 +18,13 @@ class ShopkeeperController extends Controller
     public function index()
     {
         $data['title']='Shopkeeper List';
-        $data['shopkeepers']= Shopkeeper::paginate(10);
+        $data['user'] = Auth::user()->action_table;
+        if ($data['user'] == 'App\AreaManager'){
+            $data['shopkeepers'] = Shopkeeper::where('areaManagerId',Auth::user()->id)->paginate(10);
+        }else{
+            $data['shopkeepers']= Shopkeeper::paginate(10);
+        }
+
         $data['serial']=managePaginationSerial($data['shopkeepers']);
         return view('admin.user.shopkeeper.index',$data);
     }
@@ -50,11 +59,11 @@ class ShopkeeperController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'date'=>'required',
-            'nid'=>'required',
-            'email'=>'required',
-            'phone'=>'required',
-            'image'=>'required',
+            'date'=>'required|date|before_or_equal:'.\Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
+            'nid'=>'required|min:15|gt:0|unique:area_managers|unique:shopkeepers',
+            'email'=>'required|unique:area_managers|unique:shopkeepers',
+            'phone'=>'required|gt:0|min:11|unique:area_managers|unique:shopkeepers',
+            'image'=>'required|mimes:jpeg,png,jpg|max:2048',
             'address'=>'required',
         ]);
         if ($request->image) {
@@ -62,6 +71,7 @@ class ShopkeeperController extends Controller
         }
         $shopkeeper = new Shopkeeper();
         $shopkeeper-> name = $request->name;
+        $shopkeeper->areaManagerId = Auth::user()->id;
         $shopkeeper-> date = $request->date;
         $shopkeeper-> nid = $request->nid;
         $shopkeeper-> email = $request->email;
@@ -108,10 +118,11 @@ class ShopkeeperController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'date'=>'required',
-            'nid'=>'required',
-            'email'=>'required',
-            'phone'=>'required',
+            'date'=>'required|date|before_or_equal:'.\Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
+            'nid'=>'required|gt:0|unique:shopkeepers,nid,'.$shopkeeper->id,
+            'email'=>'required|email|unique:shopkeepers,email,'.$shopkeeper->id,
+            'phone'=>'required|gt:0|unique:shopkeepers,phone,'.$shopkeeper->id,
+            'image'=>'mimes:jpeg,png,jpg|max:2048',
             'address'=>'required',
         ]);
         if (isset($request->image) && $request->image != null) {
@@ -123,7 +134,9 @@ class ShopkeeperController extends Controller
             $photo = $shopkeeper->image;
         }
 
+        $shopkeeper->image=$photo;
         $shopkeeper-> name = $request->name;
+        $shopkeeper->areaManagerId = Auth::user()->id;
         $shopkeeper-> date = $request->date;
         $shopkeeper-> nid = $request->nid;
         $shopkeeper-> email = $request->email;

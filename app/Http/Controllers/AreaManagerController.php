@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Area;
 use App\AreaManager;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AreaManagerController extends Controller
 {
@@ -16,7 +17,7 @@ class AreaManagerController extends Controller
     public function index()
     {
         $data['title']='Area Manager List';
-        $data['area_managers']= AreaManager::with(['Area'])->paginate(3);
+        $data['area_managers']= AreaManager::with(['Area'])->paginate(20);
         $data['serial']=managePaginationSerial($data['area_managers']);
         return view('admin.user.area_manager.index',$data);
     }
@@ -29,7 +30,9 @@ class AreaManagerController extends Controller
     public function create()
     {
         $data['title']='Add New Area Manager';
-        $data['areas']=Area::get();
+        $assigned_areas = AreaManager::all()->pluck('area_id')->toArray();
+        $assigned_unique_areas = array_unique($assigned_areas);
+        $data['areas']=Area::whereNotIn('id', $assigned_unique_areas)->get();
         return view('admin.user.area_manager.create',$data);
     }
 
@@ -52,14 +55,14 @@ class AreaManagerController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'date'=>'required',
-            'nid'=>'required',
-            'email'=>'required',
-            'phone'=>'required',
-            'image'=>'required',
+            'date'=>'required|date|before_or_equal:'.\Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
+            'nid'=>'required|min:15|gt:0|unique:area_managers|unique:shopkeepers',
+            'email'=>'required|unique:area_managers|unique:shopkeepers',
+            'phone'=>'required|min:11|gt:0|unique:area_managers|unique:shopkeepers',
+            'image'=>'required|mimes:jpeg,png,jpg|max:2048',
             'area'=>'required',
             'address'=>'required',
-            'salary'=>'required',
+            'salary'=>'required|gt:1',
         ]);
         if ($request->image) {
             $photo=$this->imageUpload($request->image);
@@ -116,13 +119,14 @@ class AreaManagerController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'date'=>'required',
-            'nid'=>'required',
-            'email'=>'required',
-            'phone'=>'required',
-            'area'=>'required',
+            'date'=>'required|date|before_or_equal:'.\Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
+            'nid'=>'required|gt:0|min:15|unique:area_managers,nid,'.$areaManager->id,
+            'email'=>'required|email|unique:area_managers,email,'.$areaManager->id,
+            'phone'=>'required|gt:0|min:11|unique:area_managers,phone,'.$areaManager->id,
+            'area'=>'required|unique:area_managers,area_id,'.$areaManager->id,
+            'image'=>'mimes:jpeg,png,jpg|max:2048',
             'address'=>'required',
-            'salary'=>'required',
+            'salary'=>'required|gt:1',
         ]);
         if (isset($request->image) && $request->image != null) {
             $photo = $this->imageUpload($request->image);

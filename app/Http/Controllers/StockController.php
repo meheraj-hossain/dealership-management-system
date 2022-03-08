@@ -41,7 +41,8 @@ class StockController extends Controller
     {
 
         $request->validate([
-            'stock'=>'required' ,
+            'stock'=>'required|gt:1',
+            'purchased_price'=>'gt:1',
         ]);
         $stock = new Stock();
         $inventory=Inventory::with('Stock')->findOrFail($request->inventory_id);
@@ -98,7 +99,7 @@ class StockController extends Controller
     public function edit($id)
     {
 
-        $data['title'] = 'Edit Snacks Category';
+        $data['title'] = 'Add Stock';
         $data['inventory']=Inventory::where('id',$id)->first();
         return view('admin.business_settings.stock.edit',$data);
     }

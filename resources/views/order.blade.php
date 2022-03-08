@@ -50,7 +50,9 @@
     </div>
 @endsection
 @section('content')
-
+    @error('error')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
     <div class=" col-md-2" style="float: left">
         <h4>Beverage Search</h4>
         <form action="">
@@ -182,7 +184,7 @@
                             <p class="card-text" style="text-align: center;    font-weight: 500;margin-top: -15px"><b>Size-{{($product->inventory_type=='Beverages')?$product->BeverageSize->name:$product->SnacksSize->name}}</b></p>
                             <p class="card-text" style="text-align: center;    font-weight: 500;margin-top: -15px"><b>Type-{{($product->inventory_type=='Beverages')?$product->BeverageType->name:$product->SnacksType->name}}</b></p>
                             <p class="card-text" style="text-align: center;    font-weight: 500;margin-top: -15px"><b>Flavor-{{($product->inventory_type=='Beverages')?$product->BeverageFlavor->name:$product->SnacksFlavor->name}}</b></p>
-                            <p class="card-text" style="text-align: center;margin-top: -15px;color:red " ><b>৳{{$product->price_per_carton}}</b></p>
+                            <p class="card-text" style="text-align: center;margin-top: -15px;color:red " ><b>৳{{$product->price_per_carton}}</b> @if($product->inventory_type == 'Beverages')Per Case @elseif($product->inventory_type == 'Snacks') Per pack @endif</p>
                         </div>
                         <a href="{{route('inventory.show',$product->id)}}" class="product__viewBtn" style="margin-left: 80px">view details</a>
                     </div>

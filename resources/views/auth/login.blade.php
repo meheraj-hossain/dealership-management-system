@@ -38,7 +38,9 @@
                                 @enderror
                             </div>
                         </div>
-
+                        @if($errors->any())
+                            <h4>{{$errors->first()}}</h4>
+                        @endif
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">

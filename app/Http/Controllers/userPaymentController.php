@@ -14,7 +14,7 @@ class userPaymentController extends Controller
 {
     public function index(Request $request){
         $request->validate([
-            'amount'=>'required'
+            'amount'=>'required|gt:10'
         ]);
         $user=User::with(['ShopKeeper'=>function($query){
             $query->with(['ShopRegistration']);

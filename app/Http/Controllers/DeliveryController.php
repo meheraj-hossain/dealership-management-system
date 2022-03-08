@@ -45,8 +45,7 @@ class DeliveryController extends Controller
     {
         $data['user_role'] = Auth::user()->action_table;
         $data['title']     = 'Order Details';
-        $data['orders']    = Order::with([
-            'OrderDetail' => function ($query) {
+        $data['orders']    = Order::with(['OrderDetail' => function ($query) {
                 $query->with([
                     'Inventory' => function ($query) {
                         $query->with(['BeverageSize', 'BeverageType', 'BeverageFlavor', 'SnacksFlavor','SnacksType','SnacksSize']);
